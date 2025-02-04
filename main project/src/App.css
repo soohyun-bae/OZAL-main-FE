@@ -1,0 +1,247 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+.section {
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.section {
+  height: 100vh;
+  width: 100vw;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  transition: transform 2s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.mainImages {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+  margin: 0 auto;
+  position: relative;
+}
+
+.mainImages::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+.imageSection {
+  width: calc(100vw / 3);
+  height: 100vh;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.imageSection img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(3px) brightness(0.7);
+}
+
+.logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 300px;
+  font-style: italic;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  z-index: 2;
+}
+
+.memorySection {
+  max-width: 75rem;
+  width: 90%;
+  padding: 2.5rem;
+  background: white;
+  border-radius: 1.875rem;
+  box-shadow: 0 0.25rem 1.25rem rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+h2 {
+  font-size: 32px;
+  margin-bottom: 40px;
+  text-align: left;
+  width: 100%;
+  padding-left: 20px;
+}
+
+.memorySlider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.memoryImages {
+  display: flex;
+  gap: 1.25rem;
+  width: 100%;
+  overflow-x: scroll;
+  scroll-behavior: smooth;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.memoryImages::-webkit-scrollbar {
+  display: none;
+}
+
+.memoryImage {
+  min-width: 18.75rem;
+  width: 100%;
+  max-width: 31.25rem;
+  height: auto;
+  object-fit: cover;
+  border-radius: 1.25rem;
+  flex-shrink: 0;
+}
+
+.sliderButton {
+  background: none;
+  border: none;
+  color: #fc8500;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  transition: opacity 0.3s ease;
+  flex-shrink: 0;
+}
+
+.sliderButton:hover {
+  opacity: 0.7;
+}
+
+.hamburger-menu {
+  position: fixed;
+  top: 2.5rem;
+  left: 2.5rem;
+  font-size: 3rem;
+  color: #fc8500;
+  z-index: 100;
+  cursor: pointer;
+  line-height: 0.6;
+  letter-spacing: -0.2rem;
+  transform: scaleY(0.8);
+}
+
+.hamburger-menu span {
+  position: absolute;
+  width: 100%;
+  height: 3px;
+  background-color: #fc8500;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+.hamburger-menu span:first-child {
+  top: 0;
+}
+
+.hamburger-menu span:nth-child(2) {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.hamburger-menu span:last-child {
+  bottom: 0;
+}
+
+.scroll-arrow {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2.5rem;
+  height: 1.5625rem;
+  cursor: pointer;
+  animation: bounce 2s infinite;
+}
+
+.scroll-arrow span {
+  position: relative;
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.scroll-arrow span::before,
+.scroll-arrow span::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 50%;
+  height: 0.375rem;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 0.1875rem;
+}
+
+.scroll-arrow span::before {
+  right: 50%;
+  transform: rotate(30deg);
+  transform-origin: right bottom;
+}
+
+.scroll-arrow span::after {
+  left: 50%;
+  transform: rotate(-30deg);
+  transform-origin: left bottom;
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0) translateX(-50%);
+  }
+  40% {
+    transform: translateY(-0.625rem) translateX(-50%);
+  }
+  60% {
+    transform: translateY(-0.3125rem) translateX(-50%);
+  }
+}
