@@ -103,20 +103,11 @@ export default function MainLayout() {
 
   return (
     <div className="container" ref={containerRef}>
-      <div className="dropdown-container">
-        <div
-          className="hamburger-menu"
-          onMouseEnter={() => setIsDropdownOpen(true)}
-          onMouseLeave={() => setIsDropdownOpen(false)}
-        >
-          ☰
-        </div>
-        <Dropdown
-          isOpen={isDropdownOpen}
-          onMouseEnter={() => setIsDropdownOpen(true)}
-          onMouseLeave={() => setIsDropdownOpen(false)}
-        />
-      </div>
+      <Dropdown
+        isOpen={isDropdownOpen}
+        onMouseEnter={() => setIsDropdownOpen(true)}
+        onMouseLeave={() => setIsDropdownOpen(false)}
+      />
 
       <section className="section">
         <div className="mainSlider">
