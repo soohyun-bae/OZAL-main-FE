@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import "./Mainpage.css";
+import "../style/mainpage.css";
 import Dropdown from "../components/dropdown";
 import image1 from "../assets/1.png";
 import image2 from "../assets/2.png";

@@ -1,5 +1,6 @@
 import React from "react";
-import "./dropdown.css";
+import "../style/dropdown.css";
+import Modal from "./modal";
 
 const Dropdown = ({ isOpen, onMouseEnter, onMouseLeave }) => {
   if (!isOpen) return null;
@@ -15,7 +16,8 @@ const Dropdown = ({ isOpen, onMouseEnter, onMouseLeave }) => {
         <div className="menu-item">여행기록</div>
         <div className="menu-item">여행정보</div>
         <div className="menu-divider"></div>
-        <div className="menu-item">로그인</div>
+        {/* <div className="menu-item">로그인</div> */}
+        <Modal className="menu-item" />
       </div>
     </div>
   );
