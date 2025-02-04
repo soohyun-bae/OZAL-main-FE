@@ -1,0 +1,103 @@
+.dropdown-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
+  z-index: 100;
+}
+
+.dropdown-container {
+  position: fixed;
+  top: 40px;
+  left: 40px;
+  z-index: 101;
+}
+
+.dropdown-trigger {
+  font-size: 2rem;
+  color: #fc8500;
+  cursor: pointer;
+  line-height: 1;
+  padding: 10px;
+  position: relative;
+  z-index: 102;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: 160px;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 65px 20px 20px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.menu-header {
+  font-size: 32px;
+  color: #fc8500;
+  line-height: 1;
+  margin-bottom: 20px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.menu-icon {
+  font-size: 1.8rem;
+  color: #333;
+  line-height: 1;
+}
+
+.menu-items {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  text-align: center;
+}
+
+.menu-item {
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  padding: 5px 0;
+}
+
+.menu-item:hover {
+  color: #fc8500;
+}
+
+.menu-divider {
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.1);
+  margin: 5px 0;
+}
+
+.dropdown-container:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* 드롭다운과 햄버거 메뉴 사이의 투명한 연결 영역 */
+.hamburger-menu-container::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 40px; /* 햄버거 메뉴와 드롭다운 사이의 거리 */
+  background: transparent;
+}
