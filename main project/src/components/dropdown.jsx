@@ -1,12 +1,7 @@
 import React, { useState } from "react";
 import "../style/dropdown.css";
 import Modal from "./modal";
-import { Link } from "react-router-dom";
-
-const Dropdown = ({ isOpen, onMouseEnter, onMouseLeave }) => {
-  const [modalOpen, setModalOpen] = useState(false);
-  
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Dropdown = ({
   isOpen,
@@ -14,6 +9,7 @@ const Dropdown = ({
   onMouseLeave,
   onTravelDiaryClick,
 }) => {
+  const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleTravelClick = () => {
@@ -22,34 +18,33 @@ const Dropdown = ({
     navigate("/travel-diary");
   };
 
-
   return (
     <>
-    <div
-      className="dropdown-container"
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-    >
-      <div className="hamburger-menu">☰</div>
-      {isOpen && (
-        <div className="dropdown-menu">
-          <div className="menu-items">
-            <div className="menu-item">마이페이지</div>
-
-            <div className="menu-item">여행기록</div>
-            <Link to={"/travelInformation"} className="menu-item">여행정보</Link>
-
-            <div className="menu-item" onClick={handleTravelClick}>
-              여행기록
+      <div
+        className="dropdown-container"
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+      >
+        <div className="hamburger-menu">☰</div>
+        {isOpen && (
+          <div className="dropdown-menu">
+            <div className="menu-items">
+              <div className="menu-item">마이페이지</div>
+              <div className="menu-item" onClick={handleTravelClick}>
+                여행기록
+              </div>
+              <Link to={"/travelInformation"} className="menu-item">
+                여행정보
+              </Link>
+              <div className="menu-divider"></div>
+              <div className="menu-item" onClick={() => setModalOpen(true)}>
+                로그인하기
+              </div>
             </div>
-            <div className="menu-item">여행정보</div>
-            <div className="menu-divider"></div>
-            <div className="menu-item" onClick={() => setModalOpen(true)}>로그인하기</div>
           </div>
-        </div>
-      )}
-    </div>
-    {modalOpen && <Modal modalOpen={modalOpen} setModalOpen={setModalOpen} />}
+        )}
+      </div>
+      {modalOpen && <Modal modalOpen={modalOpen} setModalOpen={setModalOpen} />}
     </>
   );
 };
