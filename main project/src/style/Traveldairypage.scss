@@ -1,0 +1,211 @@
+@use "mixins" as *;
+
+.diary-page {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.diary-header {
+  width: 100%;
+  height: 30vh;
+  background-size: cover;
+  background-position: center 60%;
+  position: fixed;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #666;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.2);
+  }
+}
+
+.header-text {
+  text-align: center;
+  color: white;
+  position: relative;
+
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 2.5rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+}
+
+.diary-container {
+  position: absolute;
+  top: 30vh;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  background: white;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  background-color: #f3f3f3;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.write-button {
+  width: 180px;
+  position: fixed;
+  top: calc(30vh + 5rem);
+  right: 10rem;
+  padding: 10px;
+  background-color: white;
+  color: #236247;
+  border: solid 3px #fc8500;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 2rem;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #e67a00;
+    color: white;
+  }
+}
+
+.main-diary-section {
+  @include flex($justify: center, $align: center);
+  height: 80vh;
+  scroll-snap-align: start;
+}
+
+.diary-content {
+  @include flex($align: center, $justify: center);
+  gap: 2.5rem;
+  width: 90%;
+}
+
+.diary-left {
+  @include flex($direction: column);
+  @include diary-topbox;
+}
+
+.diary-map {
+  @include diary-topbox;
+}
+
+.diary-image {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+}
+
+.post-date {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.diary-text {
+  background-color: rgb(215, 215, 215);
+  padding: 0 0 0 1.5rem;
+  margin-top: 10px;
+  border-radius: 10px;
+  flex: 1;
+
+  .diary-title {
+    @include font-style($size: 2rem, $margin-bottom: 0.5rem, $color: #333);
+  }
+
+  .diary-description {
+    @include font-style($size: 1.5rem, $padding-left: 8px, $color: #666);
+  }
+}
+
+.map-placeholder {
+  @include flex($justify: center, $align: center);
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  border-radius: 8px;
+  color: #999;
+}
+
+.diary-list {
+  @include flex($justify: center, $align: center, $direction: column);
+  padding: 2rem;
+  background-color: #fff;
+  min-height: 70vh;
+  scroll-snap-align: start;
+}
+
+.diary-list-item {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  border-radius: 8px;
+  background-color: #a7a7a7;
+  margin-bottom: 1rem;
+
+  height: 250px;
+}
+
+.list-image {
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.list-content {
+  flex: 1;
+  padding-top: 5px;
+  width: 60vw;
+}
+
+.list-title {
+  @include font-style($size: 2rem, $color: #333);
+  margin: 10px 0 20px 0;
+}
+
+.list-description {
+  @include font-style($size: 1.5rem, $color: #666, $line-height: 1.5);
+  height: 140px;
+  padding: 5px;
+  margin: 0 0 10px 0;
+  background-color: #ffffff;
+}
+
+.post-date {
+  @include font-style($size: 1.3rem, $color: #fff);
+  text-align: right;
+  margin-right: 15px;
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0) translateX(-50%);
+  }
+  40% {
+    transform: translateY(-30px) translateX(-50%);
+  }
+  60% {
+    transform: translateY(-15px) translateX(-50%);
+  }
+}

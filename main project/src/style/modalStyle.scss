@@ -1,19 +1,50 @@
-.modal-container{
-  display: flex;
-  justify-content: center;
-  align-items: center;
+@use "mixins" as *;
+
+.modal-container {
+  @include flex($justify: center, $align: center);
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0, 0, 0, 0.5);
   position: fixed;
-  top: 0;
-  left: 0;
   z-index: 1000;
 
-  .modal-contents{
-    width: 70vw;
-    height: 70vh;
-    background-color: antiquewhite;
+  .modal-contents {
+    @include flex($justify: center, $align: center);
+
+    width: 500px;
+    height: 700px;
+    background-color: rgb(231, 231, 231, 0.7);
     border-radius: 10px;
+  }
+
+  .modal-login {
+    @include font-style($size: 4rem, $align: center);
+
+    hr {
+      width: 400px;
+      height: 3px;
+      background-color: rgb(255, 255, 255, 0.3);
+      margin-bottom: 60px;
+    }
+
+    button {
+      width: 300px;
+      border: none;
+      background-color: transparent;
+      margin-bottom: 10px;
+
+      img {
+        width: 300px;
+      }
+    }
+
+    .close-btn {
+      width: 300px;
+      height: 60px;
+      background-color: lightgray;
+      border-radius: 10px;
+      margin-top: 25px;
+      @include font-style($size: 2rem, $align: center);
+    }
   }
 }

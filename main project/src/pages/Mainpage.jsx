@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import "../style/mainpage.css";
+// import "../style/mainpage.css";
+import "../style/mainpage.scss";
 import Dropdown from "../components/dropdown";
 import image1 from "../assets/1.png";
 import image2 from "../assets/2.png";
@@ -7,6 +8,8 @@ import image3 from "../assets/3.png";
 import image4 from "../assets/4.png";
 import image5 from "../assets/5.png";
 import image6 from "../assets/6.png";
+import downIcon from "../assets/down-icon.png";
+import "../App.css";
 
 export default function MainLayout() {
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -117,16 +120,17 @@ export default function MainLayout() {
           <div className="logo">logo</div>
         </div>
         <div className="scroll-arrow">
-          <span></span>
+          <img src={downIcon} alt="scroll down" className="scroll-down3" />
         </div>
       </section>
 
       <section className="section">
         <div className="memorySection">
-          <h2>Who's Memory</h2>
+          <h2>Someone's Memory</h2>
+          <hr></hr>
           <div className="memorySlider">
             <button className="sliderButton prev" onClick={handlePrev}>
-              ⟨
+              <img src={downIcon} alt="scroll down" className="scroll-down2" />
             </button>
             <div className="memoryImages">
               {memoryImages.map((image, index) => (
@@ -149,7 +153,7 @@ export default function MainLayout() {
               ))}
             </div>
             <button className="sliderButton next" onClick={handleNext}>
-              ⟩
+              <img src={downIcon} alt="scroll down" className="scroll-down2" />
             </button>
           </div>
         </div>

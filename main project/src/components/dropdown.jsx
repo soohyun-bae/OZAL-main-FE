@@ -1,14 +1,10 @@
-import React, { useState } from "react";
-import "../style/dropdown.css";
+import { useState } from "react";
+import "../style/dropdown.scss";
 import Modal from "./modal";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import "../App.css";
 
-const Dropdown = ({
-  isOpen,
-  onMouseEnter,
-  onMouseLeave,
-  onTravelDiaryClick,
-}) => {
+const Dropdown = ({ isOpen, onMouseEnter, onMouseLeave }) => {
   const [modalOpen, setModalOpen] = useState(false);
   // const navigate = useNavigate();
 
@@ -29,6 +25,10 @@ const Dropdown = ({
         {isOpen && (
           <div className="dropdown-menu">
             <div className="menu-items">
+              <div className="login" onClick={() => setModalOpen(true)}>
+                로그인
+              </div>
+
               <div className="menu-item">마이페이지</div>
               <Link to={"/travel-diary"} className="menu-item">
                 여행기록
@@ -36,10 +36,6 @@ const Dropdown = ({
               <Link to={"/travelInformation"} className="menu-item">
                 여행정보
               </Link>
-              <div className="menu-divider"></div>
-              <div className="menu-item" onClick={() => setModalOpen(true)}>
-                로그인하기
-              </div>
             </div>
           </div>
         )}
