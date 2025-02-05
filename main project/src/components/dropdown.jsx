@@ -10,13 +10,13 @@ const Dropdown = ({
   onTravelDiaryClick,
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const handleTravelClick = () => {
-    console.log("드롭다운에서 여행기록 클릭됨");
-    onTravelDiaryClick && onTravelDiaryClick();
-    navigate("/travel-diary");
-  };
+  // const handleTravelClick = () => {
+  //   console.log("드롭다운에서 여행기록 클릭됨");
+  //   onTravelDiaryClick && onTravelDiaryClick();
+  //   navigate("/travel-diary");
+  // };
 
   return (
     <>
@@ -30,9 +30,9 @@ const Dropdown = ({
           <div className="dropdown-menu">
             <div className="menu-items">
               <div className="menu-item">마이페이지</div>
-              <div className="menu-item" onClick={handleTravelClick}>
+              <Link to={"/travel-diary"} className="menu-item">
                 여행기록
-              </div>
+              </Link>
               <Link to={"/travelInformation"} className="menu-item">
                 여행정보
               </Link>
