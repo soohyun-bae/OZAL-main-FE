@@ -35,6 +35,10 @@ const TravelDiaryPage = () => {
     navigate("/write-post");
   };
 
+  const handleTravelDiaryClick = () => {
+    navigate("/travel-diary");
+  };
+
   return (
     <div className="diary-page">
       <Dropdown
@@ -47,13 +51,6 @@ const TravelDiaryPage = () => {
         className="diary-header"
         style={{ backgroundImage: `url(${navPicture})` }}
       >
-
-        <Dropdown
-          isOpen={isDropdownOpen}
-          onMouseEnter={() => setIsDropdownOpen(true)}
-          onMouseLeave={() => setIsDropdownOpen(false)}
-        />
-
         <div className="header-text">
           <h1>내글목록</h1>
           <h2>즐거운 나의 여행이야기</h2>

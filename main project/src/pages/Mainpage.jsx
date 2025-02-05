@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-// import "../style/mainpage.css";
 import "../style/mainpage.scss";
 import Dropdown from "../components/dropdown";
 import image1 from "../assets/1.png";

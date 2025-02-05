@@ -1,13 +1,9 @@
 import React, { useState } from "react";
-import "../style/dropdown.css";
+import "../style/dropdown.scss";
 import Modal from "./modal";
 import { Link } from "react-router-dom";
 
-const Dropdown = ({
-  isOpen,
-  onMouseEnter,
-  onMouseLeave,
-}) => {
+const Dropdown = ({ isOpen, onMouseEnter, onMouseLeave }) => {
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
@@ -21,7 +17,7 @@ const Dropdown = ({
         {isOpen && (
           <div className="dropdown-menu">
             <div className="menu-items">
-              <Link to={'/'}>홈</Link>
+              <Link to={"/"}>홈</Link>
               <div className="menu-item">마이페이지</div>
               <Link to={"/travel-diary"} className="menu-item">
                 여행기록
