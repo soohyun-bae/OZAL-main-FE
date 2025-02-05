@@ -35,10 +35,6 @@ const TravelDiaryPage = () => {
     navigate("/write-post");
   };
 
-  const handleTravelDiaryClick = () => {
-    navigate("/travel-diary");
-  };
-
   return (
     <div className="diary-page">
       <div
@@ -49,7 +45,6 @@ const TravelDiaryPage = () => {
           isOpen={isDropdownOpen}
           onMouseEnter={() => setIsDropdownOpen(true)}
           onMouseLeave={() => setIsDropdownOpen(false)}
-          onTravelDiaryClick={handleTravelDiaryClick}
         />
         <div className="header-text">
           <h1>내글목록</h1>
