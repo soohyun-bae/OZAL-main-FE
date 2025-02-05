@@ -1,12 +1,12 @@
-import "/src/style/Traveldairypage.css";
-import React, { useState } from "react";
+import "/src/style/Traveldairypage.scss";
+import { useState } from "react";
 import Dropdown from "../components/dropdown";
 import image1 from "../assets/1.png";
 import image2 from "../assets/2.png";
 import image3 from "../assets/3.png";
 import navPicture from "../assets/nav-picture.png";
 import { useNavigate } from "react-router-dom";
-import downIcon from "../assets/down-icon.png";
+import "../App.css";
 
 const TravelDiaryPage = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -37,15 +37,23 @@ const TravelDiaryPage = () => {
 
   return (
     <div className="diary-page">
+      <Dropdown
+        isOpen={isDropdownOpen}
+        onMouseEnter={() => setIsDropdownOpen(true)}
+        onMouseLeave={() => setIsDropdownOpen(false)}
+        onTravelDiaryClick={handleTravelDiaryClick}
+      />
       <div
         className="diary-header"
         style={{ backgroundImage: `url(${navPicture})` }}
       >
+
         <Dropdown
           isOpen={isDropdownOpen}
           onMouseEnter={() => setIsDropdownOpen(true)}
           onMouseLeave={() => setIsDropdownOpen(false)}
         />
+
         <div className="header-text">
           <h1>내글목록</h1>
           <h2>즐거운 나의 여행이야기</h2>
@@ -73,17 +81,15 @@ const TravelDiaryPage = () => {
           </div>
         </div>
 
-        <img src={downIcon} alt="scroll down" className="scroll-down" />
-
         {/* 리스트 형태의 게시글들 */}
         <div className="diary-list">
           {posts.map((post) => (
             <div key={post.id} className="diary-list-item">
               <img src={post.image} alt="여행 사진" className="list-image" />
               <div className="list-content">
-                <div className="post-date">{post.date}</div>
                 <h3 className="list-title">{post.title}</h3>
                 <p className="list-description">{post.content}</p>
+                <div className="post-date">{post.date}</div>
               </div>
             </div>
           ))}
