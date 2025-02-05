@@ -6,13 +6,6 @@ import "../App.css";
 
 const Dropdown = ({ isOpen, onMouseEnter, onMouseLeave }) => {
   const [modalOpen, setModalOpen] = useState(false);
-  // const navigate = useNavigate();
-
-  // const handleTravelClick = () => {
-  //   console.log("드롭다운에서 여행기록 클릭됨");
-  //   onTravelDiaryClick && onTravelDiaryClick();
-  //   navigate("/travel-diary");
-  // };
 
   return (
     <>
