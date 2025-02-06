@@ -3,6 +3,7 @@ import Main from "./pages/mainpage.jsx";
 import TravelDiaryPage from "./pages/Traveldiarypage";
 import Travelhistory from "./components/Travelhistory.jsx";
 import TravelInfopage from "./pages/TravelInfopage.jsx";
+import DetailTravelInfo from "./pages/detailTravelInfo.jsx";
 import Mypage from "./pages/Mypage.jsx";
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/write-post" element={<Travelhistory />} />
         <Route path="/travel-info" element={<TravelInfopage />} />
+        <Route path="/detail-travel-info/:contentid" element={<DetailTravelInfo />} />
       </Routes>
     </Router>
   );

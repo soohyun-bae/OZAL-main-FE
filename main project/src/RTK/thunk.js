@@ -18,9 +18,13 @@ export const fetchCityName = createAsyncThunk(
           },
         }
       );
-      const body = response.data?.response?.body
+      const filteredData =
+        response.data?.response?.body?.items?.item.map((i) => ({
+          code: i.code,
+          name: i.name,
+        })) || [];
       console.log(response.data.response.body);
-      return body;
+      return filteredData;
     } catch (error) {
       console.error("cityName API호출 중 오류 발생:", error);
       throw error;
@@ -46,9 +50,13 @@ export const fetchDistrictName = createAsyncThunk(
           },
         }
       );
-      const body = response.data?.response?.body
+      const filteredData =
+        response.data?.response?.body?.items?.item.map((i) => ({
+          code: i.code,
+          name: i.name,
+        })) || [];
       console.log(response.data.response.body);
-      return body;
+      return filteredData;
     } catch (error) {
       console.error("districtName API호출 중 오류 발생:", error);
       throw error;
@@ -58,7 +66,7 @@ export const fetchDistrictName = createAsyncThunk(
 
 export const fetchTourList = createAsyncThunk(
   "tourList/fetchTourList",
-  async ({areaCode, districtCode}) => {
+  async ({ areaCode, districtCode }) => {
     try {
       const response = await axios.get(
         "http://apis.data.go.kr/B551011/KorService1/areaBasedList1",
@@ -75,9 +83,16 @@ export const fetchTourList = createAsyncThunk(
           },
         }
       );
-      const body = response.data?.response?.body
-      console.log(response.data)
-      return body
+      // addr1, contentid, firstimage2, title
+      const filteredData =
+        response.data?.response?.body?.items?.item.map((i) => ({
+          addr1: i.addr1,
+          contentid: i.contentid,
+          firstimage2: i.firstimage2,
+          title: i.title,
+        })) || [];
+      console.log(response.data);
+      return filteredData;
     } catch (error) {
       console.error("tourList API호출 중 오류 발생:", error);
       throw error;
@@ -86,8 +101,8 @@ export const fetchTourList = createAsyncThunk(
 );
 
 export const fetchDetailInfo = createAsyncThunk(
-  'detailInfo/fetchDetailInfo',
-  async (contentid) => {
+  "detailInfo/fetchDetailInfo",
+  async (areaCode) => {
     try {
       const response = await axios.get(
         "	http://apis.data.go.kr/B551011/KorService1/detailCommon1",
@@ -99,17 +114,28 @@ export const fetchDetailInfo = createAsyncThunk(
             pageNo: 1,
             numOfRows: 10,
             _type: "json",
-            contentId: contentid,
-            overviewYN: 'Y',
+            contentId: areaCode,
+            overviewYN: "Y",
+            defaultYN: 'Y',
+            firstImageYN: 'Y',
+            addrinfoYN: 'Y',
           },
         }
       );
-      const body = response.data?.response?.body
-      console.log(response.data)
-      return body
+      // contentid, hmpg, title, firstimage, firstimage2, addr1, overview
+      const body = response.data?.response?.body?.items?.item.map((i) => ({
+        // contentid: i.contentid,
+        hmpg: i.hmpg,
+        title: i.title,
+        firstimage: i.firstimage,
+        addr1: i.addr1,
+        overview: i.overview,
+      })) || [];
+      console.log(response.data);
+      return body;
     } catch (error) {
       console.error("detailInfo API호출 중 오류 발생:", error);
       throw error;
     }
   }
-)
+);

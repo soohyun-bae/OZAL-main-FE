@@ -4,7 +4,7 @@ import { fetchCityName, fetchDetailInfo, fetchDistrictName, fetchTourList } from
 export const citySlice = createSlice({
   name: "city",
   initialState: {
-    data: {},
+    data: [],
     loading: true,
     selectedCity: null,
   },
@@ -33,7 +33,7 @@ export const {setSelectedCity} = citySlice.actions;
 export const districtSlice = createSlice({
   name: "district",
   initialState: {
-    data: {},
+    data: [],
     loading: true,
     selectedDistrict: null,
   },
@@ -62,10 +62,15 @@ export const { setSelectedDistrict } = districtSlice.actions;
 export const tourListSlice = createSlice({
   name: "tourList",
   initialState: {
-    data: {},
+    data: [],
     loading: false,
+    selectedContentId: null,
   },
-  reducers: {},
+  reducers: {
+    setSelectedContentId(state, action) {
+      state.selectedContentId = action.payload;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchTourList.pending, (state) => {
@@ -81,10 +86,12 @@ export const tourListSlice = createSlice({
   },
 });
 
+export const { setSelectedContentId } = tourListSlice.actions;
+
 export const detailInfoSlice = createSlice({
   name: "detailInfo",
   initialState: {
-    data: {},
+    data: [],
     loading: false,
   },
   reducers: {},
