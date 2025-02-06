@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateNickname, updateProfilePic } from "../RTK/userSlice";
-import "./Mypage.scss";
+import "../style/Mypage.scss";
 
 const Mypage = () => {
   const dispatch = useDispatch();
