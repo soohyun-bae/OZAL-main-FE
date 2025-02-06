@@ -11,7 +11,6 @@
 |Init|프로젝트 초기 생성|
 |Rename|파일 혹은 폴더명 수정 또는 이동|
 |Remove|파일을 삭제하는 작업만 수행한 경우|
-|docs|문서 수정(예 : readme.md, json 파일등 수정/문서 관련 라이브러리 설치 등)|
 |comment|주석 추가|
 
 ## Branch Convention
