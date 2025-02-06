@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchDetailInfo, fetchTourList } from "../RTK/thunk";
 import "../style/travelInfopage.scss";
 import { Link } from "react-router-dom";
-import { setSelectedContentId } from "../RTK/slice";
 
 const TravelInfoCard = () => {
   const dispatch = useDispatch();
@@ -37,11 +36,6 @@ const TravelInfoCard = () => {
     const detail = detailInfoData?.find((i) => i.contentid === contentid);
     return detail ? detail.overview : "overview";
   };
-  
-  const getContentid = (contentid) => {
-    dispatch(setSelectedContentId(contentid))
-  }
-  console.log("Detail info data:", detailInfoData);
 
   return (
     <div className="card-container">
@@ -53,7 +47,6 @@ const TravelInfoCard = () => {
               to={`/detail-travel-info/${i.contentid}`}
               key={i.contentid}
               className="card-contents"
-              onClick={()=>getContentid(i.contentid)}
             >
               <img src={i.firstimage2} className="small-image" alt={i.title} />
               <div>

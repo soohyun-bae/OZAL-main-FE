@@ -20,13 +20,14 @@ const Mypage = () => {
   // 프로필 사진 변경 핸들러
   const handleProfilePicChange = (event) => {
     const file = event.target.files[0];
+    console.log(file)
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewPic(reader.result);
-        setNewProfilePic(file);
-      };
-      reader.readAsDataURL(file);
+      // const reader = new FileReader();
+      // reader.onloadend = () => {
+        setPreviewPic(URL.createObjectURL(file));
+        setNewProfilePic(file); //쉬운 방법
+      // };
+      // reader.readAsDataURL(file);
     }
   };
 

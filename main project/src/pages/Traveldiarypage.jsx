@@ -1,6 +1,4 @@
 import "/src/style/Traveldairypage.scss";
-import { useState } from "react";
-import Dropdown from "../components/dropdown";
 import image1 from "../assets/1.png";
 import image2 from "../assets/2.png";
 import image3 from "../assets/3.png";
@@ -9,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import "../App.css";
 
 const TravelDiaryPage = () => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
   const posts = [
@@ -35,18 +32,8 @@ const TravelDiaryPage = () => {
     navigate("/write-post");
   };
 
-  const handleTravelDiaryClick = () => {
-    navigate("/travel-diary");
-  };
-
   return (
     <div className="diary-page">
-      <Dropdown
-        isOpen={isDropdownOpen}
-        onMouseEnter={() => setIsDropdownOpen(true)}
-        onMouseLeave={() => setIsDropdownOpen(false)}
-        onTravelDiaryClick={handleTravelDiaryClick}
-      />
       <div
         className="diary-header"
         style={{ backgroundImage: `url(${navPicture})` }}
