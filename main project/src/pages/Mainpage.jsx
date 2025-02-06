@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import "../style/mainpage.scss";
-import Dropdown from "../components/dropdown";
+// import Dropdown from "../components/Dropdown";
 import image1 from "../assets/1.png";
 import image2 from "../assets/2.png";
 import image3 from "../assets/3.png";
@@ -10,20 +10,19 @@ import image6 from "../assets/6.png";
 import downIcon from "../assets/down-icon.png";
 import "../App.css";
 
+const memoryImages = [
+  { src: image1, alt: "추억 1" },
+  { src: image2, alt: "추억 2" },
+  { src: image3, alt: "추억 3" },
+  { src: image4, alt: "추억 4" },
+  { src: image5, alt: "추억 5" },
+]; // 고정된 값은 함수 밖으로 
+
 export default function MainLayout() {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [currentSection, setCurrentSection] = useState(0);
   const containerRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  const memoryImages = [
-    { src: image1, alt: "추억 1" },
-    { src: image2, alt: "추억 2" },
-    { src: image3, alt: "추억 3" },
-    { src: image4, alt: "추억 4" },
-    { src: image5, alt: "추억 5" },
-  ];
 
   const smoothScroll = (targetPosition) => {
     if (!containerRef.current || isTransitioning) return;
@@ -105,12 +104,6 @@ export default function MainLayout() {
 
   return (
     <div className="container" ref={containerRef}>
-      <Dropdown
-        isOpen={isDropdownOpen}
-        onMouseEnter={() => setIsDropdownOpen(true)}
-        onMouseLeave={() => setIsDropdownOpen(false)}
-      />
-
       <section className="section">
         <div className="mainSlider">
           <div className="mainImageSection">

@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDetailInfo } from "../RTK/thunk";
 import "../style/detailTravelInfo.scss";
 import { useParams } from "react-router-dom";
-import Dropdown from "../components/dropdown";
 
 const DetailTravelInfo = () => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dispatch = useDispatch();
   const { contentid } = useParams();
   const { data: detailTravelInfoData } = useSelector(
@@ -22,13 +20,6 @@ const DetailTravelInfo = () => {
 
   return (
     <div>
-      <div>
-        <Dropdown
-          isOpen={isDropdownOpen}
-          onMouseEnter={() => setIsDropdownOpen(true)}
-          onMouseLeave={() => setIsDropdownOpen(false)}
-        />
-      </div>
       {detailTravelInfoData?.map((i) => (
         <div key={i.contentid}>
           <img src={i.firstimage} className="big-image" />

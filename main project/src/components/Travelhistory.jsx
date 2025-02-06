@@ -1,9 +1,12 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-// import { Map, MapMarker } from "react-kakao-maps-sdk";
+import { Map, MapMarker } from "react-kakao-maps-sdk";
 import "../style/Travelhistory.scss";
+import useKakaoLoader from "../hooks/useKakaoLoader";
+
 
 const Travelhistory = () => {
+  useKakaoLoader()
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -40,6 +43,17 @@ const Travelhistory = () => {
     <div className="editor-container">
       <div className="editor-header">
         <h1>여행 이야기 작성</h1>
+        {true && (
+          <div className="map-container">
+            <Map
+              center={mapPosition}
+              style={{ width: "200px", height: "200px" }}
+              onClick={handleMapClick}
+            >
+              <MapMarker position={mapPosition} />
+            </Map>
+          </div>
+        )}
         <div className="header-buttons">
           <button className="cancel-button" onClick={() => navigate(-1)}>
             취소
@@ -109,7 +123,7 @@ const Travelhistory = () => {
           </div>
         )}
 
-        {showMap && (
+        {/* {true && (
           <div className="map-container">
             <Map
               center={mapPosition}
@@ -119,7 +133,7 @@ const Travelhistory = () => {
               <MapMarker position={mapPosition} />
             </Map>
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );
