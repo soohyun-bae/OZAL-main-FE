@@ -26,7 +26,7 @@ const Dropdown = ({
               <Link to={"/travel-diary"} className="menu-item">
                 여행기록
               </Link>
-              <Link to={"/travelInformation"} className="menu-item">
+              <Link to={"/travel-info"} className="menu-item">
                 여행정보
               </Link>
               <div className="menu-divider"></div>
