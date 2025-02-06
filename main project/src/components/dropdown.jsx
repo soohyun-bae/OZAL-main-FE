@@ -23,7 +23,9 @@ const Dropdown = ({ isOpen, onMouseEnter, onMouseLeave }) => {
               <Link to={"/"} className="menu-item">
                 메인
               </Link>
-              <div className="menu-item">마이페이지</div>
+              <Link to={"/Mypage"} className="menu-item">
+                마이페이지
+              </Link>
               <Link to={"/travel-diary"} className="menu-item">
                 여행기록
               </Link>
