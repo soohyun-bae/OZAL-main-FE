@@ -1,0 +1,39 @@
+.fiexed-header {
+  width: 100vw;
+  height: 30vh;
+  background-color: bisque;
+}
+
+.tag-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100px;
+  background-color: lightblue;
+}
+
+.card-wrapper {
+  
+  .card-container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 55vh;
+    overflow-y: auto;
+  }
+
+  .card-contents {
+    display: flex;
+    gap: 20px;
+
+    .small-image {
+      width: 300px;
+    }
+
+    p {
+      font-size: large;
+      font-weight: 600;
+    }
+  }
+}

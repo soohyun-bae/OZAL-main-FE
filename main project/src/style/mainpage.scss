@@ -98,9 +98,9 @@ body {
 }
 
 .memorySection {
-  max-width: 130rem;
-  width: 90%;
-  height: 60rem;
+  max-width: 100rem;
+  width: 70%;
+  height: 50rem;
   padding: 2.5rem;
   background: white;
   border-radius: 1.875rem;
@@ -217,8 +217,8 @@ body {
 .memorySlider {
   @include flex($justify: center, $align: center);
   position: relative;
-  height: 750px;
+  height: 600px;
   perspective: 1000px;
   transform-style: preserve-3d;
-  margin-top: 70px;
+  margin-top: 60px;
 }
