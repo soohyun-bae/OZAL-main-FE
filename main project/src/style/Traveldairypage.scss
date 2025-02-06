@@ -7,15 +7,13 @@
 }
 
 .diary-header {
+  @include flex($justify: center, $align: center);
   width: 100%;
   height: 30vh;
   background-size: cover;
   background-position: center 60%;
   position: fixed;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background-color: #666;
 
   &::before {
@@ -64,18 +62,21 @@
 }
 
 .write-button {
+  @include font-style(
+    $size: 2rem,
+    $color: #236247,
+    $align: center,
+    $transition: 0.3s
+  );
   width: 180px;
   position: fixed;
-  top: calc(30vh + 5rem);
-  right: 10rem;
+  top: calc(30vh + 3rem);
+  right: 5rem;
   padding: 10px;
   background-color: white;
-  color: #236247;
   border: solid 3px #fc8500;
   border-radius: 50px;
   cursor: pointer;
-  font-size: 2rem;
-  transition: background-color 0.3s;
 
   &:hover {
     background-color: #e67a00;
@@ -85,52 +86,52 @@
 
 .main-diary-section {
   @include flex($justify: center, $align: center);
-  height: 80vh;
+  height: 90vh;
   scroll-snap-align: start;
 }
 
 .diary-content {
   @include flex($align: center, $justify: center);
   gap: 2.5rem;
-  width: 90%;
-}
+  width: 70%;
 
-.diary-left {
-  @include flex($direction: column);
-  @include diary-topbox;
-}
+  .diary-left {
+    @include flex($direction: column);
+    @include diary-topbox;
 
-.diary-map {
-  @include diary-topbox;
-}
+    .diary-image {
+      width: 100%;
+      height: 380px;
+      object-fit: cover;
+      border-radius: 8px;
+      display: block;
+    }
 
-.diary-image {
-  width: 100%;
-  height: 300px;
-  object-fit: cover;
-  border-radius: 8px;
-  display: block;
-}
+    .post-date {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
 
-.post-date {
-  color: #666;
-  font-size: 0.9rem;
-  margin-bottom: 0.5rem;
-}
+    .diary-text {
+      background-color: rgb(215, 215, 215);
+      padding: 0 0 0 1.5rem;
+      margin-top: 10px;
+      border-radius: 10px;
+      flex: 1;
 
-.diary-text {
-  background-color: rgb(215, 215, 215);
-  padding: 0 0 0 1.5rem;
-  margin-top: 10px;
-  border-radius: 10px;
-  flex: 1;
+      .diary-title {
+        @include font-style($size: 2rem, $m-b: 0.5rem, $color: #333);
+      }
 
-  .diary-title {
-    @include font-style($size: 2rem, $margin-bottom: 0.5rem, $color: #333);
+      .diary-description {
+        @include font-style($size: 1.5rem, $p-l: 8px, $color: #666);
+      }
+    }
   }
 
-  .diary-description {
-    @include font-style($size: 1.5rem, $padding-left: 8px, $color: #666);
+  .diary-map {
+    @include diary-topbox;
   }
 }
 
@@ -172,7 +173,7 @@
 .list-content {
   flex: 1;
   padding-top: 5px;
-  width: 60vw;
+  width: 55vw;
 }
 
 .list-title {

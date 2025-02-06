@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 // import { Map, MapMarker } from "react-kakao-maps-sdk";
-import "./Travelhistory.scss";
+import "../style/Travelhistory.scss";
 
 const Travelhistory = () => {
   const navigate = useNavigate();

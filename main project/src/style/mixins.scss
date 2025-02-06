@@ -26,15 +26,17 @@
   $color: #000,
   $weight: normal,
   $line-height: normal,
-  $margin-bottom: 0,
-  $padding-left: 0,
-  $align: start
+  $m-b: 0,
+  $p-l: 0,
+  $align: start,
+  $transition: 0s
 ) {
   font-size: $size;
   color: $color;
   font-weight: $weight;
   line-height: $line-height;
-  margin-bottom: $margin-bottom;
-  padding-left: $padding-left;
+  margin-bottom: $m-b;
+  padding-left: $p-l;
   text-align: $align;
+  transition: $transition;
 }
