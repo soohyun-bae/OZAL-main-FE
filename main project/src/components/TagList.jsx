@@ -6,8 +6,8 @@ import "../style/travelInfopage.scss";
 
 const TagList = () => {
   const dispatch = useDispatch();
-  const { data: cityNameData } = useSelector((state) => state.city);
-  const { data: districtNameData } = useSelector((state) => state.district);
+  const { data: filteredCityData } = useSelector((state) => state.city);
+  const { data: filteredDistrictData } = useSelector((state) => state.district);
 
   useEffect(() => {
     dispatch(fetchCityName());
@@ -20,14 +20,13 @@ const TagList = () => {
 
   const handleDistrictClick = (code) => {
     dispatch(setSelectedDistrict(code));
-    console.log(code);
   };
 
   return (
     <>
       <div className="tag-container">
         <ul>
-          {cityNameData?.items?.item.map((city) => (
+          {filteredCityData?.map((city) => (
             <li
               key={city.code}
               className="city-name"
@@ -37,9 +36,9 @@ const TagList = () => {
             </li>
           ))}
         </ul>
-        {districtNameData && (
+        {filteredDistrictData && (
           <ul>
-            {districtNameData?.items?.item.map((district) => (
+            {filteredDistrictData?.map((district) => (
               <li
                 key={district.code}
                 className="district-name"

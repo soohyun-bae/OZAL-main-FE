@@ -2,21 +2,26 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDetailInfo, fetchTourList } from "../RTK/thunk";
 import "../style/travelInfopage.scss";
+import { Link } from "react-router-dom";
+import { setSelectedContentId } from "../RTK/slice";
 
 const TravelInfoCard = () => {
   const dispatch = useDispatch();
   const selectedDistrict = useSelector(
     (state) => state.district.selectedDistrict
   );
-  const selectedCity = useSelector(
-    (state) => state.city.selectedCity
-  );
+  const selectedCity = useSelector((state) => state.city.selectedCity);
   const { data: tourListData } = useSelector((state) => state.tourList);
-  const { data: detailInfoData = { items: { item: [] } } } = useSelector((state) => state.detailInfo || {});
+  const { data: detailInfoData } = useSelector((state) => state.detailInfo);
 
   useEffect(() => {
-    if(selectedDistrict && selectedCity){
-      dispatch(fetchTourList({areaCode: selectedCity, districtCode: selectedDistrict}));
+    if (selectedDistrict && selectedCity) {
+      dispatch(
+        fetchTourList({
+          areaCode: selectedCity,
+          districtCode: selectedDistrict,
+        })
+      );
     }
   }, [dispatch, selectedCity, selectedDistrict]);
 
@@ -29,29 +34,36 @@ const TravelInfoCard = () => {
   }, [dispatch, tourListData]);
 
   const getOverview = (contentid) => {
-    const detail = detailInfoData?.items?.item?.find(i => i.contentid === contentid);
-    return detail ? detail.overview : 'overview';
+    const detail = detailInfoData?.find((i) => i.contentid === contentid);
+    return detail ? detail.overview : "overview";
+  };
+  
+  const getContentid = (contentid) => {
+    dispatch(setSelectedContentId(contentid))
   }
-
   console.log("Detail info data:", detailInfoData);
 
   return (
     <div className="card-container">
-      {tourListData?.items?.item
-        .filter((i) => i.firstimage2)
+      {tourListData
+        ?.filter((i) => i.firstimage2)
         .map((i) => {
           return (
-          <div key={i.contentid} className="card-contents">
-            <img src={i.firstimage2} className="small-image" alt={i.title} />
-            <div>
-              <div>{i.title}</div>
-              <div>{i.addr1}</div>
-              <div>{getOverview(i.contentid)}</div>
-            </div>
-          </div>
-        )
-        } 
-        )}
+            <Link
+              to={`/detail-travel-info/${i.contentid}`}
+              key={i.contentid}
+              className="card-contents"
+              onClick={()=>getContentid(i.contentid)}
+            >
+              <img src={i.firstimage2} className="small-image" alt={i.title} />
+              <div>
+                <div>{i.title}</div>
+                <div>{i.addr1}</div>
+                <div>{getOverview(i.contentid)}</div>
+              </div>
+            </Link>
+          );
+        })}
     </div>
   );
 };
