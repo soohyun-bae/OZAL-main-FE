@@ -1,4 +1,6 @@
 @use "mixins" as *;
+@include mobile;
+@include tablet;
 
 html,
 body {
