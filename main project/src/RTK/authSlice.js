@@ -13,7 +13,7 @@ const authSlice = createSlice({
       state.token = action.payload.token;
       state.isAuthenticated = true;
 
-      if(actions.payload.rememberUser) {
+      if(action.payload.rememberUser) {
         localStorage.setItem("token", action.payload.token);
         sessionStorage.removeItem("token");
       } else {

@@ -8,16 +8,14 @@ const KakaoCallback = () => {
   const code = searchParams.get("code");
   const dispatch = useDispatch();
   const navigate = useNavigate()
+  const rememberUser = false; // 일단 false로
 
   useEffect(() => {
     if (code) {
       axios
-        .post("http://ozal/auth/login/kakao", { code })
+        .post("http://localhost:8000/ozal/auth/login/kakao/", { code })
         .then((response) => {
-          console.log(response)
           const { token, user } = response.data;
-          const rememberUser = false;
-
           dispatch(setUser({ token, user, rememberUser }));
           navigate('/')
         })
@@ -25,7 +23,7 @@ const KakaoCallback = () => {
           console.error("kaakao login error:", error);
         });
     }
-  }, [code, dispatch, navigate]);
+  }, [code, dispatch, navigate, rememberUser]);
   return <div></div>;
 };
 

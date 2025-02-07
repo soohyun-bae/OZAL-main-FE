@@ -1,12 +1,12 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import "../style/modalStyle.scss";
 import "../App.css";
 import kakaoLogin from "../assets/kakao_login.png";
 import naverLogin from "../assets/naver_login.png";
 import "../App.css";
-import { useDispatch, useSelector } from "react-redux";
 
 const Modal = ({ modalOpen, setModalOpen }) => {
+  const [rememberUser, setRememberUser] = useState(false)
   const modalBackground = useRef();
   const KAKAO_REST_API = import.meta.env.VITE_KAKAO_REST_API_KEY;
   const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
