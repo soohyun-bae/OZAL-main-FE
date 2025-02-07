@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchDetailInfo, fetchTourList } from "../RTK/thunk";
 import "../style/travelInfopage.scss";
 import { Link } from "react-router-dom";
+import "../App.css";
 
 const TravelInfoCard = () => {
   const dispatch = useDispatch();

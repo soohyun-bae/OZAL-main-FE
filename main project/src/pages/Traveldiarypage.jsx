@@ -2,7 +2,7 @@ import "/src/style/Traveldairypage.scss";
 import image1 from "../assets/1.png";
 import image2 from "../assets/2.png";
 import image3 from "../assets/3.png";
-import navPicture from "../assets/nav-picture.png";
+import navPicture from "../assets/nav-picture.jpg";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
 
