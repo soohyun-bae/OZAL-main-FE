@@ -1,11 +1,25 @@
-import React, { useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import '../style/dropdown.scss'
 import Modal from './Modal';
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../RTK/authSlice";
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const {user, isAuthenticated} = useSelector((state) => state.auth)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    console.log('login state:', isAuthenticated)
+  }, [isAuthenticated])
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate('/')
+  }
 
   return (
     <div>
@@ -18,9 +32,15 @@ const Header = () => {
         {isDropdownOpen && (
           <div className="dropdown-menu">
             <div className="menu-items">
+              {isAuthenticated ? (
+              <div className="login" onClick={handleLogout}>
+                로그아웃
+              </div>
+              ):(
               <div className="login" onClick={() => setModalOpen(true)}>
                 로그인
               </div>
+              )}
               <Link to={"/"} className="menu-item">
                 메인
               </Link>
