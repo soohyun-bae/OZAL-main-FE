@@ -8,6 +8,7 @@ const MapModal = ({ onClose, onSelect }) => {
     lng: 126.9786567,
   });
   const [searchKeyword, setSearchKeyword] = useState("");
+  const KAKAO_MAP_KEY = import.meta.env.VITE_MAP_KEY;
 
   const handleSearch = () => {
     if (!window.kakao || !window.kakao.maps) return;
@@ -105,6 +106,7 @@ const MapModal = ({ onClose, onSelect }) => {
             style={{ width: "100%", height: "100%" }}
             level={3}
             onClick={handleClick}
+            apiKey={KAKAO_MAP_KEY}
           >
             <MapMarker position={position} />
           </Map>
