@@ -1,3 +1,5 @@
+@use "mixins" as *;
+
 .mypage-container {
   max-width: 500px;
   margin: 50px auto;
