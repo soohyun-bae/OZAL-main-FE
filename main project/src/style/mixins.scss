@@ -40,3 +40,24 @@
   text-align: $align;
   transition: $transition;
 }
+
+@mixin menufont {
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  padding: 5px 0;
+  color: #023047;
+}
+
+// 반응형 웹
+@mixin mobile {
+  @media (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: 1024px) {
+    @content;
+  }
+}

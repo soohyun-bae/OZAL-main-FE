@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchCityName, fetchDistrictName } from "../RTK/thunk";
 import { setSelectedCity, setSelectedDistrict } from "../RTK/slice";
 import "../style/travelInfopage.scss";
+import "../App.css";
 
 const TagList = () => {
   const dispatch = useDispatch();
@@ -14,7 +15,7 @@ const TagList = () => {
   }, [dispatch]);
 
   const handleCityClick = (areaCode) => {
-    dispatch(setSelectedCity(areaCode))
+    dispatch(setSelectedCity(areaCode));
     dispatch(fetchDistrictName(areaCode));
   };
 

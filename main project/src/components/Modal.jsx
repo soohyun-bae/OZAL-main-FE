@@ -3,6 +3,7 @@ import "../style/modalStyle.scss";
 import "../App.css";
 import kakaoLogin from "../assets/kakao_login.png";
 import naverLogin from "../assets/naver_login.png";
+import "../App.css";
 
 const Modal = ({ modalOpen, setModalOpen }) => {
   const modalBackground = useRef();

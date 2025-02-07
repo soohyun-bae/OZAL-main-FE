@@ -1,3 +1,5 @@
+@use "mixins" as *;
+
 .fiexed-header {
   width: 100vw;
   height: 30vh;
@@ -5,22 +7,22 @@
 }
 
 .tag-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include flex($justify: center, $align: center, $direction: column);
+
   width: 100%;
-  height: 100px;
+  height: 15vh;
   background-color: lightblue;
 }
 
 .card-wrapper {
-  
-  .card-container{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  @include flex($justify: center, $align: center);
+  margin-top: 2.5rem;
+  .card-container {
+    @include flex($direction: column, $justify: center, $gap: 1rem);
+    width: 60vw;
     height: 55vh;
     overflow-y: auto;
+    margin: 2rem 0 0 2rem;
   }
 
   .card-contents {
@@ -35,5 +37,16 @@
       font-size: large;
       font-weight: 600;
     }
+  }
+}
+
+// taglist
+ul {
+  @include font-style($size: 1.25rem);
+  list-style: none;
+
+  li {
+    display: inline-block;
+    margin: 0.5rem;
   }
 }

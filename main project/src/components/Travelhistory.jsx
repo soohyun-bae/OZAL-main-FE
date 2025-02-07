@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import "../style/Travelhistory.scss";
 import useKakaoLoader from "../hooks/useKakaoLoader";
-
+import "../App.css";
 
 const Travelhistory = () => {
-  useKakaoLoader()
+  useKakaoLoader();
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
