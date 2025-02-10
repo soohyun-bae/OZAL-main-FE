@@ -49,12 +49,16 @@ const TravelInfoCard = () => {
               key={i.contentid}
               className="card-contents"
             >
-              <img src={i.firstimage2} className="small-image" alt={i.title} />
-              <div>
-                <div>{i.title}</div>
-                <div>{i.addr1}</div>
-                <div>{getOverview(i.contentid)}</div>
-              </div>
+                <img
+                  src={i.firstimage2}
+                  className="small-image"
+                  alt={i.title}
+                />
+                <div>
+                  <div>{i.title}</div>
+                  <div>{i.addr1}</div>
+                  <div>{getOverview(i.contentid)}</div>
+                </div>
             </Link>
           );
         })}

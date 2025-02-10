@@ -6,7 +6,7 @@ import {
   tourListSlice,
 } from "./slice";
 import authReducer from './authSlice'
-// import userReducer from "./userSlice";
+import userReducer from "./userSlice";
 
 export const store = configureStore({
   reducer: {
@@ -15,7 +15,7 @@ export const store = configureStore({
     tourList: tourListSlice.reducer,
     detailInfo: detailInfoSlice.reducer,
     auth: authReducer,
-    // user: userReducer, // 유저 상태 추가
+    user: userReducer, // 유저 상태 추가
   },
 });
 

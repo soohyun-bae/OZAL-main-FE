@@ -8,11 +8,13 @@ import { logout } from "../RTK/authSlice";
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const {user, isAuthenticated} = useSelector((state) => state.auth)
+  const user = useSelector((state) => state.auth?.user);
+  const isAuthenticated = useSelector((state) => state.auth?.isAuthenticated)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   useEffect(() => {
+    console.log("user:", user);
     console.log('login state:', isAuthenticated)
   }, [isAuthenticated])
 
