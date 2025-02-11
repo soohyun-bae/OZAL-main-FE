@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
-import "@toast-ui/editor/dist/toastui-editor.css";
-import { Editor } from "@toast-ui/react-editor";
+// import "@toast-ui/editor/dist/toastui-editor.css";
+// import { Editor } from "@toast-ui/react-editor";
 import MapModal from "../components/MapModal";
 import "../style/EditorCommon.scss";
 

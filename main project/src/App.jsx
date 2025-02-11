@@ -17,10 +17,7 @@ function App() {
           <Route path="/mypage" element={<Mypage />} />
           <Route path="/write-post" element={<Travelhistory />} />
           <Route path="/travel-info" element={<TravelInfopage />} />
-          <Route
-            path="/detail-travel-info/:contentid"
-            element={<DetailTravelInfo />}
-          />
+          <Route path="/detail-travel-info/:contentid" element={<DetailTravelInfo />} />
         </Route>
       </Routes>
     </Router>
