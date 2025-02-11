@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateNickname, updateProfilePic } from "../RTK/userSlice";
+// import { updateNickname, updateProfilePic } from "../RTK/userSlice";
 import "../style/Mypage.scss";
+import "../App.css";
+import { updateNickname, updateProfilePic } from "../RTK/authSlice";
 
 const Mypage = () => {
   const dispatch = useDispatch();
-  const { name, profilePic, nickname } = useSelector((state) => state.user);
+  const user = useSelector((state) => state.auth.user);
 
-  const [newNickname, setNewNickname] = useState(nickname);
+  const [newNickname, setNewNickname] = useState(user.nickname || "");
   const [newProfilePic, setNewProfilePic] = useState(null);
-  const [previewPic, setPreviewPic] = useState(profilePic);
+  const [previewPic, setPreviewPic] = useState(user.profilePic || "src/assets/Frame_3_2.png");
 
   // 닉네임 저장 핸들러
   const handleNicknameChange = () => {
@@ -39,22 +41,30 @@ const Mypage = () => {
       alert("프로필 사진이 변경되었습니다!");
     }
   };
+  
+  const changeToDefaultProfilePic = () => {
+    setPreviewPic('src/assets/Frame_3_2.png');
+    setNewProfilePic(null)
+    dispatch(updateProfilePic('src/assets/Frame_3_2.png'))
+    alert("프로필 사진이 변경되었습니다!");
+  }
 
   return (
     <div className="mypage-container">
       <h2>마이페이지</h2>
       <div className="profile-section">
         <img
-          src={previewPic || "/default-profile.png"}
+          src={previewPic}
           alt="프로필 사진"
           className="profile-pic"
         />
         <input type="file" accept="image/*" onChange={handleProfilePicChange} />
         <button onClick={handleProfilePicSave}>프로필 사진 변경</button>
+        <button onClick={changeToDefaultProfilePic}>기본 프로필 사진</button>
       </div>
       <div className="info-section">
         <p>
-          <strong>이름:</strong> {name}
+          <strong>이름:</strong> {user.name}
         </p>
         <p>
           <strong>닉네임:</strong>

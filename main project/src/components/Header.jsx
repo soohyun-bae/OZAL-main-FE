@@ -9,14 +9,14 @@ const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const user = useSelector((state) => state.auth?.user);
-  const isAuthenticated = useSelector((state) => state.auth?.isAuthenticated)
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const isAuthenticated = useSelector((state) => state.auth?.isAuthenticated);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log("user:", user);
-    console.log('login state:', isAuthenticated)
-  }, [isAuthenticated])
+    console.log("login state:", isAuthenticated);
+  }, [isAuthenticated]);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -34,6 +34,8 @@ const Header = () => {
         {isDropdownOpen && (
           <div className="dropdown-menu">
             <div className="menu-items">
+              {/* test */}
+              <div onClick={() => setModalOpen(true)}>login test</div>
               {isAuthenticated ? (
                 <div className="login" onClick={handleLogout}>
                   로그아웃

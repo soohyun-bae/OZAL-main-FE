@@ -1,12 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const savedAuth = localStorage.getItem('auth');
+const savedAuth = sessionStorage.getItem('auth');
 const parsedAuth = savedAuth ? JSON.parse(savedAuth) : null;
 
 const initialState = {
-  user: parsedAuth?.user || null,
-  token: sessionStorage.getItem('token') || localStorage.getItem('token') || null,
   isAuthenticated: !!(sessionStorage.getItem('token') || localStorage.getItem('token')),
+  user: parsedAuth?.user || {
+    name: '',
+    nickname: '',
+    profilePic: '',
+  },
+  token: sessionStorage.getItem('token') || localStorage.getItem('token') || null,
 }
 
 const authSlice = createSlice({
@@ -14,32 +18,46 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
-      state.user = action.payload.user;
-      state.token = action.payload.token;
+      const {user, token, rememberUser} = action.payload;
+
+      state.user = user;
+      state.token = token;
       state.isAuthenticated = true;
 
-      // if(action.payload.rememberUser) {
-      //   localStorage.setItem("token", action.payload.token);
-      //   localStorage.setItem("auth", JSON.stringify({user: action.payload.user}));
-      //   sessionStorage.removeItem("token");
-      // } else {
-        sessionStorage.setItem("token", action.payload.token);
-        sessionStorage.setItem("auth", JSON.stringify({user: action.payload.user}));
+      if(rememberUser) {
+        localStorage.setItem("token", token);
+        localStorage.setItem("auth", JSON.stringify({user}));
+        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("auth");
+      } else {
+        sessionStorage.setItem("token", token);
+        sessionStorage.setItem("auth", JSON.stringify({user}));
         localStorage.removeItem("token");
         localStorage.removeItem("auth");
-      // }
+      }
     },
     logout: (state) => {
-      state.user = null;
+      state.user = {
+        name: '',
+        nickname: '',
+        profilePic: '',
+      };
       state.token = null;
       state.isAuthenticated = false;
+
       localStorage.removeItem("token");
       localStorage.removeItem("auth");
       sessionStorage.removeItem("token");
       sessionStorage.removeItem("auth");
     },
+    updateNickname: (state, action) => {
+      state.user.nickname = action.payload;
+    },
+    updateProfilePic: (state, action) => {
+      state.user.profilePic = action.payload;
+    },
   },
 });
 
-export const {setUser, logout} = authSlice.actions;
+export const {setUser, logout, updateNickname, updateProfilePic} = authSlice.actions;
 export default authSlice.reducer;
