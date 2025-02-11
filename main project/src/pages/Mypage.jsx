@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-// import { updateNickname, updateProfilePic } from "../RTK/userSlice";
 import "../style/Mypage.scss";
 import "../App.css";
 import { updateNickname, updateProfilePic } from "../RTK/authSlice";
@@ -13,10 +12,27 @@ const Mypage = () => {
   const [newProfilePic, setNewProfilePic] = useState(null);
   const [previewPic, setPreviewPic] = useState(user.profilePic || "src/assets/Frame_3_2.png");
 
+  const changeProfilePic = () => {
+    if(newProfilePic) {
+      const formData = new FormData();
+      formData.append('profilePic', newProfilePic);
+
+      dispatch(updateProfilePic(previewPic));
+      console.log('프로필 사진 변경 완료');
+    } else {
+      console.log('새로운 프로필 사진을 선택해주세요.')
+    }
+  }
+
   // 닉네임 저장 핸들러
   const handleNicknameChange = () => {
-    dispatch(updateNickname(newNickname));
-    alert("닉네임이 변경되었습니다!");
+    if(newNickname !== user.nickname) {
+      dispatch(updateNickname(newNickname));
+      console.log('닉네임이 변경되었습니다')
+    } else {
+      console.log('변경된 닉네임이 없습니다.');
+    }
+    
   };
 
   // 프로필 사진 변경 핸들러
@@ -30,15 +46,6 @@ const Mypage = () => {
       setNewProfilePic(file); //쉬운 방법
       // };
       // reader.readAsDataURL(file)
-    }
-  };
-
-  // 프로필 사진 저장 핸들러
-  const handleProfilePicSave = () => {
-    if (newProfilePic) {
-      // 실제 서버가 있다면 여기서 업로드 API 호출 (백엔드 필요)
-      dispatch(updateProfilePic(previewPic));
-      alert("프로필 사진이 변경되었습니다!");
     }
   };
   
@@ -59,7 +66,7 @@ const Mypage = () => {
           className="profile-pic"
         />
         <input type="file" accept="image/*" onChange={handleProfilePicChange} />
-        <button onClick={handleProfilePicSave}>프로필 사진 변경</button>
+        <button onClick={changeProfilePic}>프로필 사진 변경</button>
         <button onClick={changeToDefaultProfilePic}>기본 프로필 사진</button>
       </div>
       <div className="info-section">

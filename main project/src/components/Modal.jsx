@@ -22,7 +22,7 @@ const Modal = ({ modalOpen, setModalOpen }) => {
       profilePic: 'src/assets/1.png',
     };
 
-    dispatch(setUser({ user: mockUser, token: 'mockToken' }));
+    dispatch(setUser({ user: mockUser, token: 'mockToken', rememberUser }));
     setModalOpen(false)
   }
 
@@ -42,6 +42,10 @@ const Modal = ({ modalOpen, setModalOpen }) => {
             {}
             <p>Login</p>
             <hr />
+            <div>
+              <input type="checkbox" checked={rememberUser} onChange={(e) => setRememberUser(e.target.checked)} />
+              로그인 상태 유지
+            </div>
             <button onClick={handleKakaoLogin}>kakao login test</button>
             <button onClick={handleKakaoLogin}>
               <img src={kakaoLogin} alt="kakaoLogin" className="kakaoLogin" />

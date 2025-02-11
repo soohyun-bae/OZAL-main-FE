@@ -48,9 +48,11 @@ const Header = () => {
               <Link to={"/"} className="menu-item">
                 메인
               </Link>
+              {isAuthenticated && (
               <Link to={"/Mypage"} className="menu-item">
                 마이페이지
               </Link>
+              )}
               <Link to={"/travel-diary"} className="menu-item">
                 여행기록
               </Link>
