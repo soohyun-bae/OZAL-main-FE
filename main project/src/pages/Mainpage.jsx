@@ -8,7 +8,6 @@ import image4 from "../assets/4.png";
 import image5 from "../assets/5.png";
 import image6 from "../assets/6.png";
 import downIcon from "../assets/down-icon.png";
-import "../App.css";
 
 const memoryImages = [
   { src: image1, alt: "추억 1" },
@@ -16,7 +15,7 @@ const memoryImages = [
   { src: image3, alt: "추억 3" },
   { src: image4, alt: "추억 4" },
   { src: image5, alt: "추억 5" },
-]; // 고정된 값은 함수 밖으로 
+]; // 고정된 값은 함수 밖으로
 
 export default function MainLayout() {
   const [isTransitioning, setIsTransitioning] = useState(false);
