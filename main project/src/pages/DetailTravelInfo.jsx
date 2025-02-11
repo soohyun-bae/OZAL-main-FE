@@ -8,10 +8,8 @@ import "../App.css";
 const DetailTravelInfo = () => {
   const dispatch = useDispatch();
   const { contentid } = useParams();
-  const { data: detailTravelInfoData } = useSelector(
-    (state) => state.detailInfo
-  );
-
+  const { data: detailTravelInfoData } = useSelector((state) => state.detailInfo);
+  
   useEffect(() => {
     if (contentid) {
       dispatch(fetchDetailInfo(contentid));

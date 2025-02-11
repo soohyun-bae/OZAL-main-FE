@@ -4,6 +4,9 @@ import { fetchDetailInfo, fetchTourList } from "../RTK/thunk";
 import "../style/travelInfopage.scss";
 import { Link } from "react-router-dom";
 import "../App.css";
+import {
+  clearTourList,
+} from "../RTK/slice";
 
 const TravelInfoCard = () => {
   const dispatch = useDispatch();
@@ -22,6 +25,8 @@ const TravelInfoCard = () => {
           districtCode: selectedDistrict,
         })
       );
+    } else {
+      dispatch(clearTourList());
     }
   }, [dispatch, selectedCity, selectedDistrict]);
 

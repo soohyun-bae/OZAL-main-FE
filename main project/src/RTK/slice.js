@@ -66,7 +66,11 @@ export const tourListSlice = createSlice({
     loading: false,
     selectedContentId: null,
   },
-  reducers: {},
+  reducers: {
+    clearTourList(state) {
+      state.data = [];
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchTourList.pending, (state) => {
@@ -82,7 +86,7 @@ export const tourListSlice = createSlice({
   },
 });
 
-export const { setSelectedContentId } = tourListSlice.actions;
+export const { setSelectedContentId, clearTourList } = tourListSlice.actions;
 
 export const detailInfoSlice = createSlice({
   name: "detailInfo",
