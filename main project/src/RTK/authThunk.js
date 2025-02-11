@@ -11,7 +11,7 @@ export const kakaoLogin = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response ? error.response.data: {message: '알 수 없는 에러 발생'});
     }
   }
 )
