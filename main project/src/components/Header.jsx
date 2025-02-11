@@ -8,11 +8,13 @@ import { logout } from "../RTK/authSlice";
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const { user, isAuthenticated } = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.auth?.user);
+  const isAuthenticated = useSelector((state) => state.auth?.isAuthenticated);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log("user:", user);
     console.log("login state:", isAuthenticated);
   }, [isAuthenticated]);
 
@@ -32,6 +34,8 @@ const Header = () => {
         {isDropdownOpen && (
           <div className="dropdown-menu">
             <div className="menu-items">
+              {/* test */}
+              <div onClick={() => setModalOpen(true)}>login test</div>
               {isAuthenticated ? (
                 <div className="login" onClick={handleLogout}>
                   로그아웃
@@ -44,9 +48,11 @@ const Header = () => {
               <Link to={"/"} className="menu-item">
                 메인
               </Link>
+              {isAuthenticated && (
               <Link to={"/Mypage"} className="menu-item">
                 마이페이지
               </Link>
+              )}
               <Link to={"/travel-diary"} className="menu-item">
                 여행기록
               </Link>

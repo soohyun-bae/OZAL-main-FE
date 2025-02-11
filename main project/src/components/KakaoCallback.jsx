@@ -1,29 +1,31 @@
-import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { kakaoLogin } from "../RTK/authThunk";
 
 const KakaoCallback = () => {
+  console.log('rendering KakaoCallback component')
   const [searchParams] = useSearchParams();
   const code = searchParams.get("code");
+  console.log('받은 인증 코드:', code);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const rememberUser = false; // 일단 false로
+  // const rememberUser = false; // 일단 false로
 
   useEffect(() => {
+    console.log('useEffect start')
     if (code) {
-      axios
-        .post("http://localhost:8000/ozal/auth/login/kakao/", { code })
-        .then((response) => {
-          const { token, user } = response.data;
-          dispatch(setUser({ token, user, rememberUser }));
-          navigate("/");
+      dispatch(kakaoLogin(code))
+        .unwrap()
+        .then(() => {
+          navigate('/Mypage')
         })
         .catch((error) => {
-          console.error("kaakao login error:", error);
+          console.error('login fail:', error);
         });
     }
-  }, [code, dispatch, navigate, rememberUser]);
+  }, [code, dispatch, navigate]);
+
   return <div></div>;
 };
 

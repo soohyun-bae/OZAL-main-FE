@@ -6,6 +6,7 @@ import TravelInfopage from "./pages/TravelInfopage.jsx";
 import DetailTravelInfo from "./pages/detailTravelInfo.jsx";
 import Mypage from "./pages/Mypage.jsx";
 import Header from "./components/Header.jsx";
+import KakaoCallback from "./components/KakaoCallback.jsx";
 import "./App.css";
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route element={<Header />}>
           <Route path="/" element={<Main />} />
+          <Route path="/auth/kakao/callback" element={<KakaoCallback />} />
           <Route path="/travel-diary" element={<TravelDiaryPage />} />
           <Route path="/mypage" element={<Mypage />} />
           <Route path="/write-post" element={<Travelhistory />} />

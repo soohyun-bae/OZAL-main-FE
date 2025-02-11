@@ -78,6 +78,7 @@ export const fetchTourList = createAsyncThunk(
             _type: "json",
             areaCode: areaCode,
             sigunguCode: districtCode,
+            contentTypeId: 12
           },
         }
       );
