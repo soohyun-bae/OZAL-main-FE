@@ -4,7 +4,7 @@ import image2 from "../assets/2.png";
 import image3 from "../assets/3.png";
 import navPicture from "../assets/nav-picture.jpg";
 import { useNavigate } from "react-router-dom";
-import "../App.css";
+import writing from "../assets/writing-icon.png";
 
 const TravelDiaryPage = () => {
   const navigate = useNavigate();
@@ -46,6 +46,8 @@ const TravelDiaryPage = () => {
 
       <div className="diary-container">
         <button className="write-button" onClick={handleWriteClick}>
+          <img src={writing} alt="글쓰기 아이콘" />
+          <br />
           글쓰기
         </button>
 

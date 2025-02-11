@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
@@ -7,7 +7,7 @@ const KakaoCallback = () => {
   const [searchParams] = useSearchParams();
   const code = searchParams.get("code");
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const rememberUser = false; // 일단 false로
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const KakaoCallback = () => {
         .then((response) => {
           const { token, user } = response.data;
           dispatch(setUser({ token, user, rememberUser }));
-          navigate('/')
+          navigate("/");
         })
         .catch((error) => {
           console.error("kaakao login error:", error);

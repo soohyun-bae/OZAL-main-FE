@@ -1,12 +1,9 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDetailInfo, fetchTourList } from "../RTK/thunk";
 import "../style/travelInfopage.scss";
 import { Link } from "react-router-dom";
-import "../App.css";
-import {
-  clearTourList,
-} from "../RTK/slice";
+import { clearTourList } from "../RTK/slice";
 
 const TravelInfoCard = () => {
   const dispatch = useDispatch();

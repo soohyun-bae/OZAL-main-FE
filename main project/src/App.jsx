@@ -6,6 +6,7 @@ import TravelInfopage from "./pages/TravelInfopage.jsx";
 import DetailTravelInfo from "./pages/detailTravelInfo.jsx";
 import Mypage from "./pages/Mypage.jsx";
 import Header from "./components/Header.jsx";
+import "./App.css";
 
 function App() {
   return (

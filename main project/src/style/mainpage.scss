@@ -2,16 +2,6 @@
 @include mobile;
 @include tablet;
 
-html,
-body {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
-  background-color: #f3f3f3;
-}
-
 .container {
   position: relative;
   width: 100vw;
@@ -102,7 +92,7 @@ body {
 .memorySection {
   max-width: 100rem;
   width: 70%;
-  height: 50rem;
+  height: 800px;
   padding: 2.5rem;
   background: white;
   border-radius: 1.875rem;
