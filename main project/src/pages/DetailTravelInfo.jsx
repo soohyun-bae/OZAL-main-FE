@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDetailInfo } from "../RTK/thunk";
 import "../style/detailTravelInfo.scss";
 import { useParams } from "react-router-dom";
-import "../App.css";
 
 const DetailTravelInfo = () => {
   const dispatch = useDispatch();

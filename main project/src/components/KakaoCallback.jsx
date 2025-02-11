@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
@@ -9,7 +9,8 @@ const KakaoCallback = () => {
   const code = searchParams.get("code");
   console.log('받은 인증 코드:', code);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const rememberUser = false; // 일단 false로
 
   useEffect(() => {
     console.log('useEffect start')
@@ -20,24 +21,8 @@ const KakaoCallback = () => {
         .then((response) => {
           console.log("response data:", response);
           const { token, user } = response.data;
-          if(!token || !user) {
-            console.error('X token or user');
-            return;
-          }
-
-          dispatch(setUser({ token, user }));
-          
-          // if(rememberUser) {
-          //   localStorage.setItem('token', token);
-          //   localStorage.setItem('auth', JSON.stringify({user: simplifiedUser}));
-          //   sessionStorage.removeItem('token')
-          // } else {
-            // sessionStorage.setItem('token', token);
-            // sessionStorage.setItem('auth', JSON.stringify({user: simplifiedUser}));
-            // localStorage.removeItem('token')
-            // localStorage.removeItem('auth');
-          // }
-          navigate('/')
+          dispatch(setUser({ token, user, rememberUser }));
+          navigate("/");
         })
         .catch((error) => {
           console.error("kaakao login error:", error);

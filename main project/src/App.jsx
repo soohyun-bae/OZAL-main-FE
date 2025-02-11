@@ -7,6 +7,7 @@ import DetailTravelInfo from "./pages/detailTravelInfo.jsx";
 import Mypage from "./pages/Mypage.jsx";
 import Header from "./components/Header.jsx";
 import KakaoCallback from "./components/KakaoCallback.jsx";
+import "./App.css";
 
 function App() {
   return (
@@ -19,10 +20,7 @@ function App() {
           <Route path="/mypage" element={<Mypage />} />
           <Route path="/write-post" element={<Travelhistory />} />
           <Route path="/travel-info" element={<TravelInfopage />} />
-          <Route
-            path="/detail-travel-info/:contentid"
-            element={<DetailTravelInfo />}
-          />
+          <Route path="/detail-travel-info/:contentid" element={<DetailTravelInfo />} />
         </Route>
       </Routes>
     </Router>
