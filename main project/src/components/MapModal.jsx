@@ -1,123 +1,182 @@
-import React, { useState, useEffect } from "react";
-import { Map, MapMarker } from "react-kakao-maps-sdk";
+import React, { useState, useEffect, useCallback } from "react";
 import "../style/MapModal.scss";
 
 const MapModal = ({ onClose, onSelect }) => {
-  const [position, setPosition] = useState({
-    lat: 37.566826,
-    lng: 126.9786567,
-  });
-  const [searchKeyword, setSearchKeyword] = useState("");
-  const KAKAO_MAP_KEY = import.meta.env.VITE_KAKAO_MAP_API_KEY;
+  const [map, setMap] = useState(null);
+  const [markers, setMarkers] = useState([]);
+  const [infowindow, setInfowindow] = useState(null);
+  const [keyword, setKeyword] = useState("");
 
-  const handleSearch = () => {
-    if (!window.kakao || !window.kakao.maps) return;
+  // 지도 초기화
+  useEffect(() => {
+    const container = document.getElementById("map");
+    const options = {
+      center: new window.kakao.maps.LatLng(37.566826, 126.9786567),
+      level: 3,
+    };
+    const mapInstance = new window.kakao.maps.Map(container, options);
+    const infowindowInstance = new window.kakao.maps.InfoWindow({ zIndex: 1 });
+
+    setMap(mapInstance);
+    setInfowindow(infowindowInstance);
+  }, []);
+
+  // 키워드 검색
+  const searchPlaces = useCallback(() => {
+    if (!keyword.replace(/^\s+|\s+$/g, "")) {
+      alert("키워드를 입력해주세요!");
+      return false;
+    }
 
     const ps = new window.kakao.maps.services.Places();
-    ps.keywordSearch(searchKeyword, (data, status) => {
-      if (status === window.kakao.maps.services.Status.OK && data.length > 0) {
-        const firstPlace = data[0];
-        setPosition({
-          lat: parseFloat(firstPlace.y),
-          lng: parseFloat(firstPlace.x),
+    ps.keywordSearch(keyword, placesSearchCB);
+  }, [keyword]);
+
+  // 검색 콜백
+  const placesSearchCB = (data, status) => {
+    if (status === window.kakao.maps.services.Status.OK) {
+      displayPlaces(data);
+    } else if (status === window.kakao.maps.services.Status.ZERO_RESULT) {
+      alert("검색 결과가 존재하지 않습니다.");
+    } else if (status === window.kakao.maps.services.Status.ERROR) {
+      alert("검색 결과 중 오류가 발생했습니다.");
+    }
+  };
+
+  // 검색 결과 표시
+  const displayPlaces = (places) => {
+    const listEl = document.getElementById("placesList");
+    const bounds = new window.kakao.maps.LatLngBounds();
+
+    // 기존 마커 제거
+    removeMarker();
+    removeAllChildNods(listEl);
+
+    places.forEach((place, i) => {
+      const placePosition = new window.kakao.maps.LatLng(place.y, place.x);
+      const marker = addMarker(placePosition, i);
+      const itemEl = getListItem(i, place);
+
+      bounds.extend(placePosition);
+
+      // 마커와 목록 이벤트
+      (function (marker, title) {
+        window.kakao.maps.event.addListener(marker, "mouseover", () => {
+          displayInfowindow(marker, title);
         });
-      }
-    });
-  };
 
-  const handleClick = (_t, mouseEvent) => {
-    if (!window.kakao || !window.kakao.maps) return;
+        window.kakao.maps.event.addListener(marker, "mouseout", () => {
+          infowindow.close();
+        });
 
-    const latlng = mouseEvent.latLng;
-    setPosition({
-      lat: latlng.getLat(),
-      lng: latlng.getLng(),
-    });
-    searchDetailAddrFromCoords(latlng);
-  };
+        itemEl.onmouseout = () => {
+          infowindow.close();
+        };
 
-  const searchDetailAddrFromCoords = (coords) => {
-    if (!window.kakao || !window.kakao.maps) return;
-
-    const geocoder = new window.kakao.maps.services.Geocoder();
-    geocoder.coord2Address(
-      coords.getLng(),
-      coords.getLat(),
-      (result, status) => {
-        if (status === window.kakao.maps.services.Status.OK) {
-          const address = result[0].address.address_name;
+        itemEl.onclick = () => {
           onSelect({
-            address,
-            placeName: address,
-            lat: coords.getLat(),
-            lng: coords.getLng(),
+            placeName: place.place_name,
+            address: place.address_name,
+            lat: place.y,
+            lng: place.x,
           });
-        }
-      }
+          onClose();
+        };
+      })(marker, place.place_name);
+
+      listEl.appendChild(itemEl);
+    });
+
+    map.setBounds(bounds);
+  };
+
+  // 마커 생성
+  const addMarker = (position, idx) => {
+    const imageSrc =
+      "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png";
+    const imageSize = new window.kakao.maps.Size(36, 37);
+    const imgOptions = {
+      spriteSize: new window.kakao.maps.Size(36, 691),
+      spriteOrigin: new window.kakao.maps.Point(0, idx * 46 + 10),
+      offset: new window.kakao.maps.Point(13, 37),
+    };
+    const markerImage = new window.kakao.maps.MarkerImage(
+      imageSrc,
+      imageSize,
+      imgOptions
     );
+    const marker = new window.kakao.maps.Marker({
+      position: position,
+      image: markerImage,
+    });
+
+    marker.setMap(map);
+    setMarkers((prev) => [...prev, marker]);
+    return marker;
+  };
+
+  // 마커 제거
+  const removeMarker = () => {
+    markers.forEach((marker) => marker.setMap(null));
+    setMarkers([]);
   };
 
   return (
-    <div
-      className="map-modal-overlay"
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        zIndex: 1000,
-      }}
-    >
-      <div
-        className="map-modal"
-        style={{
-          background: "white",
-          padding: "20px",
-          borderRadius: "8px",
-          width: "80%",
-          maxWidth: "600px",
-        }}
-      >
-        <div className="map-modal-header">
-          <h3>위치 선택</h3>
-          <div className="search-box">
-            <input
-              type="text"
-              value={searchKeyword}
-              onChange={(e) => setSearchKeyword(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-              placeholder="장소 검색"
-            />
-            <button onClick={handleSearch}>검색</button>
-          </div>
-          <button className="close-button" onClick={onClose}>
-            닫기
-          </button>
+    <div className="map-modal">
+      <div className="map-modal-content">
+        <div className="map-search">
+          <input
+            type="text"
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+            onKeyPress={(e) => e.key === "Enter" && searchPlaces()}
+            placeholder="장소를 검색하세요"
+          />
+          <button onClick={searchPlaces}>검색</button>
         </div>
 
-        <div style={{ width: "100%", height: "400px", marginTop: "10px" }}>
-          <Map
-            center={position}
-            style={{ width: "100%", height: "100%" }}
-            level={3}
-            onClick={handleClick}
-            apiKey={KAKAO_MAP_KEY}
-          >
-            <MapMarker position={position} />
-          </Map>
+        <div className="map-container">
+          <div id="map" style={{ width: "100%", height: "400px" }} />
+          <div id="placesList" className="places-list" />
         </div>
 
-        <div className="map-modal-footer">
-          <p>지도를 클릭하여 위치를 선택하세요</p>
-        </div>
+        <button className="close-button" onClick={onClose}>
+          닫기
+        </button>
       </div>
     </div>
   );
+};
+
+// 유틸리티 함수들
+const removeAllChildNods = (el) => {
+  while (el.hasChildNodes()) {
+    el.removeChild(el.lastChild);
+  }
+};
+
+const getListItem = (index, place) => {
+  const el = document.createElement("li");
+  let itemStr = `
+    <span class="markerbg marker_${index + 1}"></span>
+    <div class="info">
+      <h5>${place.place_name}</h5>
+  `;
+
+  if (place.road_address_name) {
+    itemStr += `
+      <span>${place.road_address_name}</span>
+      <span class="jibun gray">${place.address_name}</span>
+    `;
+  } else {
+    itemStr += `<span>${place.address_name}</span>`;
+  }
+
+  itemStr += `<span class="tel">${place.phone}</span></div>`;
+  el.innerHTML = itemStr;
+  el.className = "item";
+
+  return el;
 };
 
 export default MapModal;

@@ -8,6 +8,7 @@ import {
 import authReducer from "./authSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from 'redux-persist';
+import { postSlice } from "./postSlice";
 
 const persistConfig = {
   key: "root",
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   district: districtSlice.reducer,
   tourList: tourListSlice.reducer,
   detailInfo: detailInfoSlice.reducer,
+  post: postSlice.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

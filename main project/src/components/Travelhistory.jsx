@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../style/Travelhistory.scss";
-// import EditorCommon from "../hooks/EditorCommon";
+import EditorCommon from "./EditorCommon";
 
 const Travelhistory = () => {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ const Travelhistory = () => {
       />
 
       <div className="content-area">
-        {/* <EditorCommon /> */}
+        <EditorCommon />
       </div>
     </div>
   );
