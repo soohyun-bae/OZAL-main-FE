@@ -7,7 +7,9 @@ import { clearTourList } from "../RTK/slice";
 
 const TravelInfoCard = () => {
   const dispatch = useDispatch();
-  const selectedDistrict = useSelector((state) => state.district.selectedDistrict);
+  const selectedDistrict = useSelector(
+    (state) => state.district.selectedDistrict
+  );
   const selectedCity = useSelector((state) => state.city.selectedCity);
   const { data: tourListData, loading: tourListLoading } = useSelector(
     (state) => state.tourList
@@ -64,10 +66,10 @@ const TravelInfoCard = () => {
                   className="small-image"
                   alt={i.title}
                 />
-                <div>
-                  <div>{i.title}</div>
-                  <div>{i.addr1}</div>
-                  <div>{overview}</div>
+                <div className="info-article">
+                  <div className="info-title">{i.title}</div>
+                  <div className="info-addr">{i.addr1}</div>
+                  <div className="info-content">{overview}</div>
                 </div>
               </Link>
             );

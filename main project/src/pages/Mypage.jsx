@@ -22,12 +22,16 @@ const Mypage = () => {
 
   const changeProfilePic = () => {
     if (newProfilePic) {
+    if (newProfilePic) {
       const formData = new FormData();
+      formData.append("profilePic", newProfilePic);
       formData.append("profilePic", newProfilePic);
 
       dispatch(updateProfilePic(previewPic));
       console.log("프로필 사진 변경 완료");
+      console.log("프로필 사진 변경 완료");
     } else {
+      console.log("새로운 프로필 사진을 선택해주세요.");
       console.log("새로운 프로필 사진을 선택해주세요.");
     }
   };
