@@ -7,12 +7,14 @@ import { clearTourList } from "../RTK/slice";
 
 const TravelInfoCard = () => {
   const dispatch = useDispatch();
-  const selectedDistrict = useSelector(
-    (state) => state.district.selectedDistrict
-  );
+  const selectedDistrict = useSelector((state) => state.district.selectedDistrict);
   const selectedCity = useSelector((state) => state.city.selectedCity);
-  const { data: tourListData } = useSelector((state) => state.tourList);
-  const { data: detailInfoData } = useSelector((state) => state.detailInfo);
+  const { data: tourListData, loading: tourListLoading } = useSelector(
+    (state) => state.tourList
+  );
+  const { data: detailInfoData, loading: detailInfoLoading } = useSelector(
+    (state) => state.detailInfo
+  );
 
   useEffect(() => {
     if (selectedDistrict && selectedCity) {
@@ -28,29 +30,35 @@ const TravelInfoCard = () => {
   }, [dispatch, selectedCity, selectedDistrict]);
 
   useEffect(() => {
-    if (tourListData.items?.item.length > 0) {
-      tourListData.items.item.forEach((i) => {
-        dispatch(fetchDetailInfo(i.contentid));
+    if (tourListData?.length > 0) {
+      tourListData.forEach((i) => {
+        if (!detailInfoData?.find((info) => info.contentid === i.contentid)) {
+          dispatch(fetchDetailInfo(i.contentid));
+        }
       });
     }
-  }, [dispatch, tourListData]);
+  }, [dispatch, tourListData, detailInfoData]);
 
   const getOverview = (contentid) => {
     const detail = detailInfoData?.find((i) => i.contentid === contentid);
-    return detail ? detail.overview : "overview";
+    return detail?.overview || "상세 정보 없음";
   };
 
   return (
     <div className="card-container">
-      {tourListData
-        ?.filter((i) => i.firstimage2)
-        .map((i) => {
-          return (
-            <Link
-              to={`/detail-travel-info/${i.contentid}`}
-              key={i.contentid}
-              className="card-contents"
-            >
+      {tourListLoading || detailInfoLoading ? (
+        <p>Loading...</p>
+      ) : (
+        tourListData
+          ?.filter((i) => i.firstimage2)
+          .map((i) => {
+            const overview = getOverview(i.contentid);
+            return (
+              <Link
+                to={`/detail-travel-info/${i.contentid}`}
+                key={i.contentid}
+                className="card-contents"
+              >
                 <img
                   src={i.firstimage2}
                   className="small-image"
@@ -59,11 +67,12 @@ const TravelInfoCard = () => {
                 <div>
                   <div>{i.title}</div>
                   <div>{i.addr1}</div>
-                  <div>{getOverview(i.contentid)}</div>
+                  <div>{overview}</div>
                 </div>
-            </Link>
-          );
-        })}
+              </Link>
+            );
+          })
+      )}
     </div>
   );
 };

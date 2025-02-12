@@ -1,22 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import tourAPI from "../utils/tourAPI";
 
 export const fetchCityName = createAsyncThunk(
   "city/fetchCityName",
   async () => {
     try {
-      const response = await axios.get(
-        "http://apis.data.go.kr/B551011/KorService1/areaCode1",
-        {
-          params: {
-            serviceKey: import.meta.env.VITE_API_KEY,
-            MobileOS: "ETC",
-            MobileApp: "AppTest",
-            pageNo: 1,
-            numOfRows: 10,
-            _type: "json",
-          },
-        }
+      const response = await tourAPI.get(
+        "/areaCode1",
       );
       const filteredData =
         response.data?.response?.body?.items?.item.map((i) => ({
@@ -35,16 +25,10 @@ export const fetchDistrictName = createAsyncThunk(
   "district/fetchDistrictName",
   async (code) => {
     try {
-      const response = await axios.get(
-        "http://apis.data.go.kr/B551011/KorService1/areaCode1",
+      const response = await tourAPI.get(
+        "/areaCode1",
         {
           params: {
-            serviceKey: import.meta.env.VITE_API_KEY,
-            MobileOS: "ETC",
-            MobileApp: "AppTest",
-            pageNo: 1,
-            numOfRows: 10,
-            _type: "json",
             areaCode: code,
           },
         }
@@ -66,16 +50,10 @@ export const fetchTourList = createAsyncThunk(
   "tourList/fetchTourList",
   async ({ areaCode, districtCode }) => {
     try {
-      const response = await axios.get(
-        "http://apis.data.go.kr/B551011/KorService1/areaBasedList1",
+      const response = await tourAPI.get(
+        "/areaBasedList1",
         {
           params: {
-            serviceKey: import.meta.env.VITE_API_KEY,
-            MobileOS: "ETC",
-            MobileApp: "AppTest",
-            pageNo: 1,
-            numOfRows: 10,
-            _type: "json",
             areaCode: areaCode,
             sigunguCode: districtCode,
             contentTypeId: 12
@@ -102,16 +80,10 @@ export const fetchDetailInfo = createAsyncThunk(
   "detailInfo/fetchDetailInfo",
   async (contentId) => {
     try {
-      const response = await axios.get(
-        "	http://apis.data.go.kr/B551011/KorService1/detailCommon1",
+      const response = await tourAPI.get(
+        "/detailCommon1",
         {
           params: {
-            serviceKey: import.meta.env.VITE_API_KEY,
-            MobileOS: "ETC",
-            MobileApp: "AppTest",
-            pageNo: 1,
-            numOfRows: 10,
-            _type: "json",
             contentId: contentId,
             overviewYN: "Y",
             defaultYN: 'Y',

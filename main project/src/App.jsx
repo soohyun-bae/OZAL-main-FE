@@ -3,7 +3,7 @@ import Main from "./pages/Mainpage.jsx";
 import TravelDiaryPage from "./pages/Traveldiarypage";
 import Travelhistory from "./components/Travelhistory.jsx";
 import TravelInfopage from "./pages/TravelInfopage.jsx";
-import DetailTravelInfo from "./pages/detailTravelInfo.jsx";
+import DetailTravelInfo from "./pages/DetailTravelInfo.jsx";
 import Mypage from "./pages/Mypage.jsx";
 import Header from "./components/Header.jsx";
 import KakaoCallback from "./components/KakaoCallback.jsx";

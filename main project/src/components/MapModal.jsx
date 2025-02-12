@@ -8,7 +8,7 @@ const MapModal = ({ onClose, onSelect }) => {
     lng: 126.9786567,
   });
   const [searchKeyword, setSearchKeyword] = useState("");
-  const KAKAO_MAP_KEY = import.meta.env.VITE_MAP_KEY;
+  const KAKAO_MAP_KEY = import.meta.env.VITE_KAKAO_MAP_API_KEY;
 
   const handleSearch = () => {
     if (!window.kakao || !window.kakao.maps) return;
