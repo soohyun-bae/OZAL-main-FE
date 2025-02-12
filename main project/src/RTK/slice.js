@@ -102,7 +102,10 @@ export const detailInfoSlice = createSlice({
       })
       .addCase(fetchDetailInfo.fulfilled, (state, action) => {
         state.loading = false;
-        state.data = action.payload;
+        const newData = action.payload.filter(
+          (item) => !state.data.find((d) => d.contentid === item.contentid)
+        );
+        state.data = [...state.data, ...newData];
       })
       .addCase(fetchDetailInfo.rejected, (state) => {
         state.loading = false;

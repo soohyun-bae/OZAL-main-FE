@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { kakaoLogin } from "./authThunk";
+import { kakaoLogin, updateNickname, updateProfilePic } from "./authThunk";
 
 const loadAuthState = () => {
   const sessionData = sessionStorage.getItem('auth');
@@ -52,16 +52,16 @@ const authSlice = createSlice({
       sessionStorage.clear();
       localStorage.clear();
     },
-    updateNickname: (state, action) => {
-      state.user.nickname = action.payload;
-      localStorage.setItem('auth', JSON.stringify({user: state.user}));
-      sessionStorage.setItem('auth', JSON.stringify({user: state.user}));
-    },
-    updateProfilePic: (state, action) => {
-      state.user.profilePic = action.payload;
-      localStorage.setItem('auth', JSON.stringify({user: state.user}));
-      sessionStorage.setItem('auth', JSON.stringify({user: state.user}));
-    },
+    // updateNickname: (state, action) => {
+    //   state.user.nickname = action.payload;
+    //   localStorage.setItem('auth', JSON.stringify({user: state.user}));
+    //   sessionStorage.setItem('auth', JSON.stringify({user: state.user}));
+    // },
+    // updateProfilePic: (state, action) => {
+    //   state.user.profilePic = action.payload;
+    //   localStorage.setItem('auth', JSON.stringify({user: state.user}));
+    //   sessionStorage.setItem('auth', JSON.stringify({user: state.user}));
+    // },
   },
   extraReducers: (builder) => {
     builder
@@ -77,8 +77,25 @@ const authSlice = createSlice({
         state.error = action.payload;
         state.isAuthenticated = false;
       })
+      .addCase(updateProfilePic.fulfilled, (state, action) => {
+        state.user.profilePic = action.payload;
+        localStorage.setItem('auth', JSON.stringify({ user: state.user }));
+        sessionStorage.setItem('auth', JSON.stringify({ user: state.user }));
+      })
+      .addCase(updateProfilePic.rejected, (state, action) => {
+        state.error = action.payload;
+      })
+      // 닉네임 업데이트 성공/실패 처리
+      .addCase(updateNickname.fulfilled, (state, action) => {
+        state.user.nickname = action.payload;
+        localStorage.setItem('auth', JSON.stringify({ user: state.user }));
+        sessionStorage.setItem('auth', JSON.stringify({ user: state.user }));
+      })
+      .addCase(updateNickname.rejected, (state, action) => {
+        state.error = action.payload.message;
+      });
   }
 });
 
-export const {setUser, logout, updateNickname, updateProfilePic} = authSlice.actions;
+export const {setUser, logout} = authSlice.actions;
 export default authSlice.reducer;

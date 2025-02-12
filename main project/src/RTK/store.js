@@ -1,22 +1,32 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import {
   citySlice,
   detailInfoSlice,
   districtSlice,
   tourListSlice,
 } from "./slice";
-import authReducer from './authSlice'
-// import userReducer from "./userSlice";
+import authReducer from "./authSlice";
+import storage from "redux-persist/lib/storage";
+import { persistReducer, persistStore } from 'redux-persist';
 
-export const store = configureStore({
-  reducer: {
-    city: citySlice.reducer,
-    district: districtSlice.reducer,
-    tourList: tourListSlice.reducer,
-    detailInfo: detailInfoSlice.reducer,
-    auth: authReducer,
-    // user: userReducer, // 유저 상태 추가
-  },
+const persistConfig = {
+  key: "root",
+  storage,
+  whitelist: ['auth']
+};
+
+const rootReducer = combineReducers({
+  auth: authReducer,
+  city: citySlice.reducer,
+  district: districtSlice.reducer,
+  tourList: tourListSlice.reducer,
+  detailInfo: detailInfoSlice.reducer,
 });
 
-export default store;
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export const store = configureStore({
+  reducer: persistedReducer,
+});
+
+export const persistor = persistStore(store);
