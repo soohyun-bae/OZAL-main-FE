@@ -5,9 +5,9 @@ import Travelhistory from "./components/Travelhistory.jsx";
 import TravelInfopage from "./pages/TravelInfopage.jsx";
 import DetailTravelInfo from "./pages/DetailTravelInfo.jsx";
 import Mypage from "./pages/Mypage.jsx";
-import Header from "./components/Header.jsx";
 import KakaoCallback from "./components/KakaoCallback.jsx";
 import "./App.css";
+import Header from "./layout/Header.jsx";
 
 function App() {
   return (

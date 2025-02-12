@@ -69,6 +69,7 @@ export const tourListSlice = createSlice({
   reducers: {
     clearTourList(state) {
       state.data = [];
+      // return {...state, data:[]};
     }
   },
   extraReducers: (builder) => {
