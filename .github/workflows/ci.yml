@@ -13,6 +13,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Change to project directory
+        run: cd FrontEnd/main\ project
+
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
@@ -20,9 +23,11 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
+        working-directory: ./FrontEnd/main project
         run: npm install
 
       - name: Create env file
+        working-directory: ./FrontEnd/main project
         run: |
           echo "VITE_API_KEY=${{ secrets.VITE_API_KEY }}" >> .env
           echo "VITE_KAKAO_MAP_API_KEY=${{ secrets.VITE_KAKAO_MAP_API_KEY }}" >> .env
@@ -30,4 +35,5 @@ jobs:
           echo "VITE_REDIRECT_URI=${{ secrets.VITE_REDIRECT_URI }}" >> .env
 
       - name: Build
+        working-directory: ./FrontEnd/main project
         run: npm run build
