@@ -9,7 +9,7 @@ import { setUser } from "../RTK/authSlice";
 const Modal = ({ modalOpen, setModalOpen }) => {
   const [rememberUser, setRememberUser] = useState(false);
   const modalBackground = useRef();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const KAKAO_REST_API = import.meta.env.VITE_KAKAO_REST_API_KEY;
   const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
 
@@ -17,14 +17,14 @@ const Modal = ({ modalOpen, setModalOpen }) => {
     // const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_REST_API}&redirect_uri=${REDIRECT_URI}&response_type=code`;
     // window.location.href = kakaoAuthURL;
     const mockUser = {
-      name: '홍길동',
-      nickname: '길동이',
-      profilePic: 'src/assets/1.png',
+      name: "홍길동",
+      nickname: "길동이",
+      profilePic: "src/assets/1.png",
     };
 
-    dispatch(setUser({ user: mockUser, token: 'mockToken', rememberUser }));
-    setModalOpen(false)
-  }
+    dispatch(setUser({ user: mockUser, token: "mockToken", rememberUser }));
+    setModalOpen(false);
+  };
 
   return (
     <div className="modal-container">
@@ -42,10 +42,7 @@ const Modal = ({ modalOpen, setModalOpen }) => {
             {}
             <p>Login</p>
             <hr />
-            <div>
-              <input type="checkbox" checked={rememberUser} onChange={(e) => setRememberUser(e.target.checked)} />
-              로그인 상태 유지
-            </div>
+
             <button onClick={handleKakaoLogin}>kakao login test</button>
             <button onClick={handleKakaoLogin}>
               <img src={kakaoLogin} alt="kakaoLogin" className="kakaoLogin" />
@@ -53,6 +50,14 @@ const Modal = ({ modalOpen, setModalOpen }) => {
             <button>
               <img src={naverLogin} alt="naverLogin" className="naverLogin" />
             </button>
+            <div className="login-on">
+              <input
+                type="checkbox"
+                checked={rememberUser}
+                onChange={(e) => setRememberUser(e.target.checked)}
+              />
+              로그인 상태 유지
+            </div>
 
             <button onClick={() => setModalOpen(false)} className="close-btn">
               닫기

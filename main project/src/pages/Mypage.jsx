@@ -22,80 +22,90 @@ const Mypage = () => {
 
   const changeProfilePic = () => {
     if (newProfilePic) {
-      const formData = new FormData();
-      formData.append("profilePic", newProfilePic);
+      if (newProfilePic) {
+        const formData = new FormData();
+        formData.append("profilePic", newProfilePic);
+        formData.append("profilePic", newProfilePic);
 
-      dispatch(updateProfilePic(previewPic));
-      console.log("프로필 사진 변경 완료");
-    } else {
-      console.log("새로운 프로필 사진을 선택해주세요.");
+        dispatch(updateProfilePic(previewPic));
+        console.log("프로필 사진 변경 완료");
+        console.log("프로필 사진 변경 완료");
+      } else {
+        console.log("새로운 프로필 사진을 선택해주세요.");
+        console.log("새로운 프로필 사진을 선택해주세요.");
+      }
     }
-  };
 
-  // 닉네임 저장 핸들러
-  const handleNicknameChange = () => {
-    if (newNickname !== user.nickname) {
-      dispatch(updateNickname(newNickname))
-        .unwrap()
-        .then(() => {
-          console.log("nickname has changed");
-          setErrorMessage("");
-        })
-        .catch((error) => {console.error("nickname change failed", error);
-          setErrorMessage(error.message);
-        });
-    } else {
-      setErrorMessage("변경된 닉네임이 없습니다.");
-    }
-  };
+    // 닉네임 저장 핸들러
+    const handleNicknameChange = () => {
+      if (newNickname !== user.nickname) {
+        dispatch(updateNickname(newNickname))
+          .unwrap()
+          .then(() => {
+            console.log("nickname has changed");
+            setErrorMessage("");
+          })
+          .catch((error) => {
+            console.error("nickname change failed", error);
+            setErrorMessage(error.message);
+          });
+      } else {
+        setErrorMessage("변경된 닉네임이 없습니다.");
+      }
+    };
 
-  // 프로필 사진 변경 핸들러
-  const handleProfilePicChange = (event) => {
-    const file = event.target.files[0];
-    console.log(file);
-    if (file) {
-      // const reader = new FileReader();
-      // reader.onloadend = () => {
-      setPreviewPic(URL.createObjectURL(file));
-      setNewProfilePic(file); //쉬운 방법
-      // };
-      // reader.readAsDataURL(file)
-    }
-  };
+    // 프로필 사진 변경 핸들러
+    const handleProfilePicChange = (event) => {
+      const file = event.target.files[0];
+      console.log(file);
+      if (file) {
+        // const reader = new FileReader();
+        // reader.onloadend = () => {
+        setPreviewPic(URL.createObjectURL(file));
+        setNewProfilePic(file); //쉬운 방법
+        // };
+        // reader.readAsDataURL(file)
+      }
+    };
 
-  const changeToDefaultProfilePic = () => {
-    setPreviewPic("src/assets/Frame_3_2.png");
-    setNewProfilePic(null);
-    dispatch(updateProfilePic("src/assets/Frame_3_2.png"));
-    alert("프로필 사진이 변경되었습니다!");
-  };
+    const changeToDefaultProfilePic = () => {
+      setPreviewPic("src/assets/Frame_3_2.png");
+      setNewProfilePic(null);
+      dispatch(updateProfilePic("src/assets/Frame_3_2.png"));
+      alert("프로필 사진이 변경되었습니다!");
+    };
 
-  return (
-    <div className="mypage-container">
-      <h2>마이페이지</h2>
-      <div className="profile-section">
-        <img src={previewPic} alt="프로필 사진" className="profile-pic" />
-        <input type="file" accept="image/*" onChange={handleProfilePicChange} />
-        <button onClick={changeProfilePic}>프로필 사진 변경</button>
-        <button onClick={changeToDefaultProfilePic}>기본 프로필 사진</button>
-      </div>
-      <div className="info-section">
-        <p>
-          <strong>이름:</strong> {user.name}
-        </p>
-        <p>
-          <strong>닉네임:</strong>
+    return (
+      <div className="mypage-container">
+        <h2>마이페이지</h2>
+        <div className="profile-section">
+          <img src={previewPic} alt="프로필 사진" className="profile-pic" />
           <input
-            type="text"
-            value={newNickname}
-            onChange={(e) => setNewNickname(e.target.value)}
+            type="file"
+            accept="image/*"
+            onChange={handleProfilePicChange}
           />
-          <button onClick={handleNicknameChange}>저장</button>
-          {errorMessage && <p>{errorMessage}</p>}
-        </p>
+          <button onClick={changeProfilePic}>프로필 사진 변경</button>
+          <button onClick={changeToDefaultProfilePic}>기본 프로필 사진</button>
+        </div>
+        <div className="info-section">
+          <p>
+            <strong>이름:</strong> {user.name}
+          </p>
+          <p>
+            <strong>닉네임:</strong>
+            <input
+              type="text"
+              value={newNickname}
+              onChange={(e) => setNewNickname(e.target.value)}
+            />
+            <button onClick={handleNicknameChange}>저장</button>
+            {errorMessage && <p>{errorMessage}</p>}
+          </p>
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 };
 
 export default Mypage;
