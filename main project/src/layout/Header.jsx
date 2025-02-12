@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import "../style/dropdown.scss";
-import Modal from "./Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../RTK/authSlice";
+import Modal from "../components/Modal";
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);

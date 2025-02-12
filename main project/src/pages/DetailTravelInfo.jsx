@@ -18,21 +18,23 @@ const DetailTravelInfo = () => {
     }
   }, [dispatch, contentid]);
 
+  const detail = detailTravelInfoData?.find(
+    (item) => item.contentid === contentid
+  );
+
   return (
     <div className="info-detail">
-      {detailTravelInfoData?.map((i) => (
-        <div key={i.contentid}>
-          <img src={i.firstimage} className="big-image" />
+        <div key={detail.contentid}>
+          <img src={detail.firstimage} className="big-image" />
           <div className="detail-text">
-            <h1>{i.title}</h1>
-            <div>{i.hmpg}</div>
-            <div className="address">{i.addr1}</div>
+            <h1>{detail.title}</h1>
+            <div>{detail.hmpg}</div>
+            <div className="address">{detail.addr1}</div>
             <hr></hr>
             <h2>overview</h2>
-            <div className="info-content">{i.overview}</div>
+            <div className="info-content">{detail.overview}</div>
           </div>
         </div>
-      ))}
     </div>
   );
 };

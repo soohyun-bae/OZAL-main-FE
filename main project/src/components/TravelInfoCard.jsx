@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDetailInfo, fetchTourList } from "../RTK/thunk";
 import "../style/travelInfopage.scss";
@@ -7,7 +7,9 @@ import { clearTourList } from "../RTK/slice";
 
 const TravelInfoCard = () => {
   const dispatch = useDispatch();
-  const selectedDistrict = useSelector((state) => state.district.selectedDistrict);
+  const selectedDistrict = useSelector(
+    (state) => state.district.selectedDistrict
+  );
   const selectedCity = useSelector((state) => state.city.selectedCity);
   const { data: tourListData, loading: tourListLoading } = useSelector(
     (state) => state.tourList
@@ -27,23 +29,26 @@ const TravelInfoCard = () => {
     } else {
       dispatch(clearTourList());
     }
-  }, [dispatch, selectedCity, selectedDistrict]);
+  }, [selectedCity, selectedDistrict]);
 
-  useEffect(() => {
-    if (tourListData?.length > 0) {
-      tourListData.forEach((i) => {
-        if (!detailInfoData?.find((info) => info.contentid === i.contentid)) {
-          dispatch(fetchDetailInfo(i.contentid));
-        }
-      });
+  // useEffect(() => {
+  //   if (tourListData?.length > 0) {
+  //     tourListData.forEach((i) => {
+  //       if (!detailInfoData?.find((info) => info.contentid === i.contentid)) {
+  //         dispatch(fetchDetailInfo(i.contentid));
+  //       }
+  //     });
+  //   }
+  // }, [dispatch, tourListData, detailInfoData]);
+  // 반복문 안에 api호출은 안하기
+  // 비동기 처리!!!
+
+  const getOverview = async (contentid) => {
+    if (overviews[contentid]) {
+      return overviews[contentid];
     }
-  }, [dispatch, tourListData, detailInfoData]);
-
-  const getOverview = (contentid) => {
-    const detail = detailInfoData?.find((i) => i.contentid === contentid);
-    return detail?.overview || "상세 정보 없음";
   };
-
+  
   return (
     <div className="card-container">
       {tourListLoading || detailInfoLoading ? (
@@ -52,10 +57,9 @@ const TravelInfoCard = () => {
         tourListData
           ?.filter((i) => i.firstimage2)
           .map((i) => {
-            const overview = getOverview(i.contentid);
             return (
               <Link
-                to={`/detail-travel-info/${i.contentid}`}
+                to={`/travel-info/detail-travel-info/${i.contentid}`}
                 key={i.contentid}
                 className="card-contents"
               >
@@ -67,7 +71,7 @@ const TravelInfoCard = () => {
                 <div>
                   <div>{i.title}</div>
                   <div>{i.addr1}</div>
-                  <div>{overview}</div>
+                  <div>{overview || "loading"}</div>
                 </div>
               </Link>
             );
