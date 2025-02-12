@@ -9,23 +9,33 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: 'main project'
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '18'
-          cache: 'npm'
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            **/node_modules
+            'main project/src/assets'
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       - name: Install dependencies
+        working-directory: 'main project'
         run: npm install
 
       - name: Create env file
+        working-directory: 'main project'
         run: |
           echo "VITE_API_KEY=${{ secrets.VITE_API_KEY }}" >> .env
           echo "VITE_KAKAO_MAP_API_KEY=${{ secrets.VITE_KAKAO_MAP_API_KEY }}" >> .env
@@ -33,4 +43,13 @@ jobs:
           echo "VITE_REDIRECT_URI=${{ secrets.VITE_REDIRECT_URI }}" >> .env
 
       - name: Build
+        working-directory: 'main project'
         run: npm run build
+
+      - name: Test build output
+        working-directory: 'main project'
+        run: |
+          if [ ! -d "dist" ]; then
+            echo "Build failed - dist directory not found"
+            exit 1
+          fi
