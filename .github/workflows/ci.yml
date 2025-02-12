@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: './main project' 
+        working-directory: 'FrontEnd/main project'
 
     steps:
       - uses: actions/checkout@v2
