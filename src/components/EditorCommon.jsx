@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import ReactQuill from "react-quill";
 import MapModal from "./MapModal";
 import "react-quill/dist/quill.snow.css";
-import ImageUpload from "../components/ImageUpload";
+import ImageUpload from "./ImageUpload";
 import { useDispatch, useSelector } from "react-redux";
 import { updatePostData } from "../RTK/postSlice";
 

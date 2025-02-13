@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Main from "./pages/Mainpage.jsx";
-import TravelDiaryPage from "./pages/Traveldiarypage";
+import TravelDiaryPage from "./pages/Traveldiarypage.jsx";
 import Travelhistory from "./components/Travelhistory.jsx";
 import TravelInfopage from "./pages/TravelInfopage.jsx";
 import DetailTravelInfo from "./pages/DetailTravelInfo.jsx";
