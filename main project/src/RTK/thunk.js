@@ -92,15 +92,21 @@ export const fetchDetailInfo = createAsyncThunk(
           },
         }
       );
+
+      let items = response.data?.response?.body?.items?.item;
+      if (items && !Array.isArray(items)) {
+        items = [items];  // 배열로 감싸기
+      }
+
       // contentid, hmpg, title, firstimage, firstimage2, addr1, overview
-      const body = response.data?.response?.body?.items?.item.map((i) => ({
+      const body = items? items.map((i) => ({
         contentid: i.contentid,
         hmpg: i.hmpg,
         title: i.title,
         firstimage: i.firstimage,
         addr1: i.addr1,
         overview: i.overview,
-      })) || [];
+      })) : [];
       return body;
     } catch (error) {
       console.error("detailInfo API호출 중 오류 발생:", error);

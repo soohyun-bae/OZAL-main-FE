@@ -18,7 +18,7 @@ const KakaoCallback = () => {
       dispatch(kakaoLogin(code))
         .unwrap()
         .then(() => {
-          navigate('/Mypage')
+          navigate('/mypage')
         })
         .catch((error) => {
           console.error('login fail:', error);

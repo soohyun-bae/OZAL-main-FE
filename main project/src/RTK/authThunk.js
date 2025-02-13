@@ -49,8 +49,8 @@ export const updateProfilePic = createAsyncThunk(
         profileImageUrl = uploadResponse.data.url;
       }
 
-      await backendAPI.post("/ozal/mypage/updata", {
-        user_id: userId,
+      await backendAPI.post("/ozal/mypage/update", {
+        user_id: user.id,
         profile_image: profileImageUrl,
       });
 

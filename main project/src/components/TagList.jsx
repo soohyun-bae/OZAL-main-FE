@@ -13,20 +13,7 @@ const TagList = () => {
 
   useEffect(() => {
     dispatch(fetchCityName());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if(selectedCity) {
-      dispatch(fetchDistrictName(selectedCity));
-    } else {
-      dispatch(setSelectedDistrict(null));
-    }
-  }, [dispatch, selectedCity])
-
-  useEffect(() => {
-    console.log("Selected City:", selectedCity);
-    console.log("Selected District:", selectedDistrict);
-  }, [selectedCity, selectedDistrict]);
+  }, []);
 
   const handleCityClick = (areaCode) => {
     if(selectedCity === areaCode) {
@@ -34,18 +21,30 @@ const TagList = () => {
       dispatch(setSelectedDistrict(null));
     } else {
       dispatch(setSelectedCity(areaCode));
-      // dispatch(fetchDistrictName(areaCode));
+      dispatch(setSelectedDistrict(null));
     }
   };
 
+  useEffect(() => {
+    if(selectedCity) {
+      dispatch(fetchDistrictName(selectedCity));
+    } else {
+      dispatch(setSelectedDistrict(null));
+    }
+  }, [selectedCity])
+  
   const handleDistrictClick = (code) => {
     if(selectedDistrict === code) {
       dispatch(setSelectedDistrict(null));
-      console.log(selectedDistrict)
     } else {
       dispatch(setSelectedDistrict(code));
     }
   };
+
+  useEffect(() => {
+    console.log("Selected City:", selectedCity);
+    console.log("Selected District:", selectedDistrict);
+  }, [selectedCity, selectedDistrict]);
 
   return (
     <>

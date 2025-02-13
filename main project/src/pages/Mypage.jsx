@@ -3,36 +3,37 @@ import { useSelector, useDispatch } from "react-redux";
 import "../style/Mypage.scss";
 import "../App.css";
 import { updateNickname, updateProfilePic } from "../RTK/authThunk";
+import { setUser } from "../RTK/authSlice";
 
 const Mypage = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.user);
-  const { error } = useSelector((state) => state.auth);
+  const { user, token } = useSelector((state) => state.auth);
 
-  const [newNickname, setNewNickname] = useState(user.nickname || "");
+  const [newNickname, setNewNickname] = useState(user?.nickname || "");
   const [newProfilePic, setNewProfilePic] = useState(null);
   const [previewPic, setPreviewPic] = useState(
-    user.profilePic || "src/assets/Frame_3_2.png"
+    user?.profile_image || "src/assets/Frame_3_2.png"
   );
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    setNewNickname(user.nickname);
-  }, [user.nickname]);
+    setNewNickname(user?.nickname || "");
+  }, [user]);
 
-  const changeProfilePic = () => {
+  const changeProfilePic = async () => {
     if (newProfilePic) {
-      const formData = new FormData();
-      formData.append("profilePic", newProfilePic);
-
-      dispatch(updateProfilePic(previewPic));
-      console.log("프로필 사진 변경 완료");
-    } else {
-      console.log("새로운 프로필 사진을 선택해주세요.");
+      try {
+        const updatedPicUrl = await dispatch(
+          updateProfilePic(newProfilePic)
+        ).unwrap();
+        setPreviewPic(updatedPicUrl);
+        console.log("success change profile pic");
+      } catch (error) {
+        console.error("profile pic change failed");
+      }
     }
   };
 
-  // 닉네임 저장 핸들러
   const handleNicknameChange = () => {
     if (newNickname !== user.nickname) {
       dispatch(updateNickname(newNickname))
@@ -50,25 +51,24 @@ const Mypage = () => {
     }
   };
 
-  // 프로필 사진 변경 핸들러
   const handleProfilePicChange = (event) => {
     const file = event.target.files[0];
     console.log(file);
     if (file) {
-      // const reader = new FileReader();
-      // reader.onloadend = () => {
       setPreviewPic(URL.createObjectURL(file));
-      setNewProfilePic(file); //쉬운 방법
-      // };
-      // reader.readAsDataURL(file)
+      setNewProfilePic(file);
     }
   };
 
-  const changeToDefaultProfilePic = () => {
-    setPreviewPic("src/assets/Frame_3_2.png");
+  const changeToDefaultProfilePic = async () => {
+    const defaultProfilePic = "src/assets/Frame_3_2.png";
+
+    setPreviewPic(defaultProfilePic);
     setNewProfilePic(null);
-    dispatch(updateProfilePic("src/assets/Frame_3_2.png"));
-    alert("프로필 사진이 변경되었습니다!");
+
+    const updatedUser = { ...user, profile_image: defaultProfilePic };
+
+    dispatch(setUser({ user: updatedUser, token: token }));
   };
 
   return (
@@ -82,7 +82,7 @@ const Mypage = () => {
       </div>
       <div className="info-section">
         <p>
-          <strong>이름:</strong> {user.name}
+          <strong>이름:</strong> {user?.nickname}
         </p>
         <p>
           <strong>닉네임:</strong>

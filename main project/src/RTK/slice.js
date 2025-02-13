@@ -5,7 +5,7 @@ export const citySlice = createSlice({
   name: "city",
   initialState: {
     data: [],
-    loading: true,
+    loading: false,
     selectedCity: null,
   },
   reducers: {
@@ -34,7 +34,7 @@ export const districtSlice = createSlice({
   name: "district",
   initialState: {
     data: [],
-    loading: true,
+    loading: false,
     selectedDistrict: null,
   },
   reducers: {
@@ -104,7 +104,7 @@ export const detailInfoSlice = createSlice({
       .addCase(fetchDetailInfo.fulfilled, (state, action) => {
         state.loading = false;
         const newData = action.payload.filter(
-          (item) => !state.data.find((d) => d.contentid === item.contentid)
+          (item) => !state.data.some((d) => d.contentid === item.contentid)
         );
         state.data = [...state.data, ...newData];
       })

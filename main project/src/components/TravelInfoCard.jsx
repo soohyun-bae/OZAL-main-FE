@@ -18,8 +18,10 @@ const TravelInfoCard = () => {
     (state) => state.detailInfo
   );
 
+  const [loadedContentIds, setLoadedContentIds] = useState(new Set());
+
   useEffect(() => {
-    if (selectedDistrict && selectedCity) {
+    if (!!selectedDistrict && !!selectedCity) {
       dispatch(
         fetchTourList({
           areaCode: selectedCity,
@@ -31,24 +33,22 @@ const TravelInfoCard = () => {
     }
   }, [selectedCity, selectedDistrict]);
 
-  // useEffect(() => {
-  //   if (tourListData?.length > 0) {
-  //     tourListData.forEach((i) => {
-  //       if (!detailInfoData?.find((info) => info.contentid === i.contentid)) {
-  //         dispatch(fetchDetailInfo(i.contentid));
-  //       }
-  //     });
-  //   }
-  // }, [dispatch, tourListData, detailInfoData]);
-  // 반복문 안에 api호출은 안하기
-  // 비동기 처리!!!
 
-  const getOverview = async (contentid) => {
-    if (overviews[contentid]) {
-      return overviews[contentid];
+  useEffect(() => {
+    if(tourListData?.length > 0) {
+      const newIds = new Set(loadedContentIds);
+      const fetchList = tourListData.filter(
+        (item) => !newIds.has(item.contentid) && !detailInfoData?.find((info) => info.contentid === item.contentid)
+      );
+      fetchList.forEach((item) => {
+        console.log(`contentid: ${item.contentid}`);
+        dispatch(fetchDetailInfo(item.contentid));
+        newIds.add(item.contentid);
+      });
+      setLoadedContentIds(newIds);
     }
-  };
-  
+  }, [tourListData])
+
   return (
     <div className="card-container">
       {tourListLoading || detailInfoLoading ? (
@@ -59,7 +59,7 @@ const TravelInfoCard = () => {
           .map((i) => {
             return (
               <Link
-                to={`/travel-info/detail-travel-info/${i.contentid}`}
+                to={`detail/${i.contentid}`}
                 key={i.contentid}
                 className="card-contents"
               >
@@ -71,7 +71,13 @@ const TravelInfoCard = () => {
                 <div className="info-article">
                   <div className="info-title">{i.title}</div>
                   <div className="info-addr">{i.addr1}</div>
-                  <div className="info-content">{overview}</div>
+                  <div className="info-content">
+                    {detailInfoLoading? (
+                      'Loading...'
+                    ) : (
+                      detailInfoData?.find((info) => String(info.contentid) === String(i.contentid))?.overview || 'overview'
+                    )}
+                    </div>
                 </div>
               </Link>
             );

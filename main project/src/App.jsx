@@ -8,19 +8,26 @@ import Mypage from "./pages/Mypage.jsx";
 import KakaoCallback from "./components/KakaoCallback.jsx";
 import "./App.css";
 import Header from "./layout/Header.jsx";
+import TravelInfoLayout from "./layout/TravelInfoLayout.jsx";
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route element={<Header />}>
-          <Route path="/" element={<Main />} />
-          <Route path="/auth/kakao/callback" element={<KakaoCallback />} />
-          <Route path="/travel-diary" element={<TravelDiaryPage />} />
-          <Route path="/mypage" element={<Mypage />} />
-          <Route path="/write-post" element={<Travelhistory />} />
-          <Route path="/travel-info" element={<TravelInfopage />} />
-          <Route path="/detail-travel-info/:contentid" element={<DetailTravelInfo />} />
+            <Route path="/" element={<Main />} />
+            <Route path="/auth/kakao/callback" element={<KakaoCallback />} />
+            <Route path="/travel-diary" element={<TravelDiaryPage />} />
+            <Route path="/mypage" element={<Mypage />} />
+            <Route path="/write-post" element={<Travelhistory />} />
+          <Route path="/travel-info" element={<TravelInfoLayout />}>
+            <Route index element={<TravelInfopage />} />
+            <Route path="detail/:contentid" element={<DetailTravelInfo />} />
+          </Route>
+          {/* <Route
+            path="/detail-travel-info/:contentid"
+            element={<DetailTravelInfo />}
+          /> */}
         </Route>
       </Routes>
     </Router>
