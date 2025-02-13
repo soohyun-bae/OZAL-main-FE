@@ -5,12 +5,11 @@ import "react-quill/dist/quill.snow.css";
 import ImageUpload from "../components/ImageUpload";
 import { useDispatch, useSelector } from "react-redux";
 import { updatePostData } from "../RTK/postSlice";
-import { createPost } from "../RTK/postThunk";
 
 const EditorCommon = () => {
   const quillRef = useRef();
   const dispatch = useDispatch();
-  const { postData, loading, error } = useSelector((state) => state.post);
+  const { postData } = useSelector((state) => state.post);
   const [showMapModal, setShowMapModal] = useState(false);
 
   const modules = {
@@ -22,7 +21,6 @@ const EditorCommon = () => {
         [{ list: "ordered" }, { list: "bullet" }],
         [{ color: [] }, { background: [] }],
         [{ align: [] }],
-        ["image"],
         ["clean"],
       ],
     },
@@ -40,17 +38,16 @@ const EditorCommon = () => {
     "color",
     "background",
     "align",
-    "image",
   ];
 
-  const handleLocationSelect = (location) => {
-    dispatch(updatePostData({ mapData: location }));
-    setShowMapModal(false);
+  const handleImagesChange = (images) => {
+    dispatch(updatePostData({ image: images }));
+    console.log("업로드된 이미지들:", images);
+  };
 
-    // 이미지 지도 생성
+  const handleLocationSelect = (location) => {
     if (location) {
       const container = document.getElementById("static-map");
-
       container.style.width = "1198px";
       container.style.height = "500px";
 
@@ -64,19 +61,19 @@ const EditorCommon = () => {
         mapTypeId: window.kakao.maps.MapTypeId.ROADMAP,
       };
 
-      new window.kakao.maps.StaticMap(container, options);
-    }
-  };
+      const staticMap = new window.kakao.maps.StaticMap(container, options);
 
-  // 발행 버튼 클릭 시
-  const handlePublish = async () => {
-    try {
-      await dispatch(createPost(postData)).unwrap();
-      // 성공 시 목록 페이지로 이동
-      // navigate('/posts'); // React Router 사용 시
-    } catch (error) {
-      console.error("게시글 발행 실패:", error);
+      // 정적 지도 URL을 mapData에 포함
+      dispatch(
+        updatePostData({
+          mapData: {
+            ...location,
+            staticMapImage: container.querySelector("img").src,
+          },
+        })
+      );
     }
+    setShowMapModal(false);
   };
 
   return (
@@ -94,7 +91,7 @@ const EditorCommon = () => {
         />
       </div>
       <div className="image-upload-section">
-        <ImageUpload />
+        <ImageUpload onImagesChange={handleImagesChange} />
       </div>
 
       <div className="location-section">
@@ -123,8 +120,6 @@ const EditorCommon = () => {
           onSelect={handleLocationSelect}
         />
       )}
-
-      {error && <p className="error-message">{error}</p>}
     </div>
   );
 };

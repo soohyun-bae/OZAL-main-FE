@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createPost } from "./postThunk";
+import { createPost, fetchPost } from "./postThunk";
 
 export const postSlice = createSlice({
   name: "post",
@@ -45,6 +45,18 @@ export const postSlice = createSlice({
       .addCase(createPost.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(fetchPost.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchPost.fulfilled, (state, action) => {
+        state.loading = false;
+        state.postData = action.payload;
+      })
+      .addCase(fetchPost.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
       });
   },
 });

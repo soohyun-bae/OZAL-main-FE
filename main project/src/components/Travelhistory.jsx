@@ -2,10 +2,27 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../style/Travelhistory.scss";
 import EditorCommon from "./EditorCommon";
+import { useDispatch, useSelector } from "react-redux";
+import { createPost } from "../RTK/postThunk";
 
 const Travelhistory = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { postData } = useSelector((state) => state.post);
   const [title, setTitle] = useState("");
+
+  const handlePublish = async () => {
+    try {
+      const result = await dispatch(
+        createPost({ ...postData, title })
+      ).unwrap();
+      console.log("게시글 발행 성공");
+      navigate(`/diary/${result.id}`);
+    } catch (error) {
+      console.error("게시글 발행 실패:", error);
+      alert("게시글 발행에 실패했습니다. 서버 연결을 확인해주세요.");
+    }
+  };
 
   return (
     <div className="editor-container">
@@ -15,7 +32,9 @@ const Travelhistory = () => {
           <button className="cancel-button" onClick={() => navigate(-1)}>
             취소
           </button>
-          <button className="publish-button">발행</button>
+          <button className="publish-button" onClick={handlePublish}>
+            발행
+          </button>
         </div>
       </div>
 
