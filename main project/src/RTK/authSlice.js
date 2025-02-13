@@ -52,23 +52,14 @@ const authSlice = createSlice({
       sessionStorage.clear();
       localStorage.clear();
     },
-    // updateNickname: (state, action) => {
-    //   state.user.nickname = action.payload;
-    //   localStorage.setItem('auth', JSON.stringify({user: state.user}));
-    //   sessionStorage.setItem('auth', JSON.stringify({user: state.user}));
-    // },
-    // updateProfilePic: (state, action) => {
-    //   state.user.profilePic = action.payload;
-    //   localStorage.setItem('auth', JSON.stringify({user: state.user}));
-    //   sessionStorage.setItem('auth', JSON.stringify({user: state.user}));
-    // },
   },
   extraReducers: (builder) => {
     builder
       .addCase(kakaoLogin.fulfilled, (state, action) => {
-        if(action.payload.user && action.payload.token) {
+        console.log('유저 정보:',action.payload)
+        if(action.payload.user && action.payload.tokens) {
           state.user = action.payload.user;
-          state.token = action.payload.token;
+          state.token = action.payload.tokens;
           state.isAuthenticated = true;
         }
         state.error = null;
@@ -78,14 +69,13 @@ const authSlice = createSlice({
         state.isAuthenticated = false;
       })
       .addCase(updateProfilePic.fulfilled, (state, action) => {
-        state.user.profilePic = action.payload;
+        state.user.profile_image = action.payload;
         localStorage.setItem('auth', JSON.stringify({ user: state.user }));
         sessionStorage.setItem('auth', JSON.stringify({ user: state.user }));
       })
       .addCase(updateProfilePic.rejected, (state, action) => {
         state.error = action.payload;
       })
-      // 닉네임 업데이트 성공/실패 처리
       .addCase(updateNickname.fulfilled, (state, action) => {
         state.user.nickname = action.payload;
         localStorage.setItem('auth', JSON.stringify({ user: state.user }));

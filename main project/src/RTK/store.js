@@ -48,7 +48,6 @@ export const store = configureStore({
     const defaultMiddleware = getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: ["persist/PERSIST"], 
-        ignoredPaths: ["some.nested.path"], 
       },
     });
     return defaultMiddleware;
