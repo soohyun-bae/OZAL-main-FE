@@ -31,11 +31,9 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Install dependencies
-        working-directory: "Frontend"
         run: npm install
 
       - name: Create env file
-        working-directory: "Frontend"
         run: |
           echo "VITE_API_KEY=${{ secrets.VITE_API_KEY }}" >> .env
           echo "VITE_KAKAO_MAP_API_KEY=${{ secrets.VITE_KAKAO_MAP_API_KEY }}" >> .env
@@ -43,11 +41,9 @@ jobs:
           echo "VITE_REDIRECT_URI=${{ secrets.VITE_REDIRECT_URI }}" >> .env
 
       - name: Build
-        working-directory: "Frontend"
         run: npm run build
 
       - name: Test build output
-        working-directory: "Frontend"
         run: |
           if [ ! -d "dist" ]; then
             echo "Build failed - dist directory not found"
