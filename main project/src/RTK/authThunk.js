@@ -28,7 +28,6 @@ export const updateProfilePic = createAsyncThunk(
   async (file, thunkAPI) => {
     try {
       const state = thunkAPI.getState();
-      const userId = state.auth.user.id;
 
       let profileImageUrl = file;
 
@@ -50,7 +49,7 @@ export const updateProfilePic = createAsyncThunk(
       }
 
       await backendAPI.post("/ozal/mypage/update", {
-        user_id: user.id,
+        user_id: state.auth.user.id,
         profile_image: profileImageUrl,
       });
 

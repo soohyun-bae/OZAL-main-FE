@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import "../style/dropdown.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../RTK/authSlice";
 import Modal from "../components/Modal";
+import { clearTourList, setSelectedCity, setSelectedDistrict } from "../RTK/slice";
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -12,6 +13,7 @@ const Header = () => {
   const isAuthenticated = useSelector((state) => state.auth?.isAuthenticated);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     console.log("user:", user);
@@ -22,6 +24,20 @@ const Header = () => {
     dispatch(logout());
     navigate("/");
   };
+
+
+  useEffect(() => {
+    console.log('useEffect start')
+    console.log(location.pathname)
+    if(!location.pathname.startsWith('/travel-info')) {
+        console.log('if start')
+        dispatch(setSelectedDistrict(null));
+        dispatch(setSelectedCity(null));
+        dispatch(clearTourList());
+      } else {
+        return;
+      }
+  }, [location.pathname, dispatch]);
 
   return (
     <div>

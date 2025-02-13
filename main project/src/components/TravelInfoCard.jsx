@@ -59,7 +59,7 @@ const TravelInfoCard = () => {
           .map((i) => {
             return (
               <Link
-                to={`detail/${i.contentid}`}
+                to={`/travel-info/detail/${i.contentid}`}
                 key={i.contentid}
                 className="card-contents"
               >
