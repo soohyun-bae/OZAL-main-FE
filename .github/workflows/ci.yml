@@ -2,9 +2,9 @@ name: Frontend CI
 
 on:
   push:
-    branches: [ develop ]
+    branches: [develop]
   pull_request:
-    branches: [ develop ]
+    branches: [develop]
 
 jobs:
   build:
@@ -13,29 +13,27 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0  
+          fetch-depth: 0
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: "18"
 
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
           path: |
             **/node_modules
-            'main project/src/assets'
+            'Frontend/src/assets'
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
 
       - name: Install dependencies
-        working-directory: 'main project'
         run: npm install
 
       - name: Create env file
-        working-directory: 'main project'
         run: |
           echo "VITE_API_KEY=${{ secrets.VITE_API_KEY }}" >> .env
           echo "VITE_KAKAO_MAP_API_KEY=${{ secrets.VITE_KAKAO_MAP_API_KEY }}" >> .env
@@ -43,11 +41,9 @@ jobs:
           echo "VITE_REDIRECT_URI=${{ secrets.VITE_REDIRECT_URI }}" >> .env
 
       - name: Build
-        working-directory: 'main project'
         run: npm run build
 
       - name: Test build output
-        working-directory: 'main project'
         run: |
           if [ ! -d "dist" ]; then
             echo "Build failed - dist directory not found"
