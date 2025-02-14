@@ -10,7 +10,7 @@ import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from 'redux-persist';
 import { postSlice } from "./postSlice";
 import {createTransform} from "redux-persist";
-
+import modalReducer from "./modalSlice";
 const authTransform = createTransform(
   (inboundState) => {
     const { register2, ...restState } = inboundState;
@@ -38,6 +38,7 @@ const rootReducer = combineReducers({
   tourList: tourListSlice.reducer,
   detailInfo: detailInfoSlice.reducer,
   post: postSlice.reducer,
+  modal: modalReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
