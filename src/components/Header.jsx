@@ -1,43 +1,47 @@
 import { useEffect, useState } from "react";
-import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../style/dropdown.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../RTK/authSlice";
-import Modal from "../components/Modal";
-import { clearTourList, setSelectedCity, setSelectedDistrict } from "../RTK/slice";
+import {
+  clearTourList,
+  setSelectedCity,
+  setSelectedDistrict,
+} from "../RTK/slice";
+import LoginModal from "./LoginModal";
+import { openLoginModal } from "../RTK/modalSlice";
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
   const user = useSelector((state) => state.auth?.user);
   const isAuthenticated = useSelector((state) => state.auth?.isAuthenticated);
+  const { isLoginModalOpen } = useSelector((state) => state.modal);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
-  useEffect(() => {
-    console.log("user:", user);
-    console.log("login state:", isAuthenticated);
-  }, [isAuthenticated]);
+  // useEffect(() => {
+  //   console.log("user:", user);
+  //   console.log("login state:", isAuthenticated);
+  // }, [isAuthenticated]);
 
   const handleLogout = () => {
     dispatch(logout());
     navigate("/");
   };
 
-
   useEffect(() => {
-    console.log('useEffect start')
-    console.log(location.pathname)
-    if(!location.pathname.startsWith('/travel-info')) {
-        console.log('if start')
-        dispatch(setSelectedDistrict(null));
-        dispatch(setSelectedCity(null));
-        dispatch(clearTourList());
-      } else {
-        return;
-      }
-  }, [location.pathname, dispatch]);
+    // console.log("useEffect start");
+    // console.log(location.pathname);
+    if (!location.pathname.startsWith("/travel-info")) {
+      // console.log("if start");
+      dispatch(setSelectedDistrict(null));
+      dispatch(setSelectedCity(null));
+      dispatch(clearTourList());
+    } else {
+      return;
+    }
+  }, [location.pathname]);
 
   return (
     <div>
@@ -50,14 +54,12 @@ const Header = () => {
         {isDropdownOpen && (
           <div className="dropdown-menu">
             <div className="menu-items">
-              {/* test */}
-              <div onClick={() => setModalOpen(true)}>login test</div>
               {isAuthenticated ? (
                 <div className="login" onClick={handleLogout}>
                   로그아웃
                 </div>
               ) : (
-                <div className="login" onClick={() => setModalOpen(true)}>
+                <div className="login" onClick={() => dispatch(openLoginModal())}>
                   로그인
                 </div>
               )}
@@ -65,9 +67,9 @@ const Header = () => {
                 메인
               </Link>
               {isAuthenticated && (
-              <Link to={"/Mypage"} className="menu-item">
-                마이페이지
-              </Link>
+                <Link to={"/Mypage"} className="menu-item">
+                  마이페이지
+                </Link>
               )}
               <Link to={"/travel-diary"} className="menu-item">
                 여행기록
@@ -79,8 +81,7 @@ const Header = () => {
           </div>
         )}
       </div>
-      {modalOpen && <Modal modalOpen={modalOpen} setModalOpen={setModalOpen} />}
-      <Outlet />
+      {isLoginModalOpen && <LoginModal />}
     </div>
   );
 };

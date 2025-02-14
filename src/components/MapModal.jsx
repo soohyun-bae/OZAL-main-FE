@@ -1,25 +1,33 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import "../style/MapModal.scss";
+import Modal from "./Modal/Modal";
+import { useDispatch, useSelector } from "react-redux";
+import { closeMapModal } from "../RTK/modalSlice";
 
-const MapModal = ({ onClose, onSelect }) => {
+const MapModal = ({ onSelect }) => {
   const [map, setMap] = useState(null);
   const [markers, setMarkers] = useState([]);
   const [infowindow, setInfowindow] = useState(null);
   const [keyword, setKeyword] = useState("");
+  const [places, setPlaces] = useState([]);
+  const dispatch = useDispatch();
+  const isMapModalOpen = useSelector((state) => state.modal.isMapModalOpen);
+  const mapRef = useRef();
 
   // 지도 초기화
   useEffect(() => {
-    const container = document.getElementById("map");
+    console.log('Map container ref:', mapRef.current);
+    if (!mapRef.current) return;
     const options = {
       center: new window.kakao.maps.LatLng(37.566826, 126.9786567),
       level: 3,
     };
-    const mapInstance = new window.kakao.maps.Map(container, options);
+    const mapInstance = new window.kakao.maps.Map(mapRef.current, options);
     const infowindowInstance = new window.kakao.maps.InfoWindow({ zIndex: 1 });
 
     setMap(mapInstance);
     setInfowindow(infowindowInstance);
-  }, []);
+  }, [mapRef.current]);
 
   // 키워드 검색
   const searchPlaces = useCallback(() => {
@@ -35,9 +43,12 @@ const MapModal = ({ onClose, onSelect }) => {
   // 검색 콜백
   const placesSearchCB = (data, status) => {
     if (status === window.kakao.maps.services.Status.OK) {
+      setPlaces(data);
       displayPlaces(data);
     } else if (status === window.kakao.maps.services.Status.ZERO_RESULT) {
       alert("검색 결과가 존재하지 않습니다.");
+      setPlaces([]);
+      removeMarker();
     } else if (status === window.kakao.maps.services.Status.ERROR) {
       alert("검색 결과 중 오류가 발생했습니다.");
     }
@@ -45,49 +56,25 @@ const MapModal = ({ onClose, onSelect }) => {
 
   // 검색 결과 표시
   const displayPlaces = (places) => {
-    const listEl = document.getElementById("placesList");
-    const bounds = new window.kakao.maps.LatLngBounds();
-
-    // 기존 마커 제거
     removeMarker();
-    removeAllChildNods(listEl);
+    const bounds = new window.kakao.maps.LatLngBounds();
 
     places.forEach((place, i) => {
       const placePosition = new window.kakao.maps.LatLng(place.y, place.x);
       const marker = addMarker(placePosition, i);
-      const itemEl = getListItem(i, place);
-
       bounds.extend(placePosition);
 
       // 마커와 목록 이벤트
-      (function (marker, title) {
-        window.kakao.maps.event.addListener(marker, "mouseover", () => {
-          displayInfowindow(marker, title);
-        });
-
-        window.kakao.maps.event.addListener(marker, "mouseout", () => {
-          infowindow.close();
-        });
-
-        itemEl.onmouseout = () => {
-          infowindow.close();
-        };
-
-        itemEl.onclick = () => {
-          onSelect({
-            placeName: place.place_name,
-            address: place.address_name,
-            lat: place.y,
-            lng: place.x,
-          });
-          onClose();
-        };
-      })(marker, place.place_name);
-
-      listEl.appendChild(itemEl);
+      window.kakao.maps.event.addListener(marker, "mouseover", () => {
+        displayInfowindow(marker, title);
+      });
+      window.kakao.maps.event.addListener(marker, "mouseout", () => {
+        if (infowindow) infowindow.close();
+      });
     });
-
-    map.setBounds(bounds);
+    if (map) {
+      map.setBounds(bounds);
+    }
   };
 
   // 마커 생성
@@ -106,7 +93,7 @@ const MapModal = ({ onClose, onSelect }) => {
       imgOptions
     );
     const marker = new window.kakao.maps.Marker({
-      position: position,
+      position,
       image: markerImage,
     });
 
@@ -121,62 +108,79 @@ const MapModal = ({ onClose, onSelect }) => {
     setMarkers([]);
   };
 
+  const displayInfowindow = (marker, title) => {
+    if (infowindow) {
+      infowindow.setContent(
+        `<div style="padding:5px; font-size:12px;">${title}</div>`
+      );
+      infowindow.open(map, marker);
+    }
+  };
+
+  // 리스트 아이템 클릭 시 동작
+  const handleListItemClick = (place) => {
+    onSelect({
+      placeName: place.place_name,
+      address: place.address_name,
+      lat: place.y,
+      lng: place.x,
+    });
+    // onClose();
+    dispatch(closeMapModal())
+  };
+
   return (
-    <div className="map-modal">
-      <div className="map-modal-content">
-        <div className="map-search">
-          <input
-            type="text"
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-            onKeyPress={(e) => e.key === "Enter" && searchPlaces()}
-            placeholder="장소를 검색하세요"
-          />
-          <button onClick={searchPlaces}>검색</button>
-        </div>
+    <Modal
+    isModalOpen={isMapModalOpen}
+    onClose={() => dispatch(closeMapModal())}
+    >
+        <div className="map-modal-content">
+          <div className="map-search">
+            <input
+              type="text"
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+              onKeyPress={(e) => e.key === "Enter" && searchPlaces()}
+              placeholder="장소를 검색하세요"
+            />
+            <button onClick={searchPlaces}>검색</button>
+          </div>
 
-        <div className="map-container">
-          <div id="map" style={{ width: "100%", height: "400px" }} />
-          <div id="placesList" className="places-list" />
-        </div>
+          <div className="map-container">
+            <div id="map" ref={mapRef} style={{ width: "100%", height: "400px" }} />
+            <ul id="placesList" className="places-list">
+              {places.map((place, i) => (
+                <li
+                  key={i}
+                  className="item"
+                  onClick={() => handleListItemClick(place)}
+                  onMouseOver={() => displayInfowindow(markers[i], place.place_name)}
+                  onMouseOut={() => infowindow && infowindow.close()}
+                >
+                  <span className={`markerbg marker_${i + 1}`}></span>
+                  <div className="info">
+                    <h5>{place.place_name}</h5>
+                    {place.road_address_name ? (
+                      <>
+                        <span>{place.road_address_name}</span>
+                        <span className="jibun gray">{place.address_name}</span>
+                      </>
+                    ) : (
+                      <span>{place.address_name}</span>
+                    )}
+                    <span className="tel">{place.phone}</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-        <button className="close-button" onClick={onClose}>
-          닫기
-        </button>
-      </div>
-    </div>
+          <button className="close-button" onClick={() => dispatch(closeMapModal())}>
+            닫기
+          </button>
+        </div>
+    </Modal>
   );
-};
-
-// 유틸리티 함수들
-const removeAllChildNods = (el) => {
-  while (el.hasChildNodes()) {
-    el.removeChild(el.lastChild);
-  }
-};
-
-const getListItem = (index, place) => {
-  const el = document.createElement("li");
-  let itemStr = `
-    <span class="markerbg marker_${index + 1}"></span>
-    <div class="info">
-      <h5>${place.place_name}</h5>
-  `;
-
-  if (place.road_address_name) {
-    itemStr += `
-      <span>${place.road_address_name}</span>
-      <span class="jibun gray">${place.address_name}</span>
-    `;
-  } else {
-    itemStr += `<span>${place.address_name}</span>`;
-  }
-
-  itemStr += `<span class="tel">${place.phone}</span></div>`;
-  el.innerHTML = itemStr;
-  el.className = "item";
-
-  return el;
 };
 
 export default MapModal;

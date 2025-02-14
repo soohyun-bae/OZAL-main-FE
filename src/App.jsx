@@ -7,14 +7,14 @@ import DetailTravelInfo from "./pages/DetailTravelInfo.jsx";
 import Mypage from "./pages/Mypage.jsx";
 import KakaoCallback from "./components/KakaoCallback.jsx";
 import "./App.css";
-import Header from "./layout/Header.jsx";
 import DiaryDetailpage from "./pages/DiaryDetailpage.jsx";
+import Layout from "./layout/Layout.jsx";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route element={<Header />}>
+        <Route element={<Layout />}>
           <Route path="/" element={<Main />} />
           <Route path="/auth/kakao/callback" element={<KakaoCallback />} />
           <Route path="/travel-diary" element={<TravelDiaryPage />} />

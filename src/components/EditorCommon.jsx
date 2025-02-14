@@ -1,16 +1,18 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ReactQuill from "react-quill";
 import MapModal from "./MapModal";
 import "react-quill/dist/quill.snow.css";
 import ImageUpload from "./ImageUpload";
 import { useDispatch, useSelector } from "react-redux";
 import { updatePostData } from "../RTK/postSlice";
+import { closeMapModal, openMapModal } from "../RTK/modalSlice";
+import Modal from "./Modal/Modal";
 
 const EditorCommon = () => {
   const quillRef = useRef();
   const dispatch = useDispatch();
   const { postData } = useSelector((state) => state.post);
-  const [showMapModal, setShowMapModal] = useState(false);
+  const { isMapModalOpen } = useSelector((state) => state.modal);
 
   const modules = {
     toolbar: {
@@ -73,8 +75,12 @@ const EditorCommon = () => {
         })
       );
     }
-    setShowMapModal(false);
+    dispatch(closeMapModal());
   };
+
+  useEffect(() => {
+    console.log("모달 상태 변경됨:", isMapModalOpen);
+  }, [isMapModalOpen]);
 
   return (
     <div className="editor-wrapper">
@@ -99,7 +105,10 @@ const EditorCommon = () => {
           <h3>위치 정보</h3>
           <button
             className="search-location-btn"
-            onClick={() => setShowMapModal(true)}
+            onClick={() => {
+              dispatch(openMapModal());
+              console.log("위치 검색 버튼 클릭됨", isMapModalOpen);
+            }}
           >
             위치 검색
           </button>
@@ -114,11 +123,11 @@ const EditorCommon = () => {
         </div>
       </div>
 
-      {showMapModal && (
-        <MapModal
-          onClose={() => setShowMapModal(false)}
-          onSelect={handleLocationSelect}
-        />
+      {isMapModalOpen && (
+        <>
+          {console.log("MapModal 렌더링됨!")}
+            <MapModal onSelect={handleLocationSelect}/>
+        </>
       )}
     </div>
   );
