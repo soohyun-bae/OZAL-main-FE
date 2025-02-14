@@ -1,6 +1,5 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import "../style/mainpage.scss";
-// import Dropdown from "../components/Dropdown";
 import image1 from "../assets/1.png";
 import image2 from "../assets/2.png";
 import image3 from "../assets/3.png";
@@ -8,6 +7,7 @@ import image4 from "../assets/4.png";
 import image5 from "../assets/5.png";
 import image6 from "../assets/6.png";
 import downIcon from "../assets/down-icon.png";
+import Carousel from "../components/Carousel/Carousel";
 
 const memoryImages = [
   { src: image1, alt: "추억 1" },
@@ -15,94 +15,51 @@ const memoryImages = [
   { src: image3, alt: "추억 3" },
   { src: image4, alt: "추억 4" },
   { src: image5, alt: "추억 5" },
-]; // 고정된 값은 함수 밖으로
+];
 
 export default function MainLayout() {
-  const [isTransitioning, setIsTransitioning] = useState(false);
   const [currentSection, setCurrentSection] = useState(0);
-  const containerRef = useRef(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  let lastScrollTime = 0;
 
-  const smoothScroll = (targetPosition) => {
-    if (!containerRef.current || isTransitioning) return;
+  const handleWheel = (e) => {
+    e.preventDefault();
 
-    setIsTransitioning(true);
-    const startPosition = containerRef.current.scrollTop;
-    const distance = targetPosition - startPosition;
-    const duration = 900;
-    let startTime = null;
+    const now = Date.now();
+    if (now - lastScrollTime < 1000) return;
 
-    const animation = (currentTime) => {
-      if (startTime === null) startTime = currentTime;
-      const timeElapsed = currentTime - startTime;
-      const progress = Math.min(timeElapsed / duration, 1);
+    const container = document.querySelector(".container");
+    if (!container) return;
 
-      const easeInOutCubic = (t) =>
-        t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    if (e.deltaY > 0 && currentSection === 0) {
+      container.scrollTo({
+        top: window.innerHeight,
+        behavior: "smooth",
+      });
+      setCurrentSection(1);
+    } else if (e.deltaY < 0 && currentSection === 1) {
+      container.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+      setCurrentSection(0);
+    }
 
-      containerRef.current.scrollTop =
-        startPosition + distance * easeInOutCubic(progress);
-
-      if (progress < 1) {
-        requestAnimationFrame(animation);
-      } else {
-        setTimeout(() => setIsTransitioning(false), 50);
-      }
-    };
-
-    requestAnimationFrame(animation);
+    lastScrollTime = now;
   };
 
   useEffect(() => {
-    let lastScrollTime = 0;
-    const scrollCooldown = 500;
-
-    const handleWheel = (e) => {
-      e.preventDefault();
-
-      const currentTime = Date.now();
-      if (currentTime - lastScrollTime < scrollCooldown || isTransitioning)
-        return;
-
-      const windowHeight = window.innerHeight;
-
-      if (e.deltaY > 0 && currentSection === 0) {
-        smoothScroll(windowHeight);
-        setCurrentSection(1);
-        lastScrollTime = currentTime;
-      } else if (e.deltaY < 0 && currentSection === 1) {
-        smoothScroll(0);
-        setCurrentSection(0);
-        lastScrollTime = currentTime;
-      }
-    };
-
-    const container = containerRef.current;
+    const container = document.querySelector(".container");
     if (container) {
       container.addEventListener("wheel", handleWheel, { passive: false });
-    }
 
-    return () => {
-      if (container) {
+      return () => {
         container.removeEventListener("wheel", handleWheel);
-      }
-    };
-  }, [isTransitioning, currentSection]);
-
-  const handlePrev = () => {
-    setCurrentIndex((prev) =>
-      prev === 0 ? memoryImages.length - 1 : prev - 1
-    );
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prev) =>
-      prev === memoryImages.length - 1 ? 0 : prev + 1
-    );
-  };
+      };
+    }
+  }, [currentSection]);
 
   return (
-    <div className="container" ref={containerRef}>
+    <div className="container">
       <section className="section">
         <div className="mainSlider">
           <div className="mainImageSection">
@@ -119,34 +76,7 @@ export default function MainLayout() {
         <div className="memorySection">
           <h2>Someone's Memory</h2>
           <hr></hr>
-          <div className="memorySlider">
-            <button className="sliderButton prev" onClick={handlePrev}>
-              <img src={downIcon} alt="scroll down" className="scroll-down2" />
-            </button>
-            <div className="memoryImages">
-              {memoryImages.map((image, index) => (
-                <img
-                  key={index}
-                  src={image.src}
-                  alt={image.alt}
-                  className={`memoryImage ${
-                    index === currentIndex
-                      ? "active"
-                      : index ===
-                        (currentIndex - 1 + memoryImages.length) %
-                          memoryImages.length
-                      ? "prev"
-                      : index === (currentIndex + 1) % memoryImages.length
-                      ? "next"
-                      : ""
-                  }`}
-                />
-              ))}
-            </div>
-            <button className="sliderButton next" onClick={handleNext}>
-              <img src={downIcon} alt="scroll down" className="scroll-down2" />
-            </button>
-          </div>
+          <Carousel images={memoryImages} />
         </div>
       </section>
     </div>
