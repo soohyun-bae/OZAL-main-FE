@@ -1,7 +1,7 @@
-import TagList from "../components/TagList";
 import TravelInfoCard from "../components/TravelInfoCard";
 import infoPicture from "../assets/infopage.png";
 import "../style/travelInfopage.scss";
+import TagSelector from "../components/TagList/TagSelector";
 
 const TravelInfopage = () => {
   return (
@@ -19,7 +19,7 @@ const TravelInfopage = () => {
           </div>
         </div>
         <div className="tag-container">
-          <TagList />
+          <TagSelector />
         </div>
         <div className="card-wrapper">
           <TravelInfoCard />

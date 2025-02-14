@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../style/dropdown.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../RTK/authSlice";
@@ -10,10 +10,11 @@ import {
 } from "../RTK/slice";
 import LoginModal from "./LoginModal";
 import { openLoginModal } from "../RTK/modalSlice";
+import TextButton from "./Buttons/TextButton";
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const user = useSelector((state) => state.auth?.user);
+  // const user = useSelector((state) => state.auth?.user);
   const isAuthenticated = useSelector((state) => state.auth?.isAuthenticated);
   const { isLoginModalOpen } = useSelector((state) => state.modal);
   const dispatch = useDispatch();
@@ -30,11 +31,17 @@ const Header = () => {
     navigate("/");
   };
 
+  const handleNavLinsClick = (e, path) => {
+    if (!isAuthenticated) {
+      e.preventDefault();
+      dispatch(openLoginModal());
+    } else {
+      navigate(path);
+    }
+  };
+
   useEffect(() => {
-    // console.log("useEffect start");
-    // console.log(location.pathname);
     if (!location.pathname.startsWith("/travel-info")) {
-      // console.log("if start");
       dispatch(setSelectedDistrict(null));
       dispatch(setSelectedCity(null));
       dispatch(clearTourList());
@@ -55,28 +62,29 @@ const Header = () => {
           <div className="dropdown-menu">
             <div className="menu-items">
               {isAuthenticated ? (
-                <div className="login" onClick={handleLogout}>
+                <TextButton className="login" onClick={handleLogout}>
                   로그아웃
-                </div>
+                </TextButton>
               ) : (
-                <div className="login" onClick={() => dispatch(openLoginModal())}>
+                <TextButton
+                  className="login"
+                  onClick={() => dispatch(openLoginModal())}
+                >
                   로그인
-                </div>
+                </TextButton>
               )}
-              <Link to={"/"} className="menu-item">
+              <TextButton to="/" className="menu-item">
                 메인
-              </Link>
-              {isAuthenticated && (
-                <Link to={"/Mypage"} className="menu-item">
-                  마이페이지
-                </Link>
-              )}
-              <Link to={"/travel-diary"} className="menu-item">
-                여행기록
-              </Link>
-              <Link to={"/travel-info"} className="menu-item">
-                여행정보
-              </Link>
+              </TextButton>
+                  <TextButton className="menu-item" onClick={(e) => handleNavLinsClick(e, '/mypage')}>
+                    마이페이지
+                  </TextButton>
+                  <TextButton className="menu-item"  onClick={(e) => handleNavLinsClick(e, '/travel-diary')}>
+                    여행기록
+                  </TextButton>
+                  <TextButton to="/travel-info" className="menu-item">
+                    여행정보
+                  </TextButton>
             </div>
           </div>
         )}
