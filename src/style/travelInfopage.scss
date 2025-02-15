@@ -8,14 +8,15 @@
   overflow: hidden;
 }
 
-.info-header {
-  @include header;
-  @include flex($justify: center, $align: center);
+//Header.scss로 옮김
+// .info-header {
+//   @include header;
+//   @include flex($justify: center, $align: center);
 
-  background-size: cover;
-  background-position: center 60%;
-  position: relative;
-}
+//   background-size: cover;
+//   background-position: center 60%;
+//   position: relative;
+// }
 
 // taglist
 .tag-container {

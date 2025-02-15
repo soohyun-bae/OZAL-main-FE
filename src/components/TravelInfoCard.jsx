@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDetailInfo, fetchTourList } from "../RTK/thunk";
 import "../style/travelInfopage.scss";
-import { Link } from "react-router-dom";
 import { clearTourList } from "../RTK/slice";
+import Card from "./Card/Card";
 
 const TravelInfoCard = () => {
   const dispatch = useDispatch();
@@ -33,12 +33,13 @@ const TravelInfoCard = () => {
     }
   }, [selectedCity, selectedDistrict]);
 
-
   useEffect(() => {
-    if(tourListData?.length > 0) {
+    if (tourListData?.length > 0) {
       const newIds = new Set(loadedContentIds);
       const fetchList = tourListData.filter(
-        (item) => !newIds.has(item.contentid) && !detailInfoData?.find((info) => info.contentid === item.contentid)
+        (item) =>
+          !newIds.has(item.contentid) &&
+          !detailInfoData?.find((info) => info.contentid === item.contentid)
       );
       fetchList.forEach((item) => {
         console.log(`contentid: ${item.contentid}`);
@@ -47,7 +48,7 @@ const TravelInfoCard = () => {
       });
       setLoadedContentIds(newIds);
     }
-  }, [tourListData])
+  }, [tourListData]);
 
   return (
     <div className="card-container">
@@ -58,28 +59,18 @@ const TravelInfoCard = () => {
           ?.filter((i) => i.firstimage2)
           .map((i) => {
             return (
-              <Link
-                to={`/travel-info/detail/${i.contentid}`}
+              <Card
                 key={i.contentid}
-                className="card-contents"
-              >
-                <img
-                  src={i.firstimage2}
-                  className="small-image"
-                  alt={i.title}
-                />
-                <div className="info-article">
-                  <div className="info-title">{i.title}</div>
-                  <div className="info-addr">{i.addr1}</div>
-                  <div className="info-content">
-                    {detailInfoLoading? (
-                      'Loading...'
-                    ) : (
-                      detailInfoData?.find((info) => String(info.contentid) === String(i.contentid))?.overview || 'overview'
-                    )}
-                    </div>
-                </div>
-              </Link>
+                to={`/travel-info/detail/${i.contentid}`}
+                src={i.firstimage2}
+                title={i.title}
+                info={i.addr1}
+                content={detailInfoLoading? (
+                          'Loading...'
+                        ) : (
+                          detailInfoData?.find((info) => String(info.contentid) === String(i.contentid))?.overview || 'overview'
+                        )}
+              />
             );
           })
       )}
