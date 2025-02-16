@@ -1,10 +1,13 @@
 import "/src/style/Traveldairypage.scss";
+import cardContainerStyle from "../components/Card/Card.module.scss";
 import image1 from "../assets/1.png";
 import image2 from "../assets/2.png";
 import image3 from "../assets/3.png";
 import navPicture from "../assets/nav-picture.jpg";
 import { useNavigate } from "react-router-dom";
 import writing from "../assets/writing-icon.png";
+import Header from "../components/Header/Header";
+import Card from "../components/Card/Card";
 
 const TravelDiaryPage = () => {
   const navigate = useNavigate();
@@ -26,6 +29,22 @@ const TravelDiaryPage = () => {
         "글내용이 여기에 들어갑니다. 글내용이 여기에 들어갑니다. 글내용이 여기에 들어갑니다.",
       image: image3,
     },
+    {
+      id: 3,
+      date: "2024.02.04",
+      title: "글제목",
+      content:
+        "글내용이 여기에 들어갑니다. 글내용이 여기에 들어갑니다. 글내용이 여기에 들어갑니다.",
+      image: image3,
+    },
+    {
+      id: 4,
+      date: "2024.02.04",
+      title: "글제목",
+      content:
+        "글내용이 여기에 들어갑니다. 글내용이 여기에 들어갑니다. 글내용이 여기에 들어갑니다.",
+      image: image3,
+    },
   ];
 
   const handleWriteClick = () => {
@@ -34,16 +53,11 @@ const TravelDiaryPage = () => {
 
   return (
     <div className="diary-page">
-      <div
-        className="diary-header"
-        style={{ backgroundImage: `url(${navPicture})` }}
-      >
-        <div className="header-text">
-          <h1>내글목록</h1>
-          <h2>즐거운 나의 여행이야기</h2>
-        </div>
-      </div>
-
+      <Header
+        tex1="내글목록"
+        text2="즐거운 나의 여행이야기"
+        imageUrl={navPicture}
+      />
       <div className="diary-container">
         <button className="write-button" onClick={handleWriteClick}>
           <img src={writing} alt="글쓰기 아이콘" />
@@ -70,13 +84,16 @@ const TravelDiaryPage = () => {
         {/* 리스트 형태의 게시글들 */}
         <div className="diary-list">
           {posts.map((post) => (
-            <div key={post.id} className="diary-list-item">
-              <img src={post.image} alt="여행 사진" className="list-image" />
-              <div className="list-content">
-                <h3 className="list-title">{post.title}</h3>
-                <p className="list-description">{post.content}</p>
-                <div className="post-date">{post.date}</div>
-              </div>
+            <div
+              key={post.id}
+              className={cardContainerStyle["diary-list-item"]}
+            >
+              <Card
+                src={post.image}
+                title={post.title}
+                info={post.date}
+                content={post.content}
+              />
             </div>
           ))}
         </div>

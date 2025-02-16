@@ -6,35 +6,35 @@
   overflow: hidden;
 }
 
-.diary-header {
-  @include header;
-  @include flex($justify: center, $align: center);
+// .diary-header {
+//   @include header;
+//   @include flex($justify: center, $align: center);
 
-  background-size: cover;
-  background-position: center 60%;
-  position: relative;
+//   background-size: cover;
+//   background-position: center 60%;
+//   position: relative;
 
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.2);
-  }
-}
+//   &::before {
+//     content: "";
+//     position: absolute;
+//     top: 0;
+//     left: 0;
+//     right: 0;
+//     bottom: 0;
+//     background: rgba(0, 0, 0, 0.2);
+//   }
+// }
 
-.header-text {
-  @include header-font;
-  text-align: center;
-  color: white;
-  position: relative;
-}
+// .header-text {
+//   @include header-font;
+//   text-align: center;
+//   color: white;
+//   position: relative;
+// }
 
 .diary-container {
   position: absolute;
-  top: 26vh;
+  top: 240px; // header높이가 움직이지 않도록 고정
   left: 0;
   right: 0;
   bottom: 0;

@@ -1,0 +1,71 @@
+@use "../../style/mixins" as *;
+
+.card-contents {
+  @include flex($align: center, $justify: center, $gap: 20px);
+  // width: 1000px;
+  width: 70vw;
+  // max-width: 1000px;
+  // flex-wrap: wrap; // ✅ 화면을 벗어나지 않도록 wrap 적용
+  text-decoration: none;
+  padding: 1.2rem;
+  // background-color: lightgray;
+
+  .small-image {
+    // width: 100%;
+    width: 30vw;
+    max-width: 250px;
+    height: 15vh; /* 고정 높이 (원하는 비율로 조절) */
+    min-height: 140px;
+    object-fit: cover; /* 비율을 유지하면서 요소 크기에 맞게 자르기 */
+    border-radius: 16px;
+  }
+
+  .info-article {
+    @include flex($justify: center, $direction: column);
+    width: 100%;
+
+    .info-title {
+      @include font-style($size: 2rem, $m-b: 5px);
+      margin-top: 5px;
+    }
+    .info-addr {
+      @include font-style($size: 1rem, $m-b: 8px, $color: rgb(129, 129, 129));
+      // width: 550px;
+      padding-bottom: 5px;
+      border-bottom: dotted 1px rgb(171, 171, 171);
+    }
+    .info-content {
+      @include font-style($size: 1rem);
+      display: -webkit-box;
+      -webkit-line-clamp: 2; /* 보여줄 줄 수 */
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      // width: 200px;
+    }
+  }
+}
+
+// .diary-list {
+//   @include flex($direction: column, $justify: center, $align: center);
+//   margin-top: 60px;
+//   // scroll-snap-align: start;
+
+  .diary-list-item {
+    @include diary-topbox;
+    @include flex($direction: cloumn, $justify: start, $align: center);
+    width: 70vw;
+
+    // gap: 1.5rem;
+    // padding: 1rem;
+    background-color: #ffffff;
+    margin-bottom: 1.5rem;
+    height: 150px;
+
+    // .list-image {
+    //   width: 150px;
+    //   height: 150px;
+    //   object-fit: cover;
+    //   border-radius: 10px;
+    // }
+  }
+// }
