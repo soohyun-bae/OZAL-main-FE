@@ -8,14 +8,14 @@ import {
   setSelectedCity,
   setSelectedDistrict,
 } from "../../RTK/slice";
-import { openLoginModal } from "../../RTK/modalSlice";
 import Dropdown from "./Dropdown";
 import LoginModal from '../Modal/LoginModal';
+import { openModal } from "../../RTK/modalSlice";
 
 const NavBar = () => {
   // const user = useSelector((state) => state.auth?.user);
   const isAuthenticated = useSelector((state) => state.auth?.isAuthenticated);
-  const { isLoginModalOpen } = useSelector((state) => state.modal);
+  const isLoginModalOpen = useSelector((state) => state.modal.modals['login']);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -33,7 +33,7 @@ const NavBar = () => {
   const handleAuthNavClick = (e, path) => {
     if (!isAuthenticated) {
       e.preventDefault();
-      dispatch(openLoginModal());
+      dispatch(openModal('login'));
     } else {
       navigate(path);
     }
@@ -69,7 +69,10 @@ const NavBar = () => {
                   ) : (
                     <div
                       className="login"
-                      onClick={() => dispatch(openLoginModal())}
+                      onClick={() => {
+                        console.log("Dispatching openModal with login");
+                        dispatch(openModal('login'));
+                      }}
                     >
                       로그인
                     </div>

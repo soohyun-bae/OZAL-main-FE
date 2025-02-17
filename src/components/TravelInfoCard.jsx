@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDetailInfo, fetchTourList } from "../RTK/thunk";
 import "../style/travelInfopage.scss";
+import ListStyle from "./List/List.module.scss";
+import CardStyle from './Card/Card.module.scss';
 import { clearTourList } from "../RTK/slice";
 import Card from "./Card/Card";
+import MappedList from "./List/MappedList";
 
 const TravelInfoCard = () => {
   const dispatch = useDispatch();
@@ -42,7 +45,7 @@ const TravelInfoCard = () => {
           !detailInfoData?.find((info) => info.contentid === item.contentid)
       );
       fetchList.forEach((item) => {
-        console.log(`contentid: ${item.contentid}`);
+        console.log(item.firstimage2);
         dispatch(fetchDetailInfo(item.contentid));
         newIds.add(item.contentid);
       });
@@ -50,31 +53,41 @@ const TravelInfoCard = () => {
     }
   }, [tourListData]);
 
+  const filteredTourListData =
+    tourListData?.filter((i) => {
+      const imageUrl = i.firstimage2;
+      return imageUrl && !imageUrl.trim().endsWith(".bmp");
+    }) || [];
+
   return (
-    <div className="card-container">
-      {tourListLoading || detailInfoLoading ? (
-        <p>Loading...</p>
-      ) : (
-        tourListData
-          ?.filter((i) => i.firstimage2)
-          .map((i) => {
-            return (
+    // <div className={CardStyle['card-wrapper']}>
+      <div className={CardStyle['card-container']}>
+        {tourListLoading || detailInfoLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <MappedList
+            className={ListStyle["vertical-list-ul"]}
+            data={filteredTourListData}
+            renderItem={(i) => (
               <Card
                 key={i.contentid}
                 to={`/travel-info/detail/${i.contentid}`}
                 src={i.firstimage2}
                 title={i.title}
                 info={i.addr1}
-                content={detailInfoLoading? (
-                          'Loading...'
-                        ) : (
-                          detailInfoData?.find((info) => String(info.contentid) === String(i.contentid))?.overview || 'overview'
-                        )}
+                content={
+                  detailInfoLoading
+                    ? "Loading..."
+                    : detailInfoData?.find(
+                        (info) => String(info.contentid) === String(i.contentid)
+                      )?.overview || "overview"
+                }
               />
-            );
-          })
-      )}
-    </div>
+            )}
+          />
+        )}
+      </div>
+    // </div>
   );
 };
 

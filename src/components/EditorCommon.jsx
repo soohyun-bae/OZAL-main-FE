@@ -1,18 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import ReactQuill from "react-quill";
-import MapModal from "./MapModal";
 import "react-quill/dist/quill.snow.css";
 import ImageUpload from "./ImageUpload";
 import { useDispatch, useSelector } from "react-redux";
 import { updatePostData } from "../RTK/postSlice";
-import { closeMapModal, openMapModal } from "../RTK/modalSlice";
-import Modal from "./Modal/Modal";
+import MapModal from "./Modal/MapModal";
+import { openModal } from "../RTK/modalSlice";
 
 const EditorCommon = () => {
   const quillRef = useRef();
   const dispatch = useDispatch();
   const { postData } = useSelector((state) => state.post);
-  const { isMapModalOpen } = useSelector((state) => state.modal);
+  const isMapModalOpen = useSelector((state) => state.modal.modals['map']);
 
   const modules = {
     toolbar: {
@@ -75,12 +74,8 @@ const EditorCommon = () => {
         })
       );
     }
-    dispatch(closeMapModal());
+    dispatch(closeModal('map'));
   };
-
-  useEffect(() => {
-    console.log("모달 상태 변경됨:", isMapModalOpen);
-  }, [isMapModalOpen]);
 
   return (
     <div className="editor-wrapper">
@@ -106,8 +101,7 @@ const EditorCommon = () => {
           <button
             className="search-location-btn"
             onClick={() => {
-              dispatch(openMapModal());
-              console.log("위치 검색 버튼 클릭됨", isMapModalOpen);
+              dispatch(openModal('map'));
             }}
           >
             위치 검색

@@ -38,8 +38,8 @@ $color-greenblue: #209ebb;
   }
 }
 
-@mixin diary-topbox {
-  width: 800px;
+@mixin diary-topbox($width: 800px) {
+  width: $width;
   height: 600px;
   border-radius: 15px;
   box-shadow: 0 0 10px gray;
