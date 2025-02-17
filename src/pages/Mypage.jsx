@@ -81,11 +81,9 @@ const Mypage = () => {
         <button onClick={changeToDefaultProfilePic}>기본 프로필 사진</button>
       </div>
       <div className="info-section">
-        <p>
-          <strong>이름:</strong> {user?.nickname}
-        </p>
-        <p>
-          <strong>닉네임:</strong>
+        <span>이름 : {user?.nickname}</span>
+        <div className="nickname">
+          <span>닉네임 :</span>
           <input
             type="text"
             value={newNickname}
@@ -93,7 +91,7 @@ const Mypage = () => {
           />
           <button onClick={handleNicknameChange}>저장</button>
           {errorMessage && <p>{errorMessage}</p>}
-        </p>
+        </div>
       </div>
     </div>
   );
