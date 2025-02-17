@@ -1,16 +1,19 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import {
-  citySlice,
-  detailInfoSlice,
-  districtSlice,
-  tourListSlice,
-} from "./slice";
+// import {
+//   citySlice,
+//   // detailInfoSlice,
+//   districtSlice,
+//   // tourListSlice,
+// } from "./tour/slice";
 import authReducer from "./authSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from 'redux-persist';
 import { postSlice } from "./postSlice";
 import {createTransform} from "redux-persist";
 import modalReducer from "./modalSlice";
+import { tourApi } from "./tour/tourApi";
+import { citySlice, districtSlice } from "./tour/slice";
+
 const authTransform = createTransform(
   (inboundState) => {
     const { register2, ...restState } = inboundState;
@@ -35,8 +38,9 @@ const rootReducer = combineReducers({
   auth: authReducer,
   city: citySlice.reducer,
   district: districtSlice.reducer,
-  tourList: tourListSlice.reducer,
-  detailInfo: detailInfoSlice.reducer,
+  [tourApi.reducerPath]: tourApi.reducer,
+  // tourList: tourListSlice.reducer,
+  // detailInfo: detailInfoSlice.reducer,
   post: postSlice.reducer,
   modal: modalReducer,
 });
@@ -45,14 +49,12 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) => {
-    const defaultMiddleware = getDefaultMiddleware({
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: ["persist/PERSIST"], 
+        ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
       },
-    });
-    return defaultMiddleware;
-  },
+    }).concat(tourApi.middleware),
 });
 
 export const persistor = persistStore(store);
