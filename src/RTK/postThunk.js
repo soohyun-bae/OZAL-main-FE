@@ -53,9 +53,11 @@ export const createPost = createAsyncThunk(
 
 export const fetchPost = createAsyncThunk(
   "post/fetchPost",
-  async (id, { rejectWithValue }) => {
+  async ({ userId, postId }, { rejectWithValue }) => {
     try {
-      const response = await backendAPI.get(`/ozal/trippost/${id}`);
+      const response = await backendAPI.get(
+        `/ozal/trippost/${userId}/post/${postId}`
+      );
       return response.data;
     } catch (error) {
       return rejectWithValue(
