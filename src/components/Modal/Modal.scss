@@ -7,16 +7,16 @@
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.5);
-  @include flex ($justify:center, $align:center);
+  @include flex($justify: center, $align: center);
   z-index: 9999;
   opacity: 0;
-  
+
   &.open {
     opacity: 1;
   }
 
   .modal-contents {
-    @include flex ($justify:center, $align:center);
+    @include flex($justify: center, $align: center);
     background: white;
     padding: 20px;
     border-radius: 8px;
