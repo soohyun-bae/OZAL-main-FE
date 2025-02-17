@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import "../style/MapModal.scss";
-import Modal from "./Modal/Modal";
+import "../../style/MapModal.scss";
+import Modal from "./Modal";
 import { useDispatch, useSelector } from "react-redux";
-import { closeMapModal } from "../RTK/modalSlice";
+import { closeModal } from "../../RTK/modalSlice";
 
 const MapModal = ({ onSelect }) => {
   const [map, setMap] = useState(null);
@@ -126,13 +126,12 @@ const MapModal = ({ onSelect }) => {
       lng: place.x,
     });
     // onClose();
-    dispatch(closeMapModal())
+    dispatch(closeModal('map'))
   };
 
   return (
     <Modal
-    isModalOpen={isMapModalOpen}
-    onClose={() => dispatch(closeMapModal())}
+    type='map'
     >
         <div className="map-modal-content">
           <div className="map-search">
@@ -175,7 +174,7 @@ const MapModal = ({ onSelect }) => {
             </ul>
           </div>
 
-          <button className="close-button" onClick={() => dispatch(closeMapModal())}>
+          <button className="close-button" onClick={() => dispatch(closeModal('map'))}>
             닫기
           </button>
         </div>

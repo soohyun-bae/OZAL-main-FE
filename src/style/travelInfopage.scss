@@ -19,71 +19,71 @@
 // }
 
 // taglist
-.tag-container {
-  @include flex($justify: center, $align: center, $direction: column);
+// .tag-container {
+//   @include flex($justify: center, $align: center, $direction: column);
 
-  width: 100%;
-  height: 15vh;
-  position: relative;
+//   width: 100%;
+//   height: 15vh;
+//   position: relative;
 
-  &::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 50%; // 가운데 정렬
-    width: 80%; // 너비 80%로 조정
-    height: 3px;
-    border-bottom: double 3px rgb(88, 88, 88);
-    transform: translateX(-50%); // 가운데 정렬 유지
-  }
+//   &::after {
+//     content: "";
+//     position: absolute;
+//     bottom: 0;
+//     left: 50%; // 가운데 정렬
+//     width: 80%; // 너비 80%로 조정
+//     height: 3px;
+//     border-bottom: double 3px rgb(88, 88, 88);
+//     transform: translateX(-50%); // 가운데 정렬 유지
+//   }
 
-  ul {
-    @include flex($justify: center, $gap: 1rem);
-    list-style: none;
-    cursor: pointer;
+  // ul {
+  //   @include flex($justify: center, $gap: 1rem);
+  //   list-style: none;
+  //   cursor: pointer;
 
-    .city-name {
-      @include font-style(
-        $size: clamp(1.2rem, 2.5vw, 1.75rem),
-        $line-height: 1,
-        $weight: 600
-      );
-      display: inline-block;
-      // margin-bottom: 3px;
-    }
-    .district-name {
-      @include font-style(
-        $size: clamp(1rem, 2.5vw, 1.5rem),
-        $line-height: 0.5,
-        $color: rgb(70, 70, 70)
-      );
-      display: inline-block;
-      // margin-bottom: 3px;
-    }
-  }
-}
+  //   .city-name {
+  //     @include font-style(
+  //       $size: clamp(1.2rem, 2.5vw, 1.75rem),
+  //       $line-height: 1,
+  //       $weight: 600
+  //     );
+  //     display: inline-block;
+  //     // margin-bottom: 3px;
+  //   }
+  //   .district-name {
+  //     @include font-style(
+  //       $size: clamp(1rem, 2.5vw, 1.5rem),
+  //       $line-height: 0.5,
+  //       $color: rgb(70, 70, 70)
+  //     );
+  //     display: inline-block;
+  //     // margin-bottom: 3px;
+  //   }
+  // }
+// }
 
-.card-wrapper {
-  @include flex($justify: center, $align: center);
-  @include font-style($size: 1.25rem);
+// .card-wrapper {
+//   @include flex($justify: center, $align: center);
+//   @include font-style($size: 1.25rem);
 
-  width: 100%;
-  height: calc(100vh - 15vh);
-  overflow-y: auto; // 스크롤 가능 설정
-  padding-top: 2.5rem;
+//   width: 100%;
+//   height: calc(100vh - 15vh);
+//   overflow-y: auto; // 스크롤 가능 설정
+//   padding-top: 2.5rem;
 
-  .card-container {
-    @include flex(
-      $direction: column,
-      $justify: flex-start,
-      $align: center,
-      $gap: 1rem
-    );
-    width: 100%;
-    height: 100%; //.card-wrapper` 높이에 맞게 설정
-    padding: 2rem 0 0 0;
-    text-decoration: none;
-  }
+  // .card-container {
+  //   @include flex(
+  //     $direction: column,
+  //     $justify: flex-start,
+  //     $align: center,
+  //     $gap: 1rem
+  //   );
+  //   width: 100%;
+  //   height: 100%; //.card-wrapper` 높이에 맞게 설정
+  //   padding: 2rem 0 0 0;
+  //   text-decoration: none;
+  // }
 
   .card-contents {
     @include flex($align: center, $justify: center, $gap: 20px);
@@ -117,4 +117,4 @@
       }
     }
   }
-}
+// }
