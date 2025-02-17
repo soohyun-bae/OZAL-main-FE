@@ -51,7 +51,9 @@ const TagList = () => {
           data={filteredCityData}
           renderItem={(item) => (
             <div
-              className={ListStyle["city-name"]}
+              className={`${ListStyle["city-name"]} ${
+                selectedCity === item.code ? ListStyle.active : ""
+              }`}
               onClick={() => handleCityClick(item.code)}
             >
               {item.name}
@@ -65,7 +67,9 @@ const TagList = () => {
           data={filteredDistrictData}
           renderItem={(item) => (
             <div
-              className={ListStyle["district-name"]}
+              className={`${ListStyle["district-name"]} ${
+                selectedDistrict === item.code ? ListStyle.active : ""
+              }`}
               onClick={() => handleDistrictClick(item.code)}
             >
               {item.name}
