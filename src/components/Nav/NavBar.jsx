@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../../style/dropdown.scss";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,21 +9,20 @@ import {
   setSelectedDistrict,
 } from "../../RTK/slice";
 import Dropdown from "./Dropdown";
-import LoginModal from '../Modal/LoginModal';
+import LoginModal from "../Modal/LoginModal";
 import { openModal } from "../../RTK/modalSlice";
+import "./NavBar.scss";
+import ProfileImage from "../Profile/ProfileImage";
+import MypageModal from "../Modal/MypageModal";
 
 const NavBar = () => {
-  // const user = useSelector((state) => state.auth?.user);
   const isAuthenticated = useSelector((state) => state.auth?.isAuthenticated);
-  const isLoginModalOpen = useSelector((state) => state.modal.modals['login']);
+  const isLoginModalOpen = useSelector((state) => state.modal.modals["login"]);
+  const isMypageModalOpen = useSelector((state) => state.modal.modals["mypage"]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-
-  // useEffect(() => {
-  //   console.log("user:", user);
-  //   console.log("login state:", isAuthenticated);
-  // }, [isAuthenticated]);
+  const { user } = useSelector((state) => state.auth);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -33,7 +32,7 @@ const NavBar = () => {
   const handleAuthNavClick = (e, path) => {
     if (!isAuthenticated) {
       e.preventDefault();
-      dispatch(openModal('login'));
+      dispatch(openModal("login"));
     } else {
       navigate(path);
     }
@@ -59,19 +58,23 @@ const NavBar = () => {
               <div className="dropdown-menu">
                 <div className="menu-items">
                   {isAuthenticated ? (
-                    <div
-                      label="로그아웃"
-                      className="login"
-                      onClick={handleLogout}
-                    >
-                      로그아웃
+                    <div>
+                      <div className="login" onClick={handleLogout}>
+                        로그아웃
+                      </div>
+                      <div onClick={() => dispatch(openModal("mypage"))}>
+                        <ProfileImage
+                          src={user.profilePic}
+                          className="profile-pic"
+                        />
+                      </div>
                     </div>
                   ) : (
                     <div
                       className="login"
                       onClick={() => {
                         console.log("Dispatching openModal with login");
-                        dispatch(openModal('login'));
+                        dispatch(openModal("login"));
                       }}
                     >
                       로그인
@@ -80,12 +83,12 @@ const NavBar = () => {
                   <Link to="/" className="menu-item">
                     메인
                   </Link>
-                  <div
+                  {/* <div
                     className="menu-item"
                     onClick={(e) => handleAuthNavClick(e, "/mypage")}
                   >
                     마이페이지
-                  </div>
+                  </div> */}
                   <div
                     className="menu-item"
                     onClick={(e) => handleAuthNavClick(e, "/travel-diary")}
@@ -102,6 +105,7 @@ const NavBar = () => {
         )}
       </Dropdown>
       {isLoginModalOpen && <LoginModal />}
+      {isMypageModalOpen && <MypageModal />}
     </div>
   );
 };

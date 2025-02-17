@@ -18,7 +18,7 @@ function App() {
           <Route path="/" element={<Main />} />
           <Route path="/auth/kakao/callback" element={<KakaoCallback />} />
           <Route path="/travel-diary" element={<TravelDiaryPage />} />
-          <Route path="/mypage" element={<Mypage />} />
+          {/* <Route path="/mypage" element={<Mypage />} /> */}
           <Route path="/write-post" element={<Travelhistory />} />
           <Route path="/travel-info" element={<TravelInfopage />} />
           <Route

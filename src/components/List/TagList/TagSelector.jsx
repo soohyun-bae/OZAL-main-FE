@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCityName } from "../../RTK/thunk";
-import "../../style/travelInfopage.scss";
-import useMediaQuery from "../../hooks/useMediaQuery";
-import Modal from "../Modal/Modal";
-import { openModal, closeModal } from "../../RTK/modalSlice";
+import { fetchCityName } from "../../../RTK/thunk";
+import '../../../style/travelInfopage.scss';
+import useMediaQuery from "../../../hooks/useMediaQuery";
+import Modal from "../../Modal/Modal";
+import { openModal, closeModal } from "../../../RTK/modalSlice";
 import TagList from "./TagList";
-import ListStyle from "../List/List.module.scss";
+import ListStyle from '.././List.module.scss'
 
 const TagSelector = () => {
   const dispatch = useDispatch();

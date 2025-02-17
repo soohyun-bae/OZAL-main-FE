@@ -34,12 +34,16 @@ export const districtSlice = createSlice({
   name: "district",
   initialState: {
     data: [],
+    allDistrictData: [],
     loading: false,
     selectedDistrict: null,
   },
   reducers: {
     setSelectedDistrict(state, action) {
       state.selectedDistrict = action.payload;
+    },
+    setAllDistrictData(state, action) {
+      state.allDistrictData = action.payload; // 서울의 모든 구 데이터 설정
     },
   },
   extraReducers: (builder) => {
@@ -50,6 +54,8 @@ export const districtSlice = createSlice({
       .addCase(fetchDistrictName.fulfilled, (state, action) => {
         state.loading = false;
         state.data = action.payload;
+        state.allDistrictData = action.payload;
+
       })
       .addCase(fetchDistrictName.rejected, (state) => {
         state.loading = false;
@@ -57,7 +63,7 @@ export const districtSlice = createSlice({
   },
 });
 
-export const { setSelectedDistrict } = districtSlice.actions;
+export const { setSelectedDistrict, setAllDistrictData } = districtSlice.actions;
 
 export const tourListSlice = createSlice({
   name: "tourList",
