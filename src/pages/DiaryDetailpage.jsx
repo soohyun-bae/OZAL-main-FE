@@ -1,5 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
+import "../style/DiaryDetailPage.scss";
 // import { useDispatch, useSelector } from "react-redux";
 // import { fetchPost } from "../RTK/postThunk";
 import image1 from "../assets/1.png";
