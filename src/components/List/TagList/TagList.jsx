@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 import MappedList from "../MappedList";
 import { useDispatch, useSelector } from "react-redux";
-import { setAllDistrictData, setSelectedCity, setSelectedDistrict } from "../../../RTK/slice";
+// import { setAllDistrictData, setSelectedCity, setSelectedDistrict } from "../../../RTK/slice";
 import ListStyle from ".././List.module.scss";
-import { fetchDistrictName } from "../../../RTK/thunk";
+// import { fetchDistrictName } from "../../../RTK/thunk";
+import { setSelectedCity, setSelectedDistrict } from "../../../RTK/tour/slice";
+import { fetchDistrictName } from "../../../RTK/tour/thunk";
 
 const TagList = () => {
   const dispatch = useDispatch();
@@ -20,11 +22,11 @@ const TagList = () => {
     if (selectedCity === areaCode) {
       dispatch(setSelectedCity(null));
       dispatch(setSelectedDistrict(null));
-      dispatch(setAllDistrictData([]));
+      // dispatch(setAllDistrictData([]));
     } else {
       dispatch(setSelectedCity(areaCode));
       dispatch(setSelectedDistrict(null));
-      dispatch(setAllDistrictData([]));
+      // dispatch(setAllDistrictData([]));
       dispatch(fetchDistrictName(areaCode)); // 해당 도시의 모든 구 목록을 가져오기
     }
   };
@@ -32,7 +34,7 @@ const TagList = () => {
   useEffect(() => {
     if (selectedCity) {
       dispatch(fetchDistrictName(selectedCity));
-      dispatch(setAllDistrictData([]));
+      // dispatch(setAllDistrictData([]));
     } else {
       dispatch(setSelectedDistrict(null));
     }
