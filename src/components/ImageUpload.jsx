@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "../style/ImageUpload.scss";
+import "../style/EditorCommon.scss";
 
 const ImageUpload = ({ onImagesChange }) => {
   const [imageUrls, setImageUrls] = useState([]);
@@ -35,15 +36,19 @@ const ImageUpload = ({ onImagesChange }) => {
   return (
     <div className="image-upload-container">
       <div className="file-input-wrapper">
+        <h3>이미지 업로드</h3>
         <input
           type="file"
+          id="file-input"
           multiple
           accept="image/*"
           onChange={handleImageUpload}
           max="10"
         />
+        {/* 커스텀 버튼 (label) */}
+        <label htmlFor="file-input">이미지 선택</label>
+        <p className="info-text">* 이미지는 최대 10개까지 선택 가능합니다.</p>
       </div>
-      <p className="info-text">* 이미지는 최대 10개까지 선택 가능합니다.</p>
       <div className="image-preview-container">
         {imageUrls.map((url, index) => (
           <div key={index} className="preview-item">

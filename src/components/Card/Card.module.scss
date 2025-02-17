@@ -29,7 +29,7 @@
       min-width: 220px;
       height: 15vh; /* 고정 높이 (원하는 비율로 조절) */
       min-height: 140px;
-      border-radius: 16px;
+      border-radius: 10px;
     }
   }
 
@@ -65,7 +65,7 @@
   @include diary-topbox($width: 70vw);
   @include flex($direction: cloumn, $justify: center, $align: center);
   min-width: 650px;
-
+  padding: 25px 0;
   background-color: #ffffff;
   margin-bottom: 1.5rem;
   height: 150px;

@@ -7,11 +7,13 @@ import { updatePostData } from "../RTK/postSlice";
 import MapModal from "./Modal/MapModal";
 import { openModal } from "../RTK/modalSlice";
 
+import "../style/EditorCommon.scss";
+
 const EditorCommon = () => {
   const quillRef = useRef();
   const dispatch = useDispatch();
   const { postData } = useSelector((state) => state.post);
-  const isMapModalOpen = useSelector((state) => state.modal.modals['map']);
+  const isMapModalOpen = useSelector((state) => state.modal.modals["map"]);
 
   const modules = {
     toolbar: {
@@ -74,7 +76,7 @@ const EditorCommon = () => {
         })
       );
     }
-    dispatch(closeModal('map'));
+    dispatch(closeModal("map"));
   };
 
   return (
@@ -101,7 +103,7 @@ const EditorCommon = () => {
           <button
             className="search-location-btn"
             onClick={() => {
-              dispatch(openModal('map'));
+              dispatch(openModal("map"));
             }}
           >
             위치 검색
@@ -110,9 +112,7 @@ const EditorCommon = () => {
 
         <div id="static-map" className="static-map">
           {!postData.mapData && (
-            <p className="map-placeholder">
-              위치를 검색하여 지도를 추가해주세요.
-            </p>
+            <p className="info-text">*위치를 검색하여 지도를 추가해주세요.</p>
           )}
         </div>
       </div>
@@ -120,7 +120,7 @@ const EditorCommon = () => {
       {isMapModalOpen && (
         <>
           {console.log("MapModal 렌더링됨!")}
-            <MapModal onSelect={handleLocationSelect}/>
+          <MapModal onSelect={handleLocationSelect} />
         </>
       )}
     </div>

@@ -1,4 +1,41 @@
-// .toastui-editor-contents > p:first-child,
-// .toastui-editor-contents > p:nth-child(2) {
-//   display: none;
-// }
+@use "../style/mixins.scss" as *;
+
+.editor-container {
+  //   background-color: #997272;
+  width: 70vw;
+  margin-top: 50px;
+}
+
+.image-upload-section {
+  @include flex($justify: center, $direction: column);
+  border-bottom: solid 0.5px $color-navy;
+  margin-bottom: 10px;
+}
+
+.location-section {
+  @include flex(
+    $direction: row,
+    $align: center,
+    $gap: 10px,
+    // $justify: space-between
+  );
+  .location-header {
+    @include flex($direction: row);
+    h3 {
+      letter-spacing: 8px;
+      color: $color-navy;
+    }
+    button {
+      @include profle-picbtn;
+      padding: 4px;
+      margin: 0 0 0 8px;
+      letter-spacing: 3px;
+    }
+  }
+}
+// 파일선택, 위치정보 text
+.info-text {
+  @include font-style($size: 0.875rem);
+  color: $color-navy;
+  padding-top: 12px;
+}
