@@ -1,9 +1,20 @@
+@use "../style/mixins.scss" as *;
+
 .diary-detail-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
   background-color: #ffffff;
 
+  .action-buttons {
+    @include flex($justify: end, $gap: 10px);
+    button {
+      @include profle-picbtn;
+      width: 80px;
+      height: 40px;
+      margin: 20px 0 0 0;
+    }
+  }
   section {
     margin-bottom: 3rem;
     border-radius: 12px;
@@ -14,18 +25,21 @@
 
   // 이미지 섹션
   .images-section {
+    margin: 20px 0 0 0;
     h2 {
       font-size: 1.5rem;
-      color: #2c3e50;
+      color: $color-navy;
       margin-bottom: 1.5rem;
       font-weight: 600;
+    }
+    .imglist {
+      padding: 10px 0;
     }
 
     div {
       display: flex;
       gap: 1.5rem;
       overflow-x: auto;
-      padding-bottom: 1rem;
       scrollbar-width: thin;
 
       &::-webkit-scrollbar {
@@ -50,7 +64,8 @@
         min-width: 300px;
         border-radius: 12px;
         overflow: hidden;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
         transition: transform 0.2s ease;
 
         &:hover {
@@ -70,7 +85,7 @@
   // 콘텐츠 섹션
   .content-section {
     line-height: 1.8;
-    color: #2c3e50;
+    color: $color-navy;
 
     .editor-content {
       font-size: 1.1rem;

@@ -80,14 +80,10 @@ const DiaryDetailPage = () => {
       {/* 1. 이미지 리스트 섹션 */}
       <section className="images-section">
         <h2>이미지 리스트</h2>
-        <div style={{ display: "flex", gap: "10px", overflow: "scroll" }}>
+        <div className="imglist">
           {mockData.images.map((image) => (
-            <div key={image.id} style={{ minWidth: "300px" }}>
-              <img
-                src={image.src}
-                alt={image.alt}
-                style={{ width: "100%", height: "200px", objectFit: "cover" }}
-              />
+            <div key={image.id}>
+              <img src={image.src} alt={image.alt} />
             </div>
           ))}
         </div>
