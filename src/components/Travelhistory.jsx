@@ -24,6 +24,10 @@ const Travelhistory = () => {
     }
   };
 
+  const handleTestNavigate = () => {
+    navigate("/diary-detail/1");
+  };
+
   return (
     <div className="editor-container">
       <div className="editor-header">
@@ -35,6 +39,7 @@ const Travelhistory = () => {
           <button className="publish-button" onClick={handlePublish}>
             발행
           </button>
+          <button onClick={handleTestNavigate}>test</button>
         </div>
       </div>
 

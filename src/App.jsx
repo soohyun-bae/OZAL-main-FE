@@ -26,6 +26,7 @@ function App() {
             element={<DetailTravelInfo />}
           />
           <Route path="/diary/:id" element={<DiaryDetailpage />} />
+          <Route path="/diary-detail/:id" element={<DiaryDetailpage />} />
         </Route>
       </Routes>
     </Router>
