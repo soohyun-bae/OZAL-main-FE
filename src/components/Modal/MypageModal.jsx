@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import "../style/Mypage.scss";
-import "../App.css";
-import { updateNickname, updateProfilePic } from "../RTK/authThunk";
-import { setUser } from "../RTK/authSlice";
-import ProfileImage from "../components/Profile/ProfileImage";
+import React, { useEffect, useState } from "react";
+import Modal from "./Modal";
+import { useDispatch, useSelector } from "react-redux";
+import ProfileImage from "../Profile/ProfileImage";
+import "../../style/Mypage.scss";
+import { updateNickname } from "../../RTK/authThunk";
+import { setUser } from "../../RTK/authSlice";
 
-const Mypage = () => {
+const MypageModal = () => {
+  const isModalOpen = useSelector((state) => state.modal.modals["mypage"]);
   const dispatch = useDispatch();
   const { user, token } = useSelector((state) => state.auth);
 
@@ -73,29 +74,41 @@ const Mypage = () => {
   };
 
   return (
-    <div className="mypage-container">
-      <h2>마이페이지</h2>
-      <div className="profile-section">
-        <ProfileImage src={previewPic} className='profile-pic'/>
-        <input type="file" accept="image/*" onChange={handleProfilePicChange} />
-        <button onClick={changeProfilePic}>프로필 사진 변경</button>
-        <button onClick={changeToDefaultProfilePic}>기본 프로필 사진</button>
-      </div>
-      <div className="info-section">
-        <span>이름 : {user?.nickname}</span>
-        <div className="nickname">
-          <span>닉네임 :</span>
-          <input
-            type="text"
-            value={newNickname}
-            onChange={(e) => setNewNickname(e.target.value)}
-          />
-          <button onClick={handleNicknameChange}>저장</button>
-          {errorMessage && <p>{errorMessage}</p>}
-        </div>
-      </div>
-    </div>
+    <>
+      {isModalOpen && (
+        <Modal type="mypage">
+          <div className="mypage-container">
+            <h2>마이페이지</h2>
+            <div className="profile-section">
+              <ProfileImage src={previewPic} className="profile-pic" />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleProfilePicChange}
+              />
+              <button onClick={changeProfilePic}>프로필 사진 변경</button>
+              <button onClick={changeToDefaultProfilePic}>
+                기본 프로필 사진
+              </button>
+            </div>
+            <div className="info-section">
+              <span>이름 : {user?.nickname}</span>
+              <div className="nickname">
+                <span>닉네임 :</span>
+                <input
+                  type="text"
+                  value={newNickname}
+                  onChange={(e) => setNewNickname(e.target.value)}
+                />
+                <button onClick={handleNicknameChange}>저장</button>
+                {errorMessage && <p>{errorMessage}</p>}
+              </div>
+            </div>
+          </div>
+        </Modal>
+      )}
+    </>
   );
 };
 
-export default Mypage;
+export default MypageModal;

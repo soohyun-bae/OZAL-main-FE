@@ -21,9 +21,24 @@ const TravelInfoCard = () => {
     (state) => state.detailInfo
   );
 
+  const { allDistrictData } = useSelector((state) => state.district);
+
   const [loadedContentIds, setLoadedContentIds] = useState(new Set());
 
   useEffect(() => {
+    console.log('all district data:', allDistrictData)
+
+    if (!!selectedCity) {
+      allDistrictData.forEach((district) => {
+        // 각 구에 대해 fetchTourList 호출
+        dispatch(
+          fetchTourList({
+            areaCode: selectedCity,
+            districtCode: district.code, // 구 코드
+          })
+        );
+      });
+    }
     if (!!selectedDistrict && !!selectedCity) {
       dispatch(
         fetchTourList({
@@ -34,7 +49,7 @@ const TravelInfoCard = () => {
     } else {
       dispatch(clearTourList());
     }
-  }, [selectedCity, selectedDistrict]);
+  }, [selectedCity, selectedDistrict, allDistrictData]);
 
   useEffect(() => {
     if (tourListData?.length > 0) {
@@ -45,7 +60,6 @@ const TravelInfoCard = () => {
           !detailInfoData?.find((info) => info.contentid === item.contentid)
       );
       fetchList.forEach((item) => {
-        console.log(item.firstimage2);
         dispatch(fetchDetailInfo(item.contentid));
         newIds.add(item.contentid);
       });
