@@ -18,7 +18,7 @@ const KakaoCallback = () => {
       dispatch(kakaoLogin(code))
         .unwrap()
         .then(() => {
-          navigate("/mypage");
+          navigate("/");
         })
         .catch((error) => {
           setTimeout(() => {

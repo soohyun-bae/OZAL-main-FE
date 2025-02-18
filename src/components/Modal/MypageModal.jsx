@@ -14,7 +14,7 @@ const MypageModal = () => {
   const [newNickname, setNewNickname] = useState(user?.nickname || "");
   const [newProfilePic, setNewProfilePic] = useState(null);
   const [previewPic, setPreviewPic] = useState(
-    user?.profilePic || "src/assets/Frame_3_2.png"
+    user?.profile_image || "src/assets/Frame_3_2.png"
   );
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -36,20 +36,18 @@ const MypageModal = () => {
     }
   };
 
-  const handleNicknameChange = () => {
-    if (newNickname !== user.nickname) {
-      dispatch(updateNickname(newNickname))
-        .unwrap()
-        .then(() => {
-          console.log("nickname has changed");
-          setErrorMessage("");
-        })
-        .catch((error) => {
-          console.error("nickname change failed", error);
-          setErrorMessage(error.message);
-        });
+  const handleNicknameChange = async () => {
+    if (newNickname && newNickname !== user.nickname) {
+      try {
+        await dispatch(updateNickname(newNickname)).unwrap();
+        setErrorMessage("");
+        console.log("Nickname updated successfully");
+      } catch (error) {
+        console.error("Failed to update nickname:", error);
+        setErrorMessage(error.message || "닉네임 변경에 실패했습니다.");
+      }
     } else {
-      setErrorMessage("변경된 닉네임이 없습니다.");
+      setErrorMessage("변경할 닉네임을 입력해주세요.");
     }
   };
 
@@ -80,7 +78,10 @@ const MypageModal = () => {
           <div className="mypage-container">
             <h2>마이페이지</h2>
             <div className="profile-section">
-              <ProfileImage src={previewPic} className="profile-pic" />
+              <ProfileImage
+                src={previewPic || user.profile_image}
+                className="profile-pic"
+              />
               <input
                 type="file"
                 accept="image/*"
@@ -100,7 +101,12 @@ const MypageModal = () => {
                   value={newNickname}
                   onChange={(e) => setNewNickname(e.target.value)}
                 />
-                <button onClick={handleNicknameChange}>저장</button>
+                <button
+                  onClick={handleNicknameChange}
+                  disabled={!newNickname || newNickname === user.nickname}
+                >
+                  저장
+                </button>
                 {errorMessage && <p>{errorMessage}</p>}
               </div>
             </div>
