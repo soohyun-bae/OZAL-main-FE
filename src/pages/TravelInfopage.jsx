@@ -1,8 +1,8 @@
-import TravelInfoCard from "../components/TravelInfoCard";
 import infoPicture from "../assets/infopage.png";
 import "../style/travelInfopage.scss";
 import Header from "../components/Header/Header";
 import TagSelector from '../components/List/TagList/TagSelector';
+import TravelInfoCard from "../components/Card/TravelInfoCard";
 
 const TravelInfopage = () => {
   return (
