@@ -1,10 +1,4 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-// import {
-//   citySlice,
-//   // detailInfoSlice,
-//   districtSlice,
-//   // tourListSlice,
-// } from "./tour/slice";
 import authReducer from "./authSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
@@ -39,8 +33,6 @@ const rootReducer = combineReducers({
   city: citySlice.reducer,
   district: districtSlice.reducer,
   [tourApi.reducerPath]: tourApi.reducer,
-  // tourList: tourListSlice.reducer,
-  // detailInfo: detailInfoSlice.reducer,
   post: postSlice.reducer,
   modal: modalReducer,
 });

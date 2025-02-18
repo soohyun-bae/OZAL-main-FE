@@ -66,7 +66,6 @@ const NavBar = () => {
                     <div
                       className="login"
                       onClick={() => {
-                        console.log("Dispatching openModal with login");
                         dispatch(openModal("login"));
                       }}
                     >
@@ -86,12 +85,14 @@ const NavBar = () => {
                     여행정보
                   </Link>
                 </div>
-                <div onClick={() => dispatch(openModal("mypage"))}>
-                  <ProfileImage
-                    src={user.profile_image}
-                    className="profile-pic"
-                  />
-                </div>
+                {isAuthenticated && (
+                  <div onClick={() => dispatch(openModal("mypage"))}>
+                    <ProfileImage
+                      src={user.profilePic}
+                      className="profile-pic"
+                    />
+                  </div>
+                )}
               </div>
             )}
           </>

@@ -10,10 +10,9 @@ import { setUser } from "../../RTK/authSlice";
 import { closeModal } from "../../RTK/modalSlice";
 
 const LoginModal = () => {
-  const [rememberUser, setRememberUser] = useState(false);
+  const rememberUser = useSelector((state) => state.auth.rememberUser);
   const dispatch = useDispatch();
   const isLoginModalOpen = useSelector((state) => {
-    console.log(state.modal); // 상태 전체 확인
     return state.modal.modals["login"];
   });
   const KAKAO_REST_API = import.meta.env.VITE_KAKAO_REST_API_KEY;
@@ -22,14 +21,24 @@ const LoginModal = () => {
   const handleKakaoLogin = () => {
     const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_REST_API}&redirect_uri=${REDIRECT_URI}&response_type=code`;
     window.location.href = kakaoAuthURL;
-    //   const mockUser = {
-    //     name: "홍길동",
-    //     nickname: "길동이",
-    //     profilePic: "src/assets/1.png",
-    //   };
 
-    //   dispatch(setUser({ user: mockUser, token: "mockToken", rememberUser }));
-    //   dispatch(closeModal("login"));
+    // const mockUser = {
+    //   name: "홍길동",
+    //   nickname: "길동이",
+    //   profilePic: "src/assets/1.png",
+    // };
+
+    // dispatch(setUser({ user: mockUser, token: "mockToken", rememberUser }));
+    // dispatch(closeModal("login"));
+  };
+
+  const handleRememberUser = (e) => {
+    dispatch(
+      setUser({
+        ...authState,
+        rememberUser: e.target.checked,
+      })
+    );
   };
 
   return (
@@ -52,7 +61,7 @@ const LoginModal = () => {
                 <input
                   type="checkbox"
                   checked={rememberUser}
-                  onChange={(e) => setRememberUser(e.target.checked)}
+                  onChange={handleRememberUser}
                 />
                 로그인 상태 유지
               </div>
