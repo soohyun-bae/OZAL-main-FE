@@ -25,7 +25,7 @@ export const createPost = createAsyncThunk(
         title: postData.title,
         content: postData.editorData,
         place: postData.mapData?.placeName || "",
-        user: "작성자",
+        user: postData.user,
       };
 
       // JSON 데이터를 FormData에 추가
@@ -40,6 +40,9 @@ export const createPost = createAsyncThunk(
       const response = await backendAPI.post("/ozal/trippost", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${
+            localStorage.getItem("token") || sessionStorage.getItem("token")
+          }`,
         },
       });
 
@@ -76,7 +79,7 @@ export const saveMapInfo = async (mapData) => {
       longitude: mapData.longitude,
     };
 
-    await backendAPI.post("/ozal/trippost/map", mapInfo);
+    await backendAPI.post("/ozal/travel/map", mapInfo);
   } catch (error) {
     console.error("지도 정보 저장 실패:", error);
   }

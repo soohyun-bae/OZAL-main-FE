@@ -87,7 +87,10 @@ const NavBar = () => {
                   </Link>
                 </div>
                 <div onClick={() => dispatch(openModal("mypage"))}>
-                  <ProfileImage src={user.profilePic} className="profile-pic" />
+                  <ProfileImage
+                    src={user.profile_image}
+                    className="profile-pic"
+                  />
                 </div>
               </div>
             )}

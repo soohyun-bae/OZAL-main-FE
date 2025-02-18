@@ -27,15 +27,11 @@ export const updateProfilePic = createAsyncThunk(
   "auth/updateProfilePic",
   async (file, thunkAPI) => {
     try {
-      const state = thunkAPI.getState();
-
-      let profileImageUrl = file;
-
       if (typeof file !== "string") {
         const formData = new FormData();
-        formData.append("file", file);
+        formData.append("profile_image", file);
 
-        const uploadResponse = await backendAPI.post(
+        const response = await backendAPI.put(
           "/ozal/mypage/update/image",
           formData,
           {
@@ -45,15 +41,10 @@ export const updateProfilePic = createAsyncThunk(
           }
         );
 
-        profileImageUrl = uploadResponse.data.url;
+        return response.data.profile_image;
       }
 
-      await backendAPI.post("/ozal/mypage/update", {
-        user_id: state.auth.user.id,
-        profile_image: profileImageUrl,
-      });
-
-      return profileImageUrl;
+      return file;
     } catch (error) {
       if (error.response && error.response.data) {
         const { error: errorType, message } = error.response.data;
@@ -77,7 +68,7 @@ export const updateNickname = createAsyncThunk(
   "auth/updateNickname",
   async (newNickname, { rejectWithValue }) => {
     try {
-      const response = await backendAPI.post("/ozal/mypage/update", {
+      const response = await backendAPI.put("/ozal/mypage/update", {
         nickname: newNickname,
       });
       return response.data.nickname;
