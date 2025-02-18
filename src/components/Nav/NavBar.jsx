@@ -3,11 +3,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../../style/dropdown.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../RTK/authSlice";
-// import {
-//   clearTourList,
-//   setSelectedCity,
-//   setSelectedDistrict,
-// } from "../../RTK/slice";
 import Dropdown from "./Dropdown";
 import LoginModal from "../Modal/LoginModal";
 import { openModal } from "../../RTK/modalSlice";
@@ -15,6 +10,7 @@ import "./NavBar.scss";
 import ProfileImage from "../Profile/ProfileImage";
 import MypageModal from "../Modal/MypageModal";
 import { setSelectedCity, setSelectedDistrict } from "../../RTK/tour/slice";
+import { tourApi } from "../../RTK/tour/tourApi";
 
 const NavBar = () => {
   const isAuthenticated = useSelector((state) => state.auth?.isAuthenticated);
@@ -43,7 +39,7 @@ const NavBar = () => {
     if (!location.pathname.startsWith("/travel-info")) {
       dispatch(setSelectedDistrict(null));
       dispatch(setSelectedCity(null));
-      // dispatch(clearTourList());
+      dispatch(tourApi.util.resetApiState());
     } else {
       return;
     }
@@ -84,12 +80,6 @@ const NavBar = () => {
                   <Link to="/" className="menu-item">
                     메인
                   </Link>
-                  {/* <div
-                    className="menu-item"
-                    onClick={(e) => handleAuthNavClick(e, "/mypage")}
-                  >
-                    마이페이지
-                  </div> */}
                   <div
                     className="menu-item"
                     onClick={(e) => handleAuthNavClick(e, "/travel-diary")}
