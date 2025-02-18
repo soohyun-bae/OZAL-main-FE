@@ -36,19 +36,21 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
-      const { user, token, rememberUser } = action.payload;
+      const { user, tokens, rememberUser } = action.payload;
       state.user = user;
-      state.token = token;
+      state.token = tokens.access;
       state.isAuthenticated = true;
       state.rememberUser = rememberUser;
 
-      const authData = JSON.stringify({ user, token });
+      const authData = JSON.stringify({ user, tokens });
       if (rememberUser) {
-        localStorage.setItem("token", token);
+        localStorage.setItem("access token", tokens.access);
+        localStorage.setItem("refresh_token", tokens.refresh);
         localStorage.setItem("auth", authData);
         sessionStorage.clear();
       } else {
-        sessionStorage.setItem("token", token);
+        sessionStorage.setItem("access token", tokens.access);
+        sessionStorage.setItem("refresh_token", tokens.refresh);
         sessionStorage.setItem("auth", authData);
         localStorage.clear();
       }
@@ -72,8 +74,9 @@ const authSlice = createSlice({
     builder
       .addCase(kakaoLogin.fulfilled, (state, action) => {
         if (action.payload.user && action.payload.tokens) {
+          console.log("login", action.payload);
           state.user = action.payload.user;
-          state.token = action.payload.tokens;
+          state.token = action.payload.tokens.access;
           state.isAuthenticated = true;
 
           const authData = JSON.stringify({
@@ -81,6 +84,8 @@ const authSlice = createSlice({
             token: action.payload.tokens,
           });
           sessionStorage.setItem("auth", authData);
+          sessionStorage.setItem("access token", action.payload.tokens.access);
+          localStorage.setItem("refresh_token", action.payload.tokens.refresh);
         }
         state.error = null;
       })

@@ -11,7 +11,9 @@ export const kakaoLogin = createAsyncThunk(
       if (response.data.loginSuccess == "실패") {
         return rejectWithValue("login failed");
       }
-      return response.data;
+
+      const { user, tokens } = response.data;
+      return { user, tokens };
     } catch (error) {
       if (error.response && error.response.data) {
         if (error.response.data.loginSuccess === "실패") {

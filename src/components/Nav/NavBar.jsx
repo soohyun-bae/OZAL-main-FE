@@ -88,7 +88,7 @@ const NavBar = () => {
                 {isAuthenticated && (
                   <div onClick={() => dispatch(openModal("mypage"))}>
                     <ProfileImage
-                      src={user.profilePic}
+                      src={user.profile_image}
                       className="profile-pic"
                     />
                   </div>

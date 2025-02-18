@@ -22,9 +22,9 @@ backendAPI.interceptors.request.use(
       if (isExpired) {
         try {
           const response = await backendAPI.post("/ozal/refresh/", {
-            'access token': refreshToken,
+            refreshToken,
           });
-          const { newAccessToken } = response.data;
+          const { tokens } = response.data;
           // const rememberUser = localStorage.getItem('rememberUser') === 'true';
 
           // if(rememberUser) {
@@ -33,7 +33,10 @@ backendAPI.interceptors.request.use(
           //   sessionStorage.setItem('access token', newAccessToken);
           // }
 
-          authToken = newAccessToken;
+          authToken = tokens.access;
+
+          sessionStorage.setItem("access token", authToken);
+          localStorage.setItem("refresh_token", tokens.refresh);
         } catch (error) {
           console.error('토큰 갱신 실패', error);
           return Promise.reject(error);
@@ -41,9 +44,6 @@ backendAPI.interceptors.request.use(
       }
 
       config.headers.Authorization = `Bearer ${authToken}`;
-      if (refreshToken) {
-        config.headers.Refresh = `${refreshToken}`;
-      }
     }
     return config;
   },
