@@ -6,7 +6,7 @@ import image3 from "../assets/3.png";
 import image4 from "../assets/4.png";
 import image5 from "../assets/5.png";
 import image6 from "../assets/6.png";
-import waypoint from "../assets/mainlogo.png";
+import waypoint from "../assets/mainLogo.png";
 
 import downIcon from "../assets/down-icon.png";
 import Carousel from "../components/Carousel/Carousel";
