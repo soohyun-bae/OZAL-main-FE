@@ -6,6 +6,7 @@ import image3 from "../assets/3.png";
 import image4 from "../assets/4.png";
 import image5 from "../assets/5.png";
 import image6 from "../assets/6.png";
+import mainLogo from "../assets/mainLogo.png";
 import downIcon from "../assets/down-icon.png";
 import Carousel from "../components/Carousel/Carousel";
 
@@ -65,7 +66,9 @@ export default function MainLayout() {
           <div className="mainImageSection">
             <img src={image6} alt="메인 이미지" className="mainImage" />
           </div>
-          <div className="logo">logo</div>
+          <div className="logo">
+            <img src={mainLogo} alt="mainlogo" className="mainlogo" />
+          </div>
         </div>
         <div className="scroll-arrow">
           <img src={downIcon} alt="scroll down" className="scroll-down3" />

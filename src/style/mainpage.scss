@@ -30,15 +30,16 @@
   transition: transform 2s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
-.logo {
-  position: absolute;
+.mainlogo {
+  @include flex($justify: center, $align: center);
+  position: fixed;
+  width: 100%;
+  max-width: 300px;
+  z-index: 10;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: white;
-  font-size: 150px;
-  font-weight: bold;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  filter: drop-shadow(3px 3px 1px #ffffff);
 }
 
 .scroll-arrow {

@@ -17,19 +17,19 @@
   }
   section {
     margin-bottom: 3rem;
-    border-radius: 12px;
+    // border-radius: 12px;
     background: #fff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    // box-shadow: 0 2px 8px rgba(0, 0, 0, 0.684);
     padding: 2rem;
   }
 
   // 이미지 섹션
   .images-section {
-    margin: 20px 0 0 0;
+    margin: 20px 0 30px 0;
+    border-bottom: solid 1px $color-sky;
     h2 {
-      font-size: 1.5rem;
-      color: $color-navy;
-      margin-bottom: 1.5rem;
+      @include font-style($size: 1.5rem, $weight: 600, $color: $color-navy);
+
       font-weight: 600;
     }
     .imglist {

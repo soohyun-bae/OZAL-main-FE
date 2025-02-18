@@ -15,7 +15,9 @@ import { tourApi } from "../../RTK/tour/tourApi";
 const NavBar = () => {
   const isAuthenticated = useSelector((state) => state.auth?.isAuthenticated);
   const isLoginModalOpen = useSelector((state) => state.modal.modals["login"]);
-  const isMypageModalOpen = useSelector((state) => state.modal.modals["mypage"]);
+  const isMypageModalOpen = useSelector(
+    (state) => state.modal.modals["mypage"]
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -59,12 +61,6 @@ const NavBar = () => {
                       <div className="login" onClick={handleLogout}>
                         로그아웃
                       </div>
-                      <div onClick={() => dispatch(openModal("mypage"))}>
-                        <ProfileImage
-                          src={user.profilePic}
-                          className="profile-pic"
-                        />
-                      </div>
                     </div>
                   ) : (
                     <div
@@ -89,6 +85,9 @@ const NavBar = () => {
                   <Link to="/travel-info" className="menu-item">
                     여행정보
                   </Link>
+                </div>
+                <div onClick={() => dispatch(openModal("mypage"))}>
+                  <ProfileImage src={user.profilePic} className="profile-pic" />
                 </div>
               </div>
             )}
