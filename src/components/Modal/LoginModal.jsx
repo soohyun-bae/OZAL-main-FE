@@ -3,7 +3,7 @@ import "../../style/modalStyle.scss";
 import kakaoLogin from "../../assets/kakao_login.png";
 import naverLogin from "../../assets/naver_login.png";
 
-import waypoint from "../../assets/mainlogo.png";
+import mainLogo from "../../assets/mainlogo.png";
 
 import "../../App.css";
 import Modal from "./Modal";
@@ -41,7 +41,7 @@ const LoginModal = () => {
           <div className="modal-contents">
             <div className="modal-login">
               <p>
-                <img src={waypoint} alt="logo" className="logo" />
+                <img src={mainLogo} alt="logo" className="logo" />
               </p>
               <hr />
               <button onClick={handleKakaoLogin}>
