@@ -14,13 +14,13 @@
 
 .location-section {
   @include flex(
-    $direction: row,
-    $align: center,
+    $direction: column,
+    // $align: center,
     $gap: 10px,
     // $justify: space-between
   );
   .location-header {
-    @include flex($direction: row);
+    @include flex($justify: start, $direction: row);
     h3 {
       letter-spacing: 8px;
       color: $color-navy;
@@ -31,11 +31,26 @@
       margin: 0 0 0 8px;
       letter-spacing: 3px;
     }
+    p {
+      padding-left: 10px;
+    }
   }
 }
 // 파일선택, 위치정보 text
 .info-text {
   @include font-style($size: 0.875rem);
+
   color: $color-navy;
   padding-top: 12px;
 }
+
+.static-map {
+  @include flex($direction: column, $justify: center, $align: center);
+  width: 80%;
+  height: 500px;
+  margin: auto;
+}
+// .mapload {
+//   @include flex($justify: center, $align: center);
+//   margin: auto;
+// }

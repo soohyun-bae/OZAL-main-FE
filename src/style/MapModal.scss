@@ -1,3 +1,5 @@
+@use "../style/mixins.scss" as *;
+
 // .map-modal {
 //   position: fixed;
 //   top: 50%;
@@ -10,107 +12,109 @@
 //   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 //   z-index: 1000;
 
-  .map-modal-content {
-    padding: 20px;
+.map-modal-content {
+  padding: 20px;
+  width: 70%;
+  background-color: $color-white;
 
-    .map-search {
-      margin-bottom: 20px;
-      display: flex;
-      gap: 10px;
+  .map-search {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
 
-      input {
-        flex: 1;
-        padding: 8px 12px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        font-size: 14px;
-      }
-
-      button {
-        padding: 8px 16px;
-        background: #ffe400;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-weight: 500;
-
-        &:hover {
-          background: #ffd700;
-        }
-      }
-    }
-
-    .map-container {
-      display: flex;
-      flex-direction: row-reverse;
-      gap: 20px;
-      height: 400px;
-
-      #map {
-        flex: 2;
-        height: 100%;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-      }
-
-      .places-list {
-        flex: 1;
-        height: 100%;
-        overflow-y: auto;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        padding: 0;
-        margin: 0;
-
-        .item {
-          padding: 12px;
-          border-bottom: 1px solid #eee;
-          cursor: pointer;
-
-          &:hover {
-            background: #f8f9fa;
-          }
-
-          .info {
-            h5 {
-              margin: 0 0 5px 0;
-              font-size: 14px;
-              font-weight: 500;
-            }
-
-            span {
-              display: block;
-              font-size: 13px;
-              color: #666;
-              margin-bottom: 2px;
-
-              &.jibun {
-                color: #999;
-              }
-
-              &.tel {
-                color: #666;
-              }
-            }
-          }
-        }
-      }
-    }
-
-    .close-button {
-      margin-top: 20px;
-      padding: 8px 16px;
-      background: #f1f3f5;
+    input {
+      flex: 1;
+      padding: 8px 12px;
       border: 1px solid #ddd;
       border-radius: 4px;
+      font-size: 14px;
+    }
+
+    button {
+      padding: 8px 16px;
+      background: #ffe400;
+      border: none;
+      border-radius: 4px;
       cursor: pointer;
-      float: right;
+      font-weight: 500;
 
       &:hover {
-        background: #e9ecef;
+        background: #ffd700;
       }
     }
   }
+
+  .map-container {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 20px;
+    height: 400px;
+
+    #map {
+      flex: 2;
+      height: 100%;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    .places-list {
+      flex: 1;
+      height: 100%;
+      overflow-y: auto;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 0;
+      margin: 0;
+
+      .item {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+        cursor: pointer;
+
+        &:hover {
+          background: #f8f9fa;
+        }
+
+        .info {
+          h5 {
+            margin: 0 0 5px 0;
+            font-size: 14px;
+            font-weight: 500;
+          }
+
+          span {
+            display: block;
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 2px;
+
+            &.jibun {
+              color: #999;
+            }
+
+            &.tel {
+              color: #666;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .close-button {
+    margin-top: 20px;
+    padding: 8px 16px;
+    background: #f1f3f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
+
+    &:hover {
+      background: #e9ecef;
+    }
+  }
+}
 // }
 
 // 모달 배경

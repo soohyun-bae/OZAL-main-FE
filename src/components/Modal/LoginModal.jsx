@@ -2,7 +2,9 @@ import { useState } from "react";
 import "../../style/modalStyle.scss";
 import kakaoLogin from "../../assets/kakao_login.png";
 import naverLogin from "../../assets/naver_login.png";
-import waypoint from "../../assets/waypoint.png";
+
+import waypoint from "../../assets/mainlogo.png";
+
 import "../../App.css";
 import Modal from "./Modal";
 import { useDispatch, useSelector } from "react-redux";
