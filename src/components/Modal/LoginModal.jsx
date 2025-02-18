@@ -2,6 +2,7 @@ import { useState } from "react";
 import "../../style/modalStyle.scss";
 import kakaoLogin from "../../assets/kakao_login.png";
 import naverLogin from "../../assets/naver_login.png";
+import waypoint from "../../assets/waypoint.png";
 import "../../App.css";
 import Modal from "./Modal";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,32 +14,34 @@ const LoginModal = () => {
   const dispatch = useDispatch();
   const isLoginModalOpen = useSelector((state) => {
     console.log(state.modal); // 상태 전체 확인
-    return state.modal.modals['login'];
+    return state.modal.modals["login"];
   });
   const KAKAO_REST_API = import.meta.env.VITE_KAKAO_REST_API_KEY;
   const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
 
   const handleKakaoLogin = () => {
-    const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_REST_API}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-    window.location.href = kakaoAuthURL;
-    // const mockUser = {
-    //   name: "홍길동",
-    //   nickname: "길동이",
-    //   profilePic: "src/assets/1.png",
-    // };
+    // const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_REST_API}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+    // window.location.href = kakaoAuthURL;
+    const mockUser = {
+      name: "홍길동",
+      nickname: "길동이",
+      profilePic: "src/assets/1.png",
+    };
 
-    // dispatch(setUser({ user: mockUser, token: "mockToken", rememberUser }));
-    // dispatch(closeModal("login"));
+    dispatch(setUser({ user: mockUser, token: "mockToken", rememberUser }));
+    dispatch(closeModal("login"));
   };
 
-  console.log(isLoginModalOpen)
+  console.log(isLoginModalOpen);
   return (
     <>
       {isLoginModalOpen && (
         <Modal type="login">
           <div className="modal-contents">
             <div className="modal-login">
-              <p>Login</p>
+              <p>
+                <img src={waypoint} alt="logo" className="logo" />
+              </p>
               <hr />
               <button onClick={handleKakaoLogin}>
                 <img src={kakaoLogin} alt="kakaoLogin" className="kakaoLogin" />
@@ -56,7 +59,7 @@ const LoginModal = () => {
               </div>
 
               <button
-                onClick={() => dispatch(closeModal('login'))}
+                onClick={() => dispatch(closeModal("login"))}
                 className="close-btn"
               >
                 닫기
