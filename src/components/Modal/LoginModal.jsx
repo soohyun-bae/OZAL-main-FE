@@ -35,7 +35,6 @@ const LoginModal = () => {
   const handleRememberUser = (e) => {
     dispatch(
       setUser({
-        ...authState,
         rememberUser: e.target.checked,
       })
     );
