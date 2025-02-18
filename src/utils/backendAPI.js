@@ -14,23 +14,29 @@ export default backendAPI;
 backendAPI.interceptors.request.use(
   async (config) => {
     let authToken =
-      localStorage.getItem("token") || sessionStorage.getItem("token");
+      localStorage.getItem("access token") || sessionStorage.getItem("access token");
     const refreshToken = localStorage.getItem("refresh_token");
 
     if (authToken) {
       const isExpired = checkJWTExp(authToken);
       if (isExpired) {
         try {
-          const response = await backendAPI.post("/ozal/refresh", {
-            refreshToken,
+          const response = await backendAPI.post("/ozal/refresh/", {
+            'access token': refreshToken,
           });
           const { newAccessToken } = response.data;
+          // const rememberUser = localStorage.getItem('rememberUser') === 'true';
 
-          localStorage.setItem("token", newAccessToken);
+          // if(rememberUser) {
+          //   localStorage.setItem("access token", newAccessToken);
+          // } else {
+          //   sessionStorage.setItem('access token', newAccessToken);
+          // }
+
           authToken = newAccessToken;
-        } catch (Error) {
-          console.error(Error);
-          return Promise.reject(Error);
+        } catch (error) {
+          console.error('토큰 갱신 실패', error);
+          return Promise.reject(error);
         }
       }
 
@@ -51,8 +57,8 @@ backendAPI.interceptors.response.use(
     const newAuthToken = response?.headers?.authorization;
 
     if (newAuthToken) {
-      localStorage.setItem("token", newAuthToken);
-      sessionStorage.setItem("token", newAuthToken);
+      localStorage.setItem("access token", newAuthToken);
+      sessionStorage.setItem("access token", newAuthToken);
     }
     return response;
   },

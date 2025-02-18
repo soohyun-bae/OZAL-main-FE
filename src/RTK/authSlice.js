@@ -23,11 +23,11 @@ const loadAuthState = () => {
 const authState = loadAuthState();
 
 const initialState = {
-  isAuthenticated: !!(
-    sessionStorage.getItem("token") || localStorage.getItem("token")
-  ),
+  // isAuthenticated: !!(sessionStorage.getItem('token') || localStorage.getItem('token')),
   user: authState.user,
   token: authState.token,
+  // isAuthenticated: false,
+  rememberUser: false,
   error: null,
 };
 
@@ -40,6 +40,7 @@ const authSlice = createSlice({
       state.user = user;
       state.token = token;
       state.isAuthenticated = true;
+      state.rememberUser = rememberUser;
 
       const authData = JSON.stringify({ user, token });
       if (rememberUser) {
