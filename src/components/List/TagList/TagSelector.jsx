@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import { fetchCityName } from "../../../RTK/thunk";
 import '../../../style/travelInfopage.scss';
 import useMediaQuery from "../../../hooks/useMediaQuery";
 import Modal from "../../Modal/Modal";

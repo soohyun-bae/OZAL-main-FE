@@ -24,10 +24,14 @@ export const tourApi = createApi({
         },
       }),
       transformResponse: (response) => {
-        // 응답 데이터에서 원하는 배열만 추출
-        const items = response?.response?.body?.items?.item;
-        // items가 배열이면 그대로, 그렇지 않으면 배열로 감싸서 반환
-        return Array.isArray(items) ? items : items ? [items] : [];
+        const filteredData =
+        response.response?.body?.items?.item.map((i) => ({
+          addr1: i.addr1,
+          contentid: i.contentid,
+          firstimage2: i.firstimage2,
+          title: i.title,
+        })) || [];
+      return filteredData;
       },
     }),
 
@@ -48,9 +52,20 @@ export const tourApi = createApi({
         },
       }),
       transformResponse: (response) => {
-        // 상세정보도 배열로 감싸서 반환 (필요한 경우)
         const items = response?.response?.body?.items?.item;
-        return Array.isArray(items) ? items : items ? [items] : [];
+        
+        const body = items
+          ? items.map((i) => ({
+              contentid: i.contentid,
+              hmpg: i.hmpg,
+              title: i.title,
+              firstimage: i.firstimage,
+              addr1: i.addr1,
+              overview: i.overview,
+            }))
+          : [];
+          
+        return body;
       },
     }),
   })
