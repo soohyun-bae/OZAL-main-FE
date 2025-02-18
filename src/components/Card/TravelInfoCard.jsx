@@ -1,13 +1,13 @@
-import { useDispatch, useSelector } from "react-redux";
-import "../style/travelInfopage.scss";
-import ListStyle from "./List/List.module.scss";
-import CardStyle from "./Card/Card.module.scss";
-import MappedList from "./List/MappedList";
+import { useSelector } from "react-redux";
+import "../../style/travelInfopage.scss";
+import ListStyle from "../List/List.module.scss";
+import CardStyle from "../Card/Card.module.scss";
+import MappedList from "../List/MappedList";
 import {
   useFetchDetailInfoQuery,
   useFetchTourListQuery,
-} from "../RTK/tour/tourApi";
-import TourInfoCardItem from "./Card/TourInfoCardItem";
+} from "../../RTK/tour/tourApi";
+import TourInfoCardItem from "./TourInfoCardItem";
 
 const TravelInfoCard = () => {
   const selectedDistrict = useSelector(
@@ -15,21 +15,23 @@ const TravelInfoCard = () => {
   );
   const selectedCity = useSelector((state) => state.city.selectedCity);
 
+  const tourQuery = selectedCity ? { areaCode: selectedCity } : {};
+  if (selectedDistrict) {
+    tourQuery.districtCode = selectedDistrict;
+  }
+
   const {
-    data: nullTourListData = [],
+    data: tourListData = [],
     isLoading: tourListLoading,
     error: tourListError,
-  } = useFetchTourListQuery(
-    { areaCode: selectedCity, districtCode: selectedDistrict },
-    { skip: !selectedCity || !selectedDistrict, staleTime: 1000 * 60 * 5 }
+  } = useFetchTourListQuery(tourQuery,
+    { skip: !selectedCity, staleTime: 1000 * 60 * 5 }
   );
 
-  const tourListData =
-  !selectedCity || !selectedDistrict ? [] : nullTourListData;
-
+  const selectedTourListData = selectedCity ? tourListData : [];
   const detailContentId = tourListData?.map((item) => item.contentid);
 
-  const { data: detailInfoData, isLoading: detailLoading } =
+  const { isLoading: detailLoading } =
     useFetchDetailInfoQuery(detailContentId, {
       skip: !tourListData || tourListData.length === 0,
     });
@@ -39,13 +41,10 @@ const TravelInfoCard = () => {
   if (tourListLoading || detailLoading) return <p>Loading...</p>;
 
   const filteredTourListData =
-    tourListData?.filter((i) => {
+  selectedTourListData?.filter((i) => {
       const imageUrl = i.firstimage2;
       return imageUrl && !imageUrl.trim().endsWith(".bmp");
     }) || [];
-
-  console.log(detailInfoData);
-  console.log("tourListData:", tourListData);
 
   return (
     <div className={CardStyle["card-container"]}>

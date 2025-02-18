@@ -20,16 +20,16 @@ const LoginModal = () => {
   const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
 
   const handleKakaoLogin = () => {
-    const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_REST_API}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-    window.location.href = kakaoAuthURL;
-    // const mockUser = {
-    //   name: "홍길동",
-    //   nickname: "길동이",
-    //   profilePic: "src/assets/1.png",
-    // };
+    // const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_REST_API}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+    // window.location.href = kakaoAuthURL;
+    const mockUser = {
+      name: "홍길동",
+      nickname: "길동이",
+      profilePic: "src/assets/1.png",
+    };
 
-    // dispatch(setUser({ user: mockUser, token: "mockToken", rememberUser }));
-    // dispatch(closeModal("login"));
+    dispatch(setUser({ user: mockUser, token: "mockToken", rememberUser }));
+    dispatch(closeModal("login"));
   };
 
   console.log(isLoginModalOpen);

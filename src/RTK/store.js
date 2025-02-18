@@ -7,9 +7,9 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 // } from "./tour/slice";
 import authReducer from "./authSlice";
 import storage from "redux-persist/lib/storage";
-import { persistReducer, persistStore } from 'redux-persist';
+import { persistReducer, persistStore } from "redux-persist";
 import { postSlice } from "./postSlice";
-import {createTransform} from "redux-persist";
+import { createTransform } from "redux-persist";
 import modalReducer from "./modalSlice";
 import { tourApi } from "./tour/tourApi";
 import { citySlice, districtSlice } from "./tour/slice";
@@ -17,21 +17,21 @@ import { citySlice, districtSlice } from "./tour/slice";
 const authTransform = createTransform(
   (inboundState) => {
     const { register2, ...restState } = inboundState;
-    console.log('Auth state:', inboundState);
+    console.log("Auth state:", inboundState);
 
-    return restState; 
+    return restState;
   },
   (outboundState) => {
     return outboundState;
   },
-  { whitelist: ['auth'] }
+  { whitelist: ["auth"] }
 );
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ['auth'],
-  transforms: [authTransform]
+  whitelist: ["auth"],
+  transforms: [authTransform],
 };
 
 const rootReducer = combineReducers({
@@ -52,7 +52,17 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
+        ignoredPaths: [
+          "tourApi.queries",
+          "tourApi.mutations",
+        ],
+        ignoredActions: [
+          "persist/PERSIST",
+          "persist/REHYDRATE",
+          "tourApi/executeQuery/fulfilled",
+          "tourApi/executeQuery/pending",
+          "tourApi/executeQuery/rejected",
+        ],
       },
     }).concat(tourApi.middleware),
 });
