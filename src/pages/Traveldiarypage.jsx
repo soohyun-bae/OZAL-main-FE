@@ -8,9 +8,11 @@ import { useNavigate } from "react-router-dom";
 import writing from "../assets/writing-icon.png";
 import Header from "../components/Header/Header";
 import Card from "../components/Card/Card";
+import { useEffect, useRef } from "react";
 
 const TravelDiaryPage = () => {
   const navigate = useNavigate();
+  const mapRef = useRef(null);
 
   const posts = [
     {
@@ -47,6 +49,17 @@ const TravelDiaryPage = () => {
     },
   ];
 
+  useEffect(() => {
+    if (!mapRef.current) return;
+
+    const options = {
+      center: new window.kakao.maps.LatLng(35.8, 127.9), // 남한 중심 좌표
+      level: 13, // 남한 전체가 보이는 확대 레벨
+    };
+
+    const map = new window.kakao.maps.Map(mapRef.current, options);
+  }, []);
+
   const handleWriteClick = () => {
     navigate("/write-post");
   };
@@ -76,7 +89,7 @@ const TravelDiaryPage = () => {
               </div>
             </div>
             <div className="diary-map">
-              <div className="map-placeholder">지도 영역</div>
+              <div className="map-placeholder" ref={mapRef}></div>
             </div>
           </div>
         </div>
