@@ -78,7 +78,7 @@ const authSlice = createSlice({
         state.isAuthenticated = false;
       })
       .addCase(updateProfilePic.fulfilled, (state, action) => {
-        state.user.profile_image = action.payload;
+        state.user = action.payload;
       })
       .addCase(updateProfilePic.rejected, (state, action) => {
         state.error = action.payload;

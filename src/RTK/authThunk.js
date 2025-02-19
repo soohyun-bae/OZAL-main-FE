@@ -10,7 +10,12 @@ export const kakaoLogin = createAsyncThunk(
       });
 
       const { user, tokens } = response.data;
-      return { user, tokens };
+      const userProfileResponse = await backendAPI.get("/ozal/mypage/", {
+        headers: {
+          Authorization: `Bearer ${tokens.access}`, // 토큰을 Authorization 헤더에 추가
+        },
+      });
+      return { user: userProfileResponse.data, tokens };
     } catch (error) {
       return rejectWithValue('kakao Login Error:', error);
     }
@@ -42,43 +47,63 @@ export const kakaoLogout = createAsyncThunk(
   }
 );
 
+export const uploadProfilePic = async (file) => {
+  try {
+    const formData = new FormData();
+    formData.append("profile_image", file);
+
+    const response = await backendAPI.post('ozal/mypage/upload', formData, {
+      headers: {
+        "Content-Type": "multipart/form-data"},
+    })
+
+    return response.data.profile_image; // url로 변경해야됨
+  } catch (error) {
+    return error.message;
+  }
+};
+
 export const updateProfilePic = createAsyncThunk(
   "auth/updateProfilePic",
   async (file, thunkAPI) => {
     try {
-      if (typeof file !== "string") {
-        const formData = new FormData();
-        formData.append("profile_image", file);
+      const imageUrl = await uploadProfilePic(file);
 
-        const response = await backendAPI.put(
-          "/ozal/mypage/update/image",
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
+      const response = await backendAPI.put('/ozal/mypage/update/image', {
+        profile_image: imageUrl,
+      });
 
-        return response.data.profile_image;
-      }
-
-      return file;
+      return {profile_image: response.data.profile_image};
     } catch (error) {
-      if (error.response && error.response.data) {
-        const { error: errorType, message } = error.response.data;
+      return thunkAPI.rejectWithValue("프로필 사진 변경 실패");
+    }
+  }
+);
 
-        if (errorType === "IMAGE_TOO_LARGE") {
-          return thunkAPI.rejectWithValue(
-            "이미지 크기는 최대 5MB까지 가능합니다."
-          );
-        }
+export const changeToDefaultProfilePic = createAsyncThunk(
+  "auth/changeToDefaultProfilePic",
+  async (_, thunkAPI) => {
+    try {
+      const defaultProfilePic = "src/assets/Frame_3_2.png";
 
-        if (errorType === "UNSUPPORTED_IMAGE_TYPE") {
-          return thunkAPI.rejectWithValue("PNG, JPG 형식만 지원됩니다.");
-        }
+      const uploadResponse = await backendAPI.post('ozal/mypage/upload', {
+        image_url: defaultProfilePic,
+      });
+
+      const defaultImageUrl = uploadResponse.data.profile_url;
+
+      if (!defaultProfilePic) {
+        return thunkAPI.rejectWithValue("기본 프로필 사진 URL이 비어있습니다.");
       }
-      return thunkAPI.rejectWithValue(error.message);
+
+      const response = await backendAPI.put(
+        "/ozal/mypage/update/image",
+        {profile_image: defaultImageUrl},
+      );
+      return { profile_image: response.data.profile_image_url };
+    } catch (error) {
+      console.error(error);
+      return thunkAPI.rejectWithValue("기본 프로필 사진 변경 실패");
     }
   }
 );
@@ -90,7 +115,9 @@ export const updateNickname = createAsyncThunk(
       const response = await backendAPI.patch("/ozal/mypage/update", {
         nickname: newNickname,
       });
-      return response.data.nickname;
+
+      const updatedNickname = await backendAPI.get("/ozal/mypage/");
+      return updatedNickname.data;
     } catch (error) {
       if (error.response && error.response.data) {
         const { message, error: errorType } = error.response.data;
