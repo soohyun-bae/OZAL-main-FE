@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import backendAPI from "../utils/backendAPI";
+import axios from "axios";
 
 export const createPost = createAsyncThunk(
   "post/createPost",
@@ -37,7 +38,7 @@ export const createPost = createAsyncThunk(
         console.log(key, ":", value);
       }
 
-      const response = await backendAPI.post("/ozal/trippost", formData, {
+      const response = await axios.post("/ozal/trippost", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${
