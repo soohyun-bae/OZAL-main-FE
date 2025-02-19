@@ -31,15 +31,15 @@
 }
 
 .mainlogo {
-  @include flex($justify: center, $align: center);
-  position: fixed;
+  @include flex($justify: center, $align: center, $direction: column);
+  position: absolute;
   width: 100%;
-  max-width: 300px;
+  max-width: 400px;
   z-index: 10;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  filter: drop-shadow(3px 3px 1px #ffffff);
+  filter: drop-shadow(3px 3px 3px #ffffff);
 }
 
 .scroll-arrow {

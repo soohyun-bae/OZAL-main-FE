@@ -38,7 +38,7 @@ const LoginModal = () => {
           <div className="modal-contents">
             <div className="modal-login">
               <p>
-                <img src={waypoint} alt="logo" className="logo" />
+                <img src={mainLogo} alt="logo" className="logo" />
               </p>
               <hr />
               <button onClick={handleKakaoLogin}>

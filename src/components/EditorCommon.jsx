@@ -107,7 +107,7 @@ const EditorCommon = () => {
             위치 검색
           </button>
           {!postData.mapData && (
-            <p className="info-text">*위치를 검색하여 지도를 추가해주세요.</p>
+            <p className="info-text">* 위치를 검색하여 지도를 추가해주세요.</p>
           )}
         </div>
 
