@@ -98,6 +98,6 @@
     }
   }
 }
-p {
+.Mypage p {
   @include font-style($size: 1rem, $color: rgb(255, 75, 75));
 }
