@@ -159,3 +159,11 @@ $color-gray: #f0f0f0;
     outline: 0;
   }
 }
+
+@mixin ellipsis($w) {
+  overflow: eidden;
+  display: block;
+  text-overflow: ellipsis;
+  width: $w;
+  white-space: nowrap;
+}
