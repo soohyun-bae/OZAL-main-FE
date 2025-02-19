@@ -27,7 +27,7 @@ const initialState = {
   user: authState.user,
   token: authState.token,
   // isAuthenticated: false,
-  rememberUser: false,
+  // rememberUser: false,
   error: null,
 };
 
@@ -36,56 +36,36 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
-      const { user, tokens, rememberUser } = action.payload;
+      const { user, token } = action.payload;
       state.user = user;
-      state.token = tokens.access;
+      state.token = token.access;
       state.isAuthenticated = true;
-      state.rememberUser = rememberUser;
-
-      const authData = JSON.stringify({ user, tokens });
-      if (rememberUser) {
-        localStorage.setItem("access token", tokens.access);
-        localStorage.setItem("refresh_token", tokens.refresh);
-        localStorage.setItem("auth", authData);
-        sessionStorage.clear();
-      } else {
-        sessionStorage.setItem("access token", tokens.access);
-        sessionStorage.setItem("refresh_token", tokens.refresh);
-        sessionStorage.setItem("auth", authData);
-        localStorage.clear();
-      }
+      // state.rememberUser = rememberUser;
     },
-    logout: (state) => {
-      state.user = {
-        id: null,
-        email: "",
-        nickname: "",
-        profile_image: "",
-        provider: "",
-      };
-      state.token = null;
-      state.isAuthenticated = false;
+    // logout: (state) => {
+    //   state.user = {
+    //     id: null,
+    //     email: "",
+    //     nickname: "",
+    //     profile_image: "",
+    //     provider: "",
+    //   };
+    //   state.token = null;
+    //   state.isAuthenticated = false;
 
-      sessionStorage.clear();
-      localStorage.clear();
-    },
+    //   sessionStorage.clear();
+    //   localStorage.clear();
+    // },
   },
   extraReducers: (builder) => {
     builder
       .addCase(kakaoLogin.fulfilled, (state, action) => {
         if (action.payload.user && action.payload.tokens) {
-          console.log("login", action.payload);
+          console.log("login", action.payload.tokens);
           state.user = action.payload.user;
-          state.token = action.payload.tokens.access;
+          state.token = action.payload.tokens;
+          // state.refresh_token = action.payload.tokens.refresh;
           state.isAuthenticated = true;
-
-          const authData = JSON.stringify({
-            user: action.payload.user,
-            token: action.payload.tokens,
-          });
-          sessionStorage.setItem("auth", authData);
-          sessionStorage.setItem("access token", action.payload.tokens.access);
-          localStorage.setItem("refresh_token", action.payload.tokens.refresh);
         }
         state.error = null;
       })
@@ -95,20 +75,12 @@ const authSlice = createSlice({
       })
       .addCase(updateProfilePic.fulfilled, (state, action) => {
         state.user.profile_image = action.payload;
-
-        const authData = JSON.stringify({ user: state.user });
-        localStorage.setItem("auth", authData);
-        sessionStorage.setItem("auth", authData);
       })
       .addCase(updateProfilePic.rejected, (state, action) => {
         state.error = action.payload;
       })
       .addCase(updateNickname.fulfilled, (state, action) => {
         state.user.nickname = action.payload;
-
-        const authData = JSON.stringify({ user: state.user });
-        localStorage.setItem("auth", authData);
-        sessionStorage.setItem("auth", authData);
       })
       .addCase(updateNickname.rejected, (state, action) => {
         state.error = action.payload.message;

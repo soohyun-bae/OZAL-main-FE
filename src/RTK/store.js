@@ -1,7 +1,7 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import authReducer from "./authSlice";
 import storage from "redux-persist/lib/storage";
-import sessionStorageEngine from "redux-persist/lib/storage/session";
+// import sessionStorageEngine from "redux-persist/lib/storage/session";
 import { persistReducer, persistStore } from "redux-persist";
 import { postSlice } from "./postSlice";
 import { createTransform } from "redux-persist";
@@ -25,18 +25,18 @@ const authTransform = createTransform(
 const persistConfig = {
   key: "root",
   storage,
-  // whitelist: ["auth"],
+  whitelist: ["auth"],
   transforms: [authTransform],
 };
 
 
-const authPersistConfig = {
-  key: "auth",
-  storage: sessionStorageEngine, // auth 슬라이스는 세션 스토리지에 저장
-};
+// const authPersistConfig = {
+//   key: "auth",
+//   storage: sessionStorageEngine, // auth 슬라이스는 세션 스토리지에 저장
+// };
 
 const rootReducer = combineReducers({
-  auth: persistReducer(authPersistConfig, authReducer),
+  auth: authReducer,
   city: citySlice.reducer,
   district: districtSlice.reducer,
   [tourApi.reducerPath]: tourApi.reducer,
