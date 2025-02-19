@@ -13,7 +13,7 @@ const Mypage = () => {
   const [newNickname, setNewNickname] = useState(user?.nickname || "");
   const [newProfilePic, setNewProfilePic] = useState(null);
   const [previewPic, setPreviewPic] = useState(
-    user?.profilePic || "src/assets/Frame_3_2.png"
+    user?.profile_image || "src/assets/Frame_3_2.png"
   );
   const [errorMessage, setErrorMessage] = useState("");
 

@@ -38,7 +38,7 @@ const authSlice = createSlice({
     setUser: (state, action) => {
       const { user, token } = action.payload;
       state.user = user;
-      state.token = token.access;
+      state.token = token;
       state.isAuthenticated = true;
       // state.rememberUser = rememberUser;
     },
@@ -63,9 +63,13 @@ const authSlice = createSlice({
         if (action.payload.user && action.payload.tokens) {
           console.log("login", action.payload.tokens);
           state.user = action.payload.user;
-          state.token = action.payload.tokens;
-          // state.refresh_token = action.payload.tokens.refresh;
+          state.token = action.payload.tokens.access;
+          state.refresh_token = action.payload.tokens.refresh;
           state.isAuthenticated = true;
+
+          localStorage.setItem("tokens", JSON.stringify(action.payload.tokens));
+          // sessionStorage.setItem('access_token', action.payload.tokens.access);
+          // localStorage.setItem('refresh_token', action.payload.tokens.refresh);
         }
         state.error = null;
       })
