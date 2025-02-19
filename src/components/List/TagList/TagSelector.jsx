@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import '../../../style/travelInfopage.scss';
+import "../../../style/travelInfopage.scss";
 import useMediaQuery from "../../../hooks/useMediaQuery";
 import Modal from "../../Modal/Modal";
 import { openModal, closeModal } from "../../../RTK/modalSlice";
 import TagList from "./TagList";
-import ListStyle from '.././List.module.scss'
+import ListStyle from ".././List.module.scss";
 import { fetchCityName } from "../../../RTK/tour/thunk";
 
 const TagSelector = () => {
@@ -21,16 +21,25 @@ const TagSelector = () => {
     <>
       {isSmallView ? (
         <>
-          <div onClick={() => dispatch(openModal("tags"))}>목록보기</div>
+          <div
+            onClick={() => dispatch(openModal("tags"))}
+            className={ListStyle["sTaglist"]}
+          >
+            목록보기
+          </div>
           {isModalOpen && (
             <Modal type="tags">
-              <TagList />
-              <div onClick={() => dispatch(closeModal("tags"))}>닫기</div>
+              <div className={ListStyle["modalList"]}>
+                <TagList />
+                <div onClick={() => dispatch(closeModal("tags"))}>
+                  <button>닫기</button>
+                </div>
+              </div>
             </Modal>
           )}
         </>
       ) : (
-        <div className={ListStyle['tag-container']}>
+        <div className={ListStyle["tag-container"]}>
           <TagList />
         </div>
       )}
