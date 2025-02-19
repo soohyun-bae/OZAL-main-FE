@@ -11,6 +11,7 @@ import ProfileImage from "../Profile/ProfileImage";
 import MypageModal from "../Modal/MypageModal";
 import { setSelectedCity, setSelectedDistrict } from "../../RTK/tour/slice";
 import { tourApi } from "../../RTK/tour/tourApi";
+import { kakaoLogout } from "../../RTK/authThunk";
 
 const NavBar = () => {
   const isAuthenticated = useSelector((state) => state.auth?.isAuthenticated);
@@ -24,8 +25,14 @@ const NavBar = () => {
   const { user } = useSelector((state) => state.auth);
 
   const handleLogout = () => {
-    dispatch(logout());
-    navigate("/");
+    dispatch(kakaoLogout())
+    .unwrap()
+    .then(() => {
+      navigate("/"); 
+    })
+    .catch((error) => {
+      console.error("로그아웃 실패:", error);
+    });
   };
 
   const handleAuthNavClick = (e, path) => {

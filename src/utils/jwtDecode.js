@@ -1,8 +1,8 @@
-import jwt_decode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 export function checkJWTExp(token) {
   try {
-    const decode = jwt_decode(token)
+    const decode = jwtDecode(token)
     const currentTime = Date.now() / 1000;
     return decode.exp < currentTime;
   } catch (error) {

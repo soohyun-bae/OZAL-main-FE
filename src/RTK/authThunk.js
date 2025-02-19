@@ -8,19 +8,36 @@ export const kakaoLogin = createAsyncThunk(
       const response = await backendAPI.post("/ozal/auth/login/kakao/", {
         code,
       });
-      if (response.data.loginSuccess == "실패") {
-        return rejectWithValue("login failed");
-      }
 
       const { user, tokens } = response.data;
       return { user, tokens };
     } catch (error) {
-      if (error.response && error.response.data) {
-        if (error.response.data.loginSuccess === "실패") {
-          return rejectWithValue("login failed on server");
-        }
-        return rejectWithValue("unknown error");
-      }
+      return rejectWithValue('kakao Login Error:', error);
+    }
+  }
+);
+
+export const kakaoLogout = createAsyncThunk(
+  "auth/kakaoLogout",
+  async (_, { rejectWithValue, getState }) => {
+    try {
+      const state = getState();
+      const refreshToken = state.auth.refresh_token;
+
+      if (!refreshToken) {
+        return rejectWithValue("Refresh token is missing");
+      } // 배포할 땐 지우기
+
+      const response = await backendAPI.post("/ozal/auth/logout/", {
+        refresh_token: refreshToken, // 서버에 refresh token을 전송
+      });
+
+      sessionStorage.clear();
+      localStorage.clear();
+
+      return response.data; // 서버 응답 반환 (필요한 경우 처리)
+    } catch (error) {
+      return rejectWithValue(error.message); // 에러 처리
     }
   }
 );

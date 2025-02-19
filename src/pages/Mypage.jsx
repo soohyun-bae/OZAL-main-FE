@@ -8,7 +8,7 @@ import ProfileImage from "../components/Profile/ProfileImage";
 
 const Mypage = () => {
   const dispatch = useDispatch();
-  const { user, token } = useSelector((state) => state.auth);
+  const { user, token, error } = useSelector((state) => state.auth);
 
   const [newNickname, setNewNickname] = useState(user?.nickname || "");
   const [newProfilePic, setNewProfilePic] = useState(null);
@@ -28,9 +28,12 @@ const Mypage = () => {
           updateProfilePic(newProfilePic)
         ).unwrap();
         setPreviewPic(updatedPicUrl);
-        console.log("success change profile pic");
+        console.log("Profile pic changed successfully");
+        const updatedUser = { ...user, profile_image: updatedPicUrl };
+        dispatch(setUser({ user: updatedUser, token: token }));
       } catch (error) {
-        console.error("profile pic change failed");
+        console.error("profile pic change failed:", error);
+        setErrorMessage("프로필 사진 변경에 실패했습니다.");
       }
     }
   };
@@ -39,9 +42,12 @@ const Mypage = () => {
     if (newNickname !== user.nickname) {
       dispatch(updateNickname(newNickname))
         .unwrap()
-        .then(() => {
+        .then((changedNickname) => {
           console.log("nickname has changed");
           setErrorMessage("");
+
+          const updatedUser = { ...user, nickname: changedNickname };
+          dispatch(setUser({ user: updatedUser, token: token }));
         })
         .catch((error) => {
           console.error("nickname change failed", error);
@@ -76,7 +82,7 @@ const Mypage = () => {
     <div className="mypage-container">
       <h2>마이페이지</h2>
       <div className="profile-section">
-        <ProfileImage src={previewPic} className='profile-pic'/>
+        <ProfileImage src={previewPic} className="profile-pic" />
         <input type="file" accept="image/*" onChange={handleProfilePicChange} />
         <button onClick={changeProfilePic}>프로필 사진 변경</button>
         <button onClick={changeToDefaultProfilePic}>기본 프로필 사진</button>
@@ -92,6 +98,7 @@ const Mypage = () => {
           />
           <button onClick={handleNicknameChange}>저장</button>
           {errorMessage && <p>{errorMessage}</p>}
+          {error && <p>{error}</p>}
         </div>
       </div>
     </div>
