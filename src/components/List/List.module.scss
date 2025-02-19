@@ -45,7 +45,7 @@
 
   .city-name {
     @include font-style(
-      $size: clamp(1.5rem, 1.75rem, 1.75rem),
+      $size: clamp(1.5rem, 2vw, 1.75rem),
       $line-height: 1,
       $weight: 600
     );
@@ -64,7 +64,7 @@
   }
   .district-name {
     @include font-style(
-      $size: clamp(1rem, 1.25rem, 1.25rem),
+      $size: clamp(1rem, 2vw, 1.25rem),
       $line-height: 0.5,
       $color: rgb(70, 70, 70)
     );
@@ -78,5 +78,49 @@
     &.active {
       background-color: $color-sky;
     }
+  }
+}
+
+.sTaglist {
+  // @include font-style($size: 1.5rem);
+  @include profle-picbtn;
+  font-size: 1.25rem;
+  height: 40px;
+  padding: 8px 0 0 0;
+}
+
+/*모달창 스타일 */
+.modalList {
+  @include flex($direction: column, $justify: center, $align: center);
+  @include font-style($size: 0.9rem, $color: $color-navy);
+  background: rgba(255, 255, 255, 0.866);
+  padding: 20px;
+  border-radius: 8px;
+  min-width: 300px;
+  max-width: 70vw;
+  max-height: 90vh;
+  overflow-y: auto;
+
+  text-align: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.modalList div {
+  @include flex($justify: center, $align: center, $direction: column);
+  margin-top: 20px;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+
+  button {
+    @include profle-picbtn;
+    width: 50px;
+    height: 40px;
+  }
+  &:hover {
+    background-color: $color-gray;
+    border-radius: 5px;
+  }
+  &:active {
+    background-color: $color-sky;
   }
 }

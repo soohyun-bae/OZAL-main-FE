@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "../style/ImageUpload.scss";
-import "../style/EditorCommon.scss";
+// import "../style/EditorCommon.scss";
 
 const ImageUpload = ({ onImagesChange }) => {
   const [imageUrls, setImageUrls] = useState([]);

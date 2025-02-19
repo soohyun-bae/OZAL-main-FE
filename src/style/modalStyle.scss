@@ -31,7 +31,7 @@
       width: 400px;
       height: 3px;
       background-color: rgb(255, 255, 255, 0.3);
-      margin: 40px 0;
+      margin: 20px 0 40px 0;
     }
 
     button {
@@ -58,12 +58,14 @@
       }
     }
     .close-btn {
-      width: 150px;
-      height: 50px;
-      background-color: $color-gray;
+      @include profle-picbtn;
+      @include font-style($size: 1.25rem, $align: center, $color: $color-navy);
+      width: 100px;
+      height: 40px;
+      background-color: $color-white;
       border-radius: 10px;
       margin-top: 25px;
-      @include font-style($size: 1.5rem, $align: center, $color: $color-navy);
+      margin-top: 50px;
     }
   }
 }

@@ -74,7 +74,6 @@ const TravelDiaryPage = () => {
       <div className="diary-container">
         <button className="write-button" onClick={handleWriteClick}>
           <img src={writing} alt="글쓰기 아이콘" />
-          <br />
           글쓰기
         </button>
 

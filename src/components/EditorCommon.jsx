@@ -51,8 +51,6 @@ const EditorCommon = () => {
   const handleLocationSelect = (location) => {
     if (location) {
       const container = document.getElementById("static-map");
-      container.style.width = "1198px";
-      container.style.height = "500px";
 
       const options = {
         marker: {
@@ -90,7 +88,7 @@ const EditorCommon = () => {
           }
           modules={modules}
           formats={formats}
-          style={{ height: "600px" }}
+          style={{ width: "90%", height: "600px", margin: "auto" }}
         />
       </div>
       <div className="image-upload-section">
@@ -108,13 +106,12 @@ const EditorCommon = () => {
           >
             위치 검색
           </button>
-        </div>
-
-        <div id="static-map" className="static-map">
           {!postData.mapData && (
-            <p className="info-text">*위치를 검색하여 지도를 추가해주세요.</p>
+            <p className="info-text">* 위치를 검색하여 지도를 추가해주세요.</p>
           )}
         </div>
+
+        <div id="static-map" className="static-map"></div>
       </div>
 
       {isMapModalOpen && (
