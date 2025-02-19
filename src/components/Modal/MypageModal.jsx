@@ -3,7 +3,11 @@ import Modal from "./Modal";
 import { useDispatch, useSelector } from "react-redux";
 import ProfileImage from "../Profile/ProfileImage";
 import "../../style/Mypage.scss";
-import { updateNickname } from "../../RTK/authThunk";
+import {
+  changeToDefaultProfilePic,
+  updateNickname,
+  updateProfilePic,
+} from "../../RTK/authThunk";
 import { setUser } from "../../RTK/authSlice";
 
 const MypageModal = () => {
@@ -28,10 +32,16 @@ const MypageModal = () => {
         const updatedPicUrl = await dispatch(
           updateProfilePic(newProfilePic)
         ).unwrap();
-        setPreviewPic(updatedPicUrl);
-        console.log("success change profile pic");
+        setPreviewPic(updatedPicUrl.profile_image);
+        console.log("Profile pic changed successfully");
+        const updatedUser = {
+          ...user,
+          profile_image: updatedPicUrl.profile_image,
+        };
+        dispatch(setUser({ user: updatedUser, token: token }));
       } catch (error) {
-        console.error("profile pic change failed");
+        console.error("profile pic change failed:", error);
+        setErrorMessage("프로필 사진 변경에 실패했습니다.");
       }
     }
   };
@@ -39,9 +49,11 @@ const MypageModal = () => {
   const handleNicknameChange = async () => {
     if (newNickname && newNickname !== user.nickname) {
       try {
-        await dispatch(updateNickname(newNickname)).unwrap();
+        const updatedUser = await dispatch(updateNickname(newNickname)).unwrap();
         setErrorMessage("");
         console.log("Nickname updated successfully");
+
+        dispatch(setUser({ user: updatedUser, token: token }));
       } catch (error) {
         console.error("Failed to update nickname:", error);
         setErrorMessage(error.message || "닉네임 변경에 실패했습니다.");
@@ -60,8 +72,19 @@ const MypageModal = () => {
     }
   };
 
-  const changeToDefaultProfilePic = async () => {
-    const defaultProfilePic = "src/assets/Frame_3_2.png";
+  const handleChangeToDefaultProfilePic = async () => {
+    try {
+      const updatedUser = await dispatch(changeToDefaultProfilePic()).unwrap();
+      setPreviewPic(updatedUser.profile_image);
+      const updatedUserState = {
+        ...user,
+        profile_image: updatedUser.profile_image,
+      };
+      dispatch(setUser({ user: updatedUserState, token: token }));
+    } catch (error) {
+      console.error("profile pic change failed:", error);
+      setErrorMessage("기본 프로필 사진 변경에 실패했습니다.");
+    }
 
     setPreviewPic(defaultProfilePic);
     setNewProfilePic(null);
@@ -88,7 +111,7 @@ const MypageModal = () => {
                 onChange={handleProfilePicChange}
               />
               <button onClick={changeProfilePic}>프로필 사진 변경</button>
-              <button onClick={changeToDefaultProfilePic}>
+              <button onClick={handleChangeToDefaultProfilePic}>
                 기본 프로필 사진
               </button>
             </div>
