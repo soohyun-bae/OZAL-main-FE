@@ -20,6 +20,8 @@ const MypageModal = () => {
   const [previewPic, setPreviewPic] = useState(
     user?.profile_image || "src/assets/Frame_3_2.png"
   );
+
+  const [fileName, setFileName] = useState("파일 선택");
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
@@ -69,6 +71,10 @@ const MypageModal = () => {
     if (file) {
       setPreviewPic(URL.createObjectURL(file));
       setNewProfilePic(file);
+
+      let shortName =
+        file.name.length > 10 ? file.name.substring(0, 10) + "..." : file.name;
+      setFileName(shortName);
     }
   };
 
@@ -105,11 +111,14 @@ const MypageModal = () => {
                 src={previewPic || user.profile_image}
                 className="profile-pic"
               />
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleProfilePicChange}
-              />
+              <label className="mypage-file">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleProfilePicChange}
+                />
+                {/* <span>{fileName}</span> */}
+              </label>
               <button onClick={changeProfilePic}>프로필 사진 변경</button>
               <button onClick={handleChangeToDefaultProfilePic}>
                 기본 프로필 사진
@@ -130,8 +139,9 @@ const MypageModal = () => {
                 >
                   저장
                 </button>
-                {errorMessage && <p>{errorMessage}</p>}
               </div>
+
+              {errorMessage && <p>{errorMessage}</p>}
             </div>
           </div>
         </Modal>
