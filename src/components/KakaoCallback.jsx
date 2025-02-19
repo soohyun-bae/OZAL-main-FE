@@ -19,7 +19,7 @@ const KakaoCallback = () => {
         .catch(() => {
           setTimeout(() => {
             navigate("/");
-          }, 1000); // 2초 후 메인 페이지로 이동
+          }, 1000);
           alert("로그인 중 오류가 발생했습니다.");
         });
     }

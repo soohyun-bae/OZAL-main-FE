@@ -28,8 +28,8 @@ export const kakaoLogout = createAsyncThunk(
         return rejectWithValue("Refresh token is missing");
       } // 배포할 땐 지우기
 
-      const response = await backendAPI.post("/ozal/auth/logout/", {
-        refresh_token: refreshToken, // 서버에 refresh token을 전송
+      const response = await backendAPI.post("/ozal/logout/", {
+        refresh: refreshToken,
       });
 
       sessionStorage.clear();
@@ -87,7 +87,7 @@ export const updateNickname = createAsyncThunk(
   "auth/updateNickname",
   async (newNickname, { rejectWithValue }) => {
     try {
-      const response = await backendAPI.put("/ozal/mypage/update", {
+      const response = await backendAPI.patch("/ozal/mypage/update", {
         nickname: newNickname,
       });
       return response.data.nickname;
