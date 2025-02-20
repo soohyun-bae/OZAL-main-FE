@@ -16,18 +16,17 @@ const loadAuthState = () => {
       profile_image: "",
       provider: "",
     },
-    token: null,
+    token: {access: '', refresh: ''},
   };
 };
 
 const authState = loadAuthState();
 
 const initialState = {
-  // isAuthenticated: !!(sessionStorage.getItem('token') || localStorage.getItem('token')),
   user: authState.user,
-  token: authState.token,
-  // isAuthenticated: false,
-  // rememberUser: false,
+  token: authState.token?.access,
+  refresh_token: authState.token?.refresh,
+  isAuthenticated: false,
   error: null,
 };
 
@@ -40,36 +39,17 @@ const authSlice = createSlice({
       state.user = user;
       state.token = token;
       state.isAuthenticated = true;
-      // state.rememberUser = rememberUser;
     },
-    // logout: (state) => {
-    //   state.user = {
-    //     id: null,
-    //     email: "",
-    //     nickname: "",
-    //     profile_image: "",
-    //     provider: "",
-    //   };
-    //   state.token = null;
-    //   state.isAuthenticated = false;
-
-    //   sessionStorage.clear();
-    //   localStorage.clear();
-    // },
   },
   extraReducers: (builder) => {
     builder
       .addCase(kakaoLogin.fulfilled, (state, action) => {
         if (action.payload.user && action.payload.tokens) {
-          console.log("login", action.payload.tokens);
+          console.log(action.payload)
           state.user = action.payload.user;
           state.token = action.payload.tokens.access;
           state.refresh_token = action.payload.tokens.refresh;
           state.isAuthenticated = true;
-
-          localStorage.setItem("tokens", JSON.stringify(action.payload.tokens));
-          // sessionStorage.setItem('access_token', action.payload.tokens.access);
-          // localStorage.setItem('refresh_token', action.payload.tokens.refresh);
         }
         state.error = null;
       })
@@ -78,7 +58,7 @@ const authSlice = createSlice({
         state.isAuthenticated = false;
       })
       .addCase(updateProfilePic.fulfilled, (state, action) => {
-        state.user = action.payload;
+        state.user.profile_image = action.payload;
       })
       .addCase(updateProfilePic.rejected, (state, action) => {
         state.error = action.payload;
@@ -87,7 +67,7 @@ const authSlice = createSlice({
         state.user.nickname = action.payload;
       })
       .addCase(updateNickname.rejected, (state, action) => {
-        state.error = action.payload.message;
+        state.error = action.payload;
       });
   },
 });

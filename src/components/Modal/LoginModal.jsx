@@ -1,4 +1,3 @@
-// import { useState } from "react";
 import "../../style/modalStyle.scss";
 import kakaoLogin from "../../assets/kakao_login.png";
 import naverLogin from "../../assets/naver_login.png";
@@ -6,11 +5,9 @@ import mainLogo from "../../assets/mainLogo.png";
 import "../../App.css";
 import Modal from "./Modal";
 import { useDispatch, useSelector } from "react-redux";
-// import { setUser } from "../../RTK/authSlice";
 import { closeModal } from "../../RTK/modalSlice";
 
 const LoginModal = () => {
-  // const rememberUser = useSelector((state) => state.auth.rememberUser);
   const dispatch = useDispatch();
   const isLoginModalOpen = useSelector((state) => {
     return state.modal.modals["login"];
@@ -22,14 +19,6 @@ const LoginModal = () => {
     const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_REST_API}&redirect_uri=${REDIRECT_URI}&response_type=code`;
     window.location.href = kakaoAuthURL;
   };
-
-  // const handleRememberUser = (e) => {
-  //   dispatch(
-  //     setUser({
-  //       rememberUser: e.target.checked,
-  //     })
-  //   );
-  // };
 
   return (
     <>
@@ -47,15 +36,6 @@ const LoginModal = () => {
               <button>
                 <img src={naverLogin} alt="naverLogin" className="naverLogin" />
               </button>
-              {/* <div className="login-on">
-                <input
-                  type="checkbox"
-                  checked={rememberUser}
-                  onChange={handleRememberUser}
-                />
-                로그인 상태 유지
-              </div> */}
-
               <button
                 onClick={() => dispatch(closeModal("login"))}
                 className="close-btn"
