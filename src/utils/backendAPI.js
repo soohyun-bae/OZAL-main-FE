@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const backendAPI = axios.create({
-  baseURL: "http://3.34.96.155",
+  baseURL: "https://waypointoz.site/",
   headers: {
     "Content-Type": "application/json",
   },
@@ -13,11 +13,15 @@ export default backendAPI;
 // 요청이 전달되기 전에 헤더에 토큰 넣기
 backendAPI.interceptors.request.use(
   async (config) => {
-    const authToken = localStorage.getItem("tokens");
+    const persistRoot = JSON.parse(localStorage.getItem('persist:root'));
+    if (persistRoot) {
+      const authData = JSON.parse(persistRoot.auth);
+      const accessToken = authData.token;
 
-    if (authToken) {
-      const { access } = JSON.parse(authToken);
-      config.headers.Authorization = `Bearer ${access}`;
+      if(accessToken) {
+
+        config.headers.Authorization = `Bearer ${accessToken}`;
+      }
     }
     return config;
   },
@@ -31,17 +35,18 @@ backendAPI.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response.status === 401) {
+    if (error.response && error.response.status === 401) {
       try {
-        const { refresh } = JSON.parse(localStorage.getItem("tokens"));
+        const persistRoot = JSON.parse(localStorage.getItem("persist:root"));
+        const authData = JSON.parse(persistRoot.auth);
+        const refresh = authData.refresh_token;
 
         const response = await backendAPI.post("/ozal/refresh/", {
-          refreshToken: refresh,
+          refresh: refresh,
         });
 
-        if(response.data.accessToken) {
-          const newAccessToken = response.data.accessToken;
-          localStorage.setItem("tokens", JSON.stringify({ access: newAccessToken, refresh }));
+        if(response.data.access) {
+          const newAccessToken = response.data.access;
 
           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
           return backendAPI(originalRequest);

@@ -23,17 +23,18 @@ const NavBar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useSelector((state) => state.auth);
+  console.log("user", user?.profile_image);
 
   const handleLogout = () => {
     dispatch(kakaoLogout())
-    .unwrap()
-    .then(() => {
-      navigate("/"); 
-      window.location.reload(); 
-    })
-    .catch((error) => {
-      console.error("로그아웃 실패:", error);
-    });
+      .unwrap()
+      .then(() => {
+        navigate("/");
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error("로그아웃 실패:", error);
+      });
   };
 
   const handleAuthNavClick = (e, path) => {
@@ -96,7 +97,7 @@ const NavBar = () => {
                 {isAuthenticated && (
                   <div onClick={() => dispatch(openModal("mypage"))}>
                     <ProfileImage
-                      src={user.profile_image}
+                      src={user?.profile_image}
                       className="profile-pic"
                     />
                   </div>
