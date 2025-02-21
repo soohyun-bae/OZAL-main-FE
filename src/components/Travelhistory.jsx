@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useRef, useState } from "react";
+import { useHref, useNavigate } from "react-router-dom";
 import "../style/Travelhistory.scss";
 import EditorCommon from "./EditorCommon";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,22 +10,43 @@ const Travelhistory = () => {
   const dispatch = useDispatch();
   const { postData } = useSelector((state) => state.post);
   const [title, setTitle] = useState("");
+  const [imageFiles, setImageFiles] = useState([]);
+
+  const handleImageFilesChange = (files) => {
+    setImageFiles(files);
+  };
 
   const handlePublish = async () => {
     try {
-      const result = await dispatch(
-        createPost({ ...postData, title })
-      ).unwrap();
-      console.log("게시글 발행 성공");
-      navigate(`/diary/${result.id}`);
-    } catch (error) {
-      console.error("게시글 발행 실패:", error);
-      alert("게시글 발행에 실패했습니다. 서버 연결을 확인해주세요.");
-    }
-  };
+      // FormData 객체 생성
+      const formData = new FormData();
 
-  const handleTestNavigate = () => {
-    navigate("/diary-detail/1");
+      // 필수 데이터 추가
+      formData.append("title", title);
+      formData.append("content", postData.editorData);
+      // 이미지 파일들 추가
+      if (imageFiles && imageFiles.length > 0) {
+        imageFiles.forEach((file) => {
+          formData.append("images", file);
+        });
+      }
+
+      // 지도 데이터가 있다면 추가
+      if (postData.mapData?.staticMapImage) {
+        formData.append("map_image", postData.mapData.staticMapImage);
+      }
+      console.log("지도 데이터:", postData.mapData?.staticMapImage);
+      const result = await dispatch(createPost(formData)).unwrap();
+
+      if (result.post_id) {
+        navigate(`/diary/${result.post_id}/`);
+      } else {
+        throw new Error("게시글 ID를 받지 못했습니다");
+      }
+    } catch (error) {
+      console.error("게시글 생성 실패:", error);
+      alert("게시글 발행에 실패했습니다. 다시 시도해주세요.");
+    }
   };
 
   return (
@@ -39,7 +60,6 @@ const Travelhistory = () => {
           <button className="publish-button" onClick={handlePublish}>
             발행
           </button>
-          <button onClick={handleTestNavigate}>test</button>
         </div>
       </div>
 
@@ -52,7 +72,7 @@ const Travelhistory = () => {
       />
 
       <div className="content-area">
-        <EditorCommon />
+        <EditorCommon onImageFilesChange={handleImageFilesChange} />
       </div>
     </div>
   );

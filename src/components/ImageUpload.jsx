@@ -1,9 +1,7 @@
 import { useState } from "react";
 import "../style/ImageUpload.scss";
-// import "../style/EditorCommon.scss";
 
 const ImageUpload = ({ onImagesChange }) => {
-  const [imageUrls, setImageUrls] = useState([]);
   const [imageFiles, setImageFiles] = useState([]);
 
   const handleImageUpload = (e) => {
@@ -15,21 +13,23 @@ const ImageUpload = ({ onImagesChange }) => {
     }
 
     const newFiles = Array.from(files);
-    const newUrls = newFiles.map((file) => URL.createObjectURL(file));
+    const updatedFiles = [...imageFiles, ...newFiles];
 
-    setImageFiles((prev) => [...prev, ...newFiles]);
-    setImageUrls((prev) => [...prev, ...newUrls]);
+    if (updatedFiles.length > 10) {
+      alert("총 이미지 개수가 10개를 초과할 수 없습니다.");
+      return;
+    }
 
-    onImagesChange([...imageFiles, ...newFiles]);
+    setImageFiles(updatedFiles);
+    console.log("ImageUpload에서 전달하는 파일:", newFiles);
+    onImagesChange(updatedFiles); // File 객체 배열을 직접 전달
   };
 
   const handleDeleteImage = (indexToDelete) => {
-    setImageUrls((prev) => prev.filter((_, index) => index !== indexToDelete));
-    setImageFiles((prev) => prev.filter((_, index) => index !== indexToDelete));
-
     const updatedFiles = imageFiles.filter(
       (_, index) => index !== indexToDelete
     );
+    setImageFiles(updatedFiles);
     onImagesChange(updatedFiles);
   };
 
@@ -45,14 +45,17 @@ const ImageUpload = ({ onImagesChange }) => {
           onChange={handleImageUpload}
           max="10"
         />
-        {/* 커스텀 버튼 (label) */}
         <label htmlFor="file-input">이미지 선택</label>
         <p className="info-text">* 이미지는 최대 10개까지 선택 가능합니다.</p>
       </div>
       <div className="image-preview-container">
-        {imageUrls.map((url, index) => (
+        {imageFiles.map((file, index) => (
           <div key={index} className="preview-item">
-            <img src={url} alt={`preview-${index}`} className="preview-image" />
+            <img
+              src={URL.createObjectURL(file)}
+              alt={`preview-${index}`}
+              className="preview-image"
+            />
             <button
               className="delete-button"
               onClick={() => handleDeleteImage(index)}

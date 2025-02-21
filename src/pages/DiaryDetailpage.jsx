@@ -1,69 +1,68 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import "../style/DiaryDetailPage.scss";
-// import { useDispatch, useSelector } from "react-redux";
-// import { fetchPost } from "../RTK/postThunk";
-import image1 from "../assets/1.png";
-import image2 from "../assets/2.png";
-import image3 from "../assets/3.png";
-import image4 from "../assets/4.png";
-
-const mockData = {
-  id: 1,
-  title: "테스트 여행 일기",
-  editorData:
-    "<p>이것은 테스트용 에디터 데이터입니다.</p><p>여행이 정말 즐거웠어요!</p>",
-  images: [
-    {
-      id: 1,
-      src: image1,
-      alt: "테스트 이미지 1",
-    },
-    {
-      id: 2,
-      src: image2,
-      alt: "테스트 이미지 2",
-    },
-    {
-      id: 3,
-      src: image3,
-      alt: "테스트 이미지 3",
-    },
-  ],
-  mapData: {
-    staticMapUrl: image4,
-    placeName: "테스트 장소",
-  },
-};
+import { useDispatch, useSelector } from "react-redux";
+import { getPosts } from "../RTK/postThunk";
+import { deletePost } from "../RTK/postThunk";
 
 const DiaryDetailPage = () => {
   const { id } = useParams();
-  // const navigate = useNavigate();
-  // const dispatch = useDispatch();
-  // const user = useSelector((state) => state.auth.user);
-  // const { postData, loading, error } = useSelector((state) => state.post);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { postData, loading, error } = useSelector((state) => state.post);
+  const user = useSelector((state) => state.auth.user);
 
-  // useEffect(() => {
-  //   if (user && user.id) {
-  //     dispatch(fetchPost({ userId: user.id, postId: id }));
-  //   }
-  // }, [dispatch, id, user]);
+  useEffect(() => {
+    if (id) {
+      console.log("게시글 상세 조회 요청:", id);
+      dispatch(getPosts({ post_id: id }))
+        .unwrap()
+        .then((data) => {
+          console.log("게시글 데이터 로드 성공:", data);
+        })
+        .catch((error) => {
+          console.error("게시글 로드 실패:", error);
+        });
+    }
+  }, [dispatch, id]);
 
-  // if (loading) return <div>로딩 중...</div>;
-  // if (error) return <div>에러 발생: {error}</div>;
-  // if (!postData) return <div>게시글을 찾을 수 없습니다.</div>;
+  // 로딩, 에러, 데이터 상태 확인을 위한 콘솔 로그
+  useEffect(() => {
+    console.log("현재 상태:", {
+      loading,
+      error,
+      postData,
+    });
+  }, [loading, error, postData]);
 
-  // 수정 핸들러 (목업)
+  if (loading) {
+    console.log("로딩 중...");
+    return <div>로딩 중...</div>;
+  }
+  if (error) {
+    console.error("에러 발생:", error);
+    return <div>에러 발생: {error}</div>;
+  }
+  if (!postData) {
+    console.log("게시글 데이터 없음");
+    return <div>게시글을 찾을 수 없습니다.</div>;
+  }
+
   const handleEdit = () => {
-    alert("수정 기능은 현재 준비중입니다.");
-    navigate(`/diary-edit/${id}`);
+    console.log("수정 페이지로 이동:", id);
+    navigate(`/edit-detail/${id}`);
   };
 
-  // 삭제 핸들러 (목업)
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (window.confirm("정말로 삭제하시겠습니까?")) {
-      alert("삭제되었습니다.");
-      navigate("/");
+      try {
+        console.log("게시글 삭제 요청:", id);
+        await dispatch(deletePost(id)).unwrap();
+        navigate("/travel-diary");
+      } catch (error) {
+        console.error("게시글 삭제 실패:", error);
+        alert("게시글 삭제에 실패했습니다.");
+      }
     }
   };
 
@@ -77,38 +76,40 @@ const DiaryDetailPage = () => {
           삭제
         </button>
       </div>
-      {/* 1. 이미지 리스트 섹션 */}
+
+      {/* 이미지 리스트 섹션 */}
       <section className="images-section">
         <h2>이미지 리스트</h2>
         <div className="imglist">
-          {mockData.images.map((image) => (
-            <div key={image.id}>
-              <img src={image.src} alt={image.alt} />
-            </div>
-          ))}
+          {postData.images &&
+            postData.images.map((images, index) => (
+              <div key={index}>
+                <img src={images} alt={`여행 이미지 ${index + 1}`} />
+              </div>
+            ))}
         </div>
       </section>
 
-      {/* 2. 에디터 내용 섹션 */}
+      {/* 에디터 내용 섹션 */}
       <section className="content-section">
+        <h1>{postData.title}</h1>
         <div
           className="editor-content"
-          dangerouslySetInnerHTML={{ __html: mockData.editorData }}
+          dangerouslySetInnerHTML={{ __html: postData.content }}
         />
       </section>
 
-      {/* 3. 지도 데이터 섹션 */}
-      {mockData.mapData && (
+      {/* 지도 데이터 섹션 */}
+      {postData.map_image && (
         <section className="map-section">
           <h3>위치 정보</h3>
           <div className="static-map">
             <img
-              src={mockData.mapData.staticMapUrl}
+              src={postData.map_image}
               alt="위치 지도"
               style={{ width: "100%", height: "500px", objectFit: "cover" }}
             />
           </div>
-          <p className="place-name">{mockData.mapData.placeName}</p>
         </section>
       )}
     </div>

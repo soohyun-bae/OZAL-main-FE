@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const backendAPI = axios.create({
-  baseURL: "http://13.125.107.9:8000/",
+  baseURL: "http://13.125.107.9",
   headers: {
     "Content-Type": "application/json",
   },
@@ -13,13 +13,12 @@ export default backendAPI;
 // 요청이 전달되기 전에 헤더에 토큰 넣기
 backendAPI.interceptors.request.use(
   async (config) => {
-    const persistRoot = JSON.parse(localStorage.getItem('persist:root'));
+    const persistRoot = JSON.parse(localStorage.getItem("persist:root"));
     if (persistRoot) {
       const authData = JSON.parse(persistRoot.auth);
       const accessToken = authData.token;
 
-      if(accessToken) {
-
+      if (accessToken) {
         config.headers.Authorization = `Bearer ${accessToken}`;
       }
     }
@@ -45,13 +44,16 @@ backendAPI.interceptors.response.use(
           refresh: refresh,
         });
 
-        if(response.data.access) {
-          const newAccessToken = response.data.access;
+        if (response.data.accessToken) {
+          const newAccessToken = response.data.accessToken;
+          localStorage.setItem(
+            "tokens",
+            JSON.stringify({ access: newAccessToken, refresh })
+          );
 
           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
           return backendAPI(originalRequest);
         }
-
       } catch (error) {
         localStorage.clear();
         window.location.href = "/";

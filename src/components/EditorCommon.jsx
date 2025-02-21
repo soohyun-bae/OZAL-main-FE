@@ -6,14 +6,28 @@ import { useDispatch, useSelector } from "react-redux";
 import { updatePostData } from "../RTK/postSlice";
 import MapModal from "./Modal/MapModal";
 import { openModal } from "../RTK/modalSlice";
-
 import "../style/EditorCommon.scss";
 
-const EditorCommon = () => {
+const EditorCommon = ({ onImageFilesChange }) => {
   const quillRef = useRef();
   const dispatch = useDispatch();
   const { postData } = useSelector((state) => state.post);
   const isMapModalOpen = useSelector((state) => state.modal.modals["map"]);
+
+  const handleImagesChange = (images) => {
+    // 부모 컴포넌트로 실제 파일들 전달
+    console.log("EditorCommon이 받은 이미지:", images);
+    onImageFilesChange(images);
+
+    const imageMetadata = Array.from(images).map((file) => ({
+      name: file.name,
+      size: file.size,
+      type: file.type,
+    }));
+
+    dispatch(updatePostData({ image: imageMetadata }));
+    console.log("업로드된 이미지들:", images);
+  };
 
   const modules = {
     toolbar: {
@@ -42,11 +56,6 @@ const EditorCommon = () => {
     "background",
     "align",
   ];
-
-  const handleImagesChange = (images) => {
-    dispatch(updatePostData({ image: images }));
-    console.log("업로드된 이미지들:", images);
-  };
 
   const handleLocationSelect = (location) => {
     if (location) {
@@ -77,15 +86,19 @@ const EditorCommon = () => {
     dispatch(closeModal("map"));
   };
 
+  // ReactQuill 내용 변경 핸들러
+  const handleEditorChange = (content) => {
+    // HTML 형식의 content를 저장
+    dispatch(updatePostData({ editorData: content }));
+  };
+
   return (
     <div className="editor-wrapper">
       <div className="editor-container">
         <ReactQuill
           ref={quillRef}
           value={postData.editorData}
-          onChange={(content) =>
-            dispatch(updatePostData({ editorData: content }))
-          }
+          onChange={handleEditorChange}
           modules={modules}
           formats={formats}
           style={{ width: "90%", height: "600px", margin: "auto" }}

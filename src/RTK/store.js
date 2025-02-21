@@ -28,6 +28,11 @@ const persistConfig = {
   transforms: [authTransform],
 };
 
+// const authPersistConfig = {
+//   key: "auth",
+//   storage: sessionStorageEngine, // auth 슬라이스는 세션 스토리지에 저장
+// };
+
 const rootReducer = combineReducers({
   auth: authReducer,
   city: citySlice.reducer,
@@ -47,6 +52,8 @@ export const store = configureStore({
         ignoredPaths: [
           "tourApi.queries",
           "tourApi.mutations",
+          "post.postData.image",
+          "post.postData.mapData.staticMapImage",
         ],
         ignoredActions: [
           "persist/PERSIST",
@@ -54,6 +61,7 @@ export const store = configureStore({
           "tourApi/executeQuery/fulfilled",
           "tourApi/executeQuery/pending",
           "tourApi/executeQuery/rejected",
+          "post/updatePostData",
         ],
       },
     }).concat(tourApi.middleware),
