@@ -9,13 +9,15 @@ export const kakaoLogin = createAsyncThunk(
         code,
       });
 
-      const { user, tokens } = response.data;
+      const { tokens } = response.data;
       
-      const userProfileResponse = await backendAPI.get("/ozal/mypage/", {
+      const userProfileResponse = await backendAPI.get("/ozal/mypage/",
+         {
         headers: {
           Authorization: `Bearer ${tokens.access}`, // 토큰을 Authorization 헤더에 추가
         },
-      });
+      }
+    );
 
       console.log('userProfileResponse:', userProfileResponse.data)
       return { user: userProfileResponse.data, tokens };

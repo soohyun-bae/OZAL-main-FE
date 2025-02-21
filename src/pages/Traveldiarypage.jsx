@@ -108,7 +108,7 @@ const TravelDiaryPage = () => {
           {previousPosts.length > 0 ? (
             previousPosts.map((post) => (
               <div
-                key={post.id}
+                key={post.post_id || post.id || index}
                 className={cardContainerStyle["diary-list-item"]}
                 onClick={() => navigate(`/diary/${post.post_id || post.id}/`)}
               >

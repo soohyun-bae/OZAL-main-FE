@@ -75,10 +75,10 @@ const MypageModal = () => {
 
   const handleProfilePicChange = (event) => {
     const file = event.target.files[0];
-    console.log(file);
     if (file) {
-      setPreviewPic(URL.createObjectURL(file));
-      setNewProfilePic(file);
+      const previewPicURL = URL.createObjectURL(file)
+      setPreviewPic(previewPicURL);
+      setNewProfilePic(previewPicURL);
     }
   };
 
