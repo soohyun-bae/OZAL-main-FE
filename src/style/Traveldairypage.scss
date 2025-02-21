@@ -6,32 +6,6 @@
   overflow: hidden;
 }
 
-// .diary-header {
-//   @include header;
-//   @include flex($justify: center, $align: center);
-
-//   background-size: cover;
-//   background-position: center 60%;
-//   position: relative;
-
-//   &::before {
-//     content: "";
-//     position: absolute;
-//     top: 0;
-//     left: 0;
-//     right: 0;
-//     bottom: 0;
-//     background: rgba(0, 0, 0, 0.2);
-//   }
-// }
-
-// .header-text {
-//   @include header-font;
-//   text-align: center;
-//   color: white;
-//   position: relative;
-// }
-
 .diary-container {
   position: absolute;
   top: 240px; // header높이가 움직이지 않도록 고정
@@ -42,10 +16,7 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
   background: white;
-  // scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
-  // background-color: #f3f3f3;
-
   &::-webkit-scrollbar {
     display: none;
   }
@@ -83,7 +54,6 @@
 
 .main-diary-section {
   @include flex($justify: center, $align: center);
-  // height: 75vh;
   padding-top: 100px;
   scroll-snap-align: start;
   .diary-content {
@@ -152,7 +122,6 @@
 .diary-list {
   @include flex($direction: column, $justify: center, $align: center);
   margin-top: 60px;
-  // scroll-snap-align: start;
 
   .diary-list-item {
     @include diary-topbox;
