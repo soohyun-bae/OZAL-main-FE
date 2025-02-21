@@ -2,11 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 import { kakaoLogin, updateNickname, updateProfilePic } from "./authThunk";
 
 const loadAuthState = () => {
-  const sessionData = sessionStorage.getItem("auth");
-  const localData = localStorage.getItem("auth");
+  const localData = localStorage.getItem("persist:root");
 
-  if (sessionData) return JSON.parse(sessionData);
-  if (localData) return JSON.parse(localData);
+  if (localData) {
+    const parsedData = JSON.parse(localData);
+    if(parsedData.auth) {
+      return JSON.parse(parsedData.auth);
+    }
+  } 
 
   return {
     user: {

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const backendAPI = axios.create({
-  baseURL: "https://waypointoz.site/",
+  baseURL: "http://13.125.107.9:8000/",
   headers: {
     "Content-Type": "application/json",
   },
