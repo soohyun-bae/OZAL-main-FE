@@ -20,7 +20,6 @@ export default function MainLayout() {
     { src: image2, alt: "추억 2" },
     { src: image3, alt: "추억 3" },
     { src: image4, alt: "추억 4" },
-    { src: image5, alt: "추억 5" },
   ];
 
   const smoothScroll = (targetPosition) => {
