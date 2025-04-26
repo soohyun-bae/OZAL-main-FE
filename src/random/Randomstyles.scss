@@ -1,0 +1,71 @@
+$primary-color: #3498db;
+$secondary-color: #2ecc71;
+$font-stack: "Arial", sans-serif;
+
+body {
+  font-family: $font-stack;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  color: $primary-color;
+}
+
+#wheel-container {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin: 20px auto;
+}
+
+#wheel {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 10px solid $primary-color;
+  background: conic-gradient(
+    #f39c12 0deg 60deg,
+    #e74c3c 60deg 120deg,
+    #9b59b6 120deg 180deg,
+    #2ecc71 180deg 240deg,
+    #3498db 240deg 300deg,
+    #f1c40f 300deg 360deg
+  );
+  transition: transform 5s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+}
+
+#pointer {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 20px solid red;
+}
+
+button {
+  background-color: $secondary-color;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+
+  &:hover {
+    background-color: rgba(46, 204, 113, 0.8); /* fallback 처리 */
+  }
+}
+
+#result {
+  margin-top: 20px;
+  font-size: 18px;
+  color: $primary-color;
+}

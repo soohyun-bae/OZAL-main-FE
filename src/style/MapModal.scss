@@ -1,0 +1,135 @@
+@use "mixins" as *;
+// .map-modal {
+//   position: fixed;
+//   top: 50%;
+//   left: 50%;
+//   transform: translate(-50%, -50%);
+//   width: 90%;
+//   max-width: 1000px;
+//   background: white;
+//   border-radius: 8px;
+//   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+//   z-index: 1000;
+
+.map-modal-content {
+  padding: 20px;
+  width: 70%;
+  background-color: $color-white;
+
+  .map-search {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+
+    input {
+      flex: 1;
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    button {
+      padding: 8px 16px;
+      background: #ffe400;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+
+      &:hover {
+        background: #ffd700;
+      }
+    }
+  }
+
+  .map-container {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 20px;
+    height: 400px;
+
+    #map {
+      flex: 2;
+      height: 100%;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    .places-list {
+      flex: 1;
+      height: 100%;
+      overflow-y: auto;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 0;
+      margin: 0;
+
+      .item {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+        cursor: pointer;
+
+        &:hover {
+          background: #f8f9fa;
+        }
+
+        .info {
+          h5 {
+            margin: 0 0 5px 0;
+            font-size: 14px;
+            font-weight: 500;
+          }
+
+          span {
+            display: block;
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 2px;
+
+            &.jibun {
+              color: #999;
+            }
+
+            &.tel {
+              color: #666;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .close-button {
+    margin-top: 20px;
+    padding: 8px 16px;
+    background: #f1f3f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
+
+    &:hover {
+      background: #e9ecef;
+    }
+  }
+}
+// }
+
+// 모달 배경
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+// 마커 번호 스프라이트 이미지
+@for $i from 1 through 15 {
+  .marker_#{$i} {
+    background-position: 0 (($i - 1) * -46px - 10px);
+  }
+}

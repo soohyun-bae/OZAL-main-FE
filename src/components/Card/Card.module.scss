@@ -1,0 +1,72 @@
+@use "../../style/mixins" as *;
+
+.card-container {
+  @include flex(
+    $direction: column,
+    $justify: flex-start,
+    $align: center,
+    $gap: 1rem
+  );
+  width: 100%;
+  overflow-y: auto;
+  min-height: 100vh;
+  text-decoration: none;
+}
+
+.card-contents {
+  @include flex($align: center, $justify: center, $gap: 20px);
+  width: 70vw;
+  text-decoration: none;
+  padding: 1.2rem;
+
+  .small-image-container {
+    height: 15vh; /* 고정 높이 (원하는 비율로 조절) */
+    min-height: 140px;
+
+    .small-image {
+      width: 30vw;
+      max-width: 250px;
+      min-width: 220px;
+      height: 15vh; /* 고정 높이 (원하는 비율로 조절) */
+      min-height: 140px;
+      border-radius: 10px;
+    }
+  }
+
+  .info-article {
+    @include flex($justify: center, $direction: column);
+    width: 100%;
+    min-width: 350px;
+    gap: 8px;
+
+    .info-title {
+      @include font-style($size: 2rem);
+      margin: 0;
+    }
+    .info-addr {
+      @include font-style($size: 1rem, $color: rgb(129, 129, 129));
+      // width: 550px;
+      padding-bottom: 5px;
+      border-bottom: dotted 1px rgb(171, 171, 171);
+    }
+    .info-content {
+      @include font-style($size: 1rem);
+      display: -webkit-box;
+      -webkit-line-clamp: 2; /* 보여줄 줄 수 */
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin: 0;
+      // width: 200px;
+    }
+  }
+}
+
+.diary-list-item {
+  @include diary-topbox($width: 70vw);
+  @include flex($direction: cloumn, $justify: center, $align: center);
+  min-width: 650px;
+  padding: 25px 0;
+  background-color: #ffffff;
+  margin-bottom: 1.5rem;
+  height: 150px;
+}
