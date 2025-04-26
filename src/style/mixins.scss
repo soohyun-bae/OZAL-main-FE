@@ -1,0 +1,169 @@
+$color-navy: #023047;
+$color-orange: #fc6500;
+$color-yellow: #ffb701;
+$color-sky: #8ecae6;
+$color-greenblue: #209ebb;
+
+$color-white: #ffffff;
+$color-gray: #f0f0f0;
+
+@mixin flex(
+  $display: flex,
+  $direction: row,
+  $align: stretch,
+  $justify: start,
+  $gap: 0,
+  $wrap: nowrap
+) {
+  display: flex;
+  flex-direction: $direction;
+  align-items: $align;
+  justify-content: $justify;
+  gap: $gap;
+}
+// header
+@mixin header {
+  width: 100%;
+  height: 25vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@mixin header-font {
+  letter-spacing: 0.125rem;
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+  }
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+  }
+}
+
+@mixin diary-topbox($width: 800px) {
+  width: $width;
+  height: 600px;
+  border-radius: 15px;
+  box-shadow: 0 0 10px gray;
+  padding: 1rem;
+}
+
+@mixin font-style(
+  $size: 16px,
+  $color: #000,
+  $weight: normal,
+  $line-height: normal,
+  $m-b: 0,
+  $p-l: 0,
+  $align: start,
+  $transition: 0s
+) {
+  font-size: $size;
+  color: $color;
+  font-weight: $weight;
+  line-height: $line-height;
+  margin-bottom: $m-b;
+  padding-left: $p-l;
+  text-align: $align;
+  transition: $transition;
+}
+
+@mixin menufont {
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  padding: 5px 0;
+  color: #023047;
+}
+
+// 반응형 웹
+@mixin mobile {
+  @media (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin file-selector {
+  width: 5rem;
+  height: 2rem;
+  border-radius: 8px;
+  background-color: #209ebb;
+  box-sizing: border-box;
+  border: none;
+  color: white;
+  font-weight: 500;
+}
+
+@mixin profle-picbtn {
+  transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+  &:hover {
+    box-shadow: 0 0 40px 40px #209ebb inset;
+  }
+  box-sizing: border-box;
+  appearance: none;
+  background-color: transparent;
+  border: 2px solid #209ebb;
+  border-radius: 0.6em;
+  color: #209ebb;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1;
+  margin: 5px;
+  // padding: 0.75em 1.25em;
+  text-decoration: none;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 700;
+
+  &:hover,
+  &:focus {
+    color: #fff;
+    outline: 0;
+  }
+}
+
+@mixin publishbtn {
+  transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+  &:hover {
+    box-shadow: 0 0 40px 40px $color-white inset;
+  }
+  background-color: $color-greenblue;
+  box-sizing: border-box;
+  appearance: none;
+  // background-color: transparent;
+  border: 2px solid #209ebb;
+  border-radius: 0.6em;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1;
+  margin: 5px;
+  // padding: 0.75em 1.25em;
+  text-decoration: none;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 700;
+
+  &:hover,
+  &:focus {
+    color: $color-greenblue;
+    outline: 0;
+  }
+}
+
+@mixin ellipsis($w) {
+  overflow: eidden;
+  display: block;
+  text-overflow: ellipsis;
+  width: $w;
+  white-space: nowrap;
+}

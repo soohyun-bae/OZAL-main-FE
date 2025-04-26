@@ -1,0 +1,103 @@
+@use "mixins" as *;
+@include mobile;
+@include tablet;
+
+.mypage-container {
+  @include flex($justify: center, $align: center, $direction: column);
+  background-color: rgba(255, 255, 255, 0.849);
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+
+  h2 {
+    @include font-style(
+      $size: 1.75rem,
+      $color: $color-navy,
+      $weight: 600,
+      $m-b: 30px
+    );
+  }
+
+  .profile-section {
+    margin-bottom: 20px;
+
+    .profile-pic {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 20px;
+      box-shadow: 0 0 5px #737373;
+    }
+
+    .mypage-file {
+      @include flex($justify: center, $align: center);
+      margin: auto;
+
+      input[type="file"] {
+        // @include ellipsis(250px);
+        display: block;
+        width: 200px;
+        margin: 10px auto;
+        text-align: center;
+        font-size: 1rem;
+        color: #023047;
+        text-overflow: ellipsis;
+
+        &::file-selector-button {
+          @include file-selector;
+        }
+      }
+    }
+
+    button {
+      @include profle-picbtn;
+      padding: 0.75em 1.25em;
+    }
+  }
+
+  input {
+    @include flex($justify: center, $align: center);
+    margin: 8px;
+  }
+}
+
+.info-section {
+  @include flex($justify: center, $align: center, $direction: column);
+  @include font-style($size: 1.2rem, $weight: 500);
+  margin: 15px 0;
+  color: $color-navy;
+
+  .nickname {
+    @include flex($justify: center, $align: center, $gap: 3px, $wrap: wrap);
+    height: 40px;
+    padding: 5px;
+
+    input {
+      @include font-style($size: 1.2rem, $weight: 500);
+      width: 150px;
+      height: 15px;
+      margin-left: 8px;
+      padding: 8px;
+      margin-bottom: 8px;
+      border: 2px solid $color-greenblue;
+      border-radius: 8px;
+      color: rgba(2, 48, 71, 0.367);
+      line-height: 200px;
+    }
+
+    button {
+      @include profle-picbtn;
+      height: 2.25rem;
+      padding: 8px 10px;
+      margin: 0;
+    }
+  }
+}
+.Mypage p {
+  @include font-style($size: 1rem, $color: rgb(255, 75, 75));
+}
