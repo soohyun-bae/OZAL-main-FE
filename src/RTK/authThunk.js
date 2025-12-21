@@ -1,31 +1,31 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import backendAPI from "../utils/backendAPI";
 
-export const kakaoLogin = createAsyncThunk(
-  "auth/kakaoLogin",
-  async (code, { rejectWithValue }) => {
-    try {
-      const response = await backendAPI.post("/ozal/auth/login/kakao/", {
-        code,
-      });
+// export const kakaoLogin = createAsyncThunk(
+//   "auth/kakaoLogin",
+//   async (code, { rejectWithValue }) => {
+//     try {
+//       const response = await backendAPI.post("/ozal/auth/login/kakao/", {
+//         code,
+//       });
 
-      const { tokens } = response.data;
+//       const { tokens } = response.data;
       
-      const userProfileResponse = await backendAPI.get("/ozal/mypage/",
-         {
-        headers: {
-          Authorization: `Bearer ${tokens.access}`, // 토큰을 Authorization 헤더에 추가
-        },
-      }
-    );
+//       const userProfileResponse = await backendAPI.get("/ozal/mypage/",
+//          {
+//         headers: {
+//           Authorization: `Bearer ${tokens.access}`, // 토큰을 Authorization 헤더에 추가
+//         },
+//       }
+//     );
 
-      console.log('userProfileResponse:', userProfileResponse.data)
-      return { user: userProfileResponse.data, tokens };
-    } catch (error) {
-      return rejectWithValue('카카오 로그인 실패');
-    }
-  }
-);
+//       console.log('userProfileResponse:', userProfileResponse.data)
+//       return { user: userProfileResponse.data, tokens };
+//     } catch (error) {
+//       return rejectWithValue('카카오 로그인 실패');
+//     }
+//   }
+// );
 
 export const kakaoLogout = createAsyncThunk(
   "auth/kakaoLogout",

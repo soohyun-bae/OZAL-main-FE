@@ -4,11 +4,11 @@ import TravelDiaryPage from "./pages/Traveldiarypage.jsx";
 import Travelhistory from "./components/Travelhistory.jsx";
 import TravelInfopage from "./pages/TravelInfopage.jsx";
 import DetailTravelInfo from "./pages/DetailTravelInfo.jsx";
-import KakaoCallback from "./components/KakaoCallback.jsx";
 import "./App.css";
 import DiaryDetailpage from "./pages/DiaryDetailpage.jsx";
 import Layout from "./layout/Layout.jsx";
 import EditDetailPage from "./pages/EditDetailPage.jsx";
+import { LoginSuccess } from "./pages/LoginSuccess.jsx";
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Main />} />
-          <Route path="/auth/kakao/callback" element={<KakaoCallback />} />
+          <Route path="/login/success" element={<LoginSuccess />} />
           <Route path="/travel-diary" element={<TravelDiaryPage />} />
           {/* <Route path="/mypage" element={<Mypage />} /> */}
           <Route path="/write-post" element={<Travelhistory />} />

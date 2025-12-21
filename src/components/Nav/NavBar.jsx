@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../../style/dropdown.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../RTK/authSlice";
+// import { logout } from "../../RTK/authSlice";
 import Dropdown from "./Dropdown";
 import LoginModal from "../Modal/LoginModal";
 import { openModal } from "../../RTK/modalSlice";
 import "./NavBar.scss";
 import ProfileImage from "../Profile/ProfileImage";
-import MypageModal from "../Modal/MypageModal";
+// import MypageModal from "../Modal/MypageModal";
 import { setSelectedCity, setSelectedDistrict } from "../../RTK/tour/slice";
 import { tourApi } from "../../RTK/tour/tourApi";
 import { kakaoLogout } from "../../RTK/authThunk";
@@ -22,8 +22,8 @@ const NavBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const { user } = useSelector((state) => state.auth);
-  console.log("user", user?.profile_image);
+  // const { user } = useSelector((state) => state.auth);
+  // console.log("user", user?.profile_image);
 
   const handleLogout = () => {
     dispatch(kakaoLogout())

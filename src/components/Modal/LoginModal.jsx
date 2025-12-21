@@ -6,6 +6,7 @@ import "../../App.css";
 import Modal from "./Modal";
 import { useDispatch, useSelector } from "react-redux";
 import { closeModal } from "../../RTK/modalSlice";
+import backendAPI from "../../utils/backendAPI";
 
 const LoginModal = () => {
   const dispatch = useDispatch();
@@ -16,8 +17,11 @@ const LoginModal = () => {
   const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
 
   const handleKakaoLogin = () => {
-    const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_REST_API}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-    window.location.href = kakaoAuthURL;
+    // const kakaoAuthURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_REST_API}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+    // window.location.href = kakaoAuthURL;
+    // const kakaoLogin = backendAPI.get('/login/kakao')
+    // console.log(kakaoLogin)
+    window.location.href = 'http://localhost:3000/login/kakao';
   };
 
   return (

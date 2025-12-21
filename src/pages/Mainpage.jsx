@@ -14,7 +14,7 @@ export default function MainLayout() {
   let lastScrollTime = 0;
 
   // useSelector를 컴포넌트 최상위 레벨로 이동
-  const auth = useSelector((state) => state.auth);
+  // const auth = useSelector((state) => state.auth);
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -39,7 +39,7 @@ export default function MainLayout() {
     };
 
     fetchImages();
-  }, [auth.token]); // auth.token을 의존성 배열에 추가
+  }, []); // auth.token을 의존성 배열에 추가
 
   const handleWheel = (e) => {
     e.preventDefault();
