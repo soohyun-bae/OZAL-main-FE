@@ -16,30 +16,30 @@ export default function MainLayout() {
   // useSelector를 컴포넌트 최상위 레벨로 이동
   // const auth = useSelector((state) => state.auth);
 
-  useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        const response = await backendAPI.get("/ozal/trippost/thumbnails/");
-        const data = response.data;
-        console.log("API 응답:", data); // 응답 확인용
+  // useEffect(() => {
+  //   const fetchImages = async () => {
+  //     try {
+  //       const response = await backendAPI.get("/ozal/trippost/thumbnails/");
+  //       const data = response.data;
+  //       console.log("API 응답:", data); // 응답 확인용
 
-        const formattedImages = data.urls.map((url) => ({
-          // .urls 추가
-          src: url,
-          alt: "Someone Memory",
-        }));
+  //       const formattedImages = data.urls.map((url) => ({
+  //         // .urls 추가
+  //         src: url,
+  //         alt: "Someone Memory",
+  //       }));
 
-        setMemoryImages(formattedImages);
-      } catch (error) {
-        console.error("이미지를 불러오는데 실패했습니다:", error);
-        setMemoryImages([]);
-      } finally {
-        setLoading(false);
-      }
-    };
+  //       setMemoryImages(formattedImages);
+  //     } catch (error) {
+  //       console.error("이미지를 불러오는데 실패했습니다:", error);
+  //       setMemoryImages([]);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchImages();
-  }, []); // auth.token을 의존성 배열에 추가
+  //   fetchImages();
+  // }, []); // auth.token을 의존성 배열에 추가
 
   const handleWheel = (e) => {
     e.preventDefault();

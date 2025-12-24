@@ -1,5 +1,5 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-// import authReducer from "./authSlice";
+import authReducer from "./authSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
 import { postSlice } from "./postSlice";
@@ -34,7 +34,7 @@ const persistConfig = {
 // };
 
 const rootReducer = combineReducers({
-  // auth: authReducer,
+  auth: authReducer,
   city: citySlice.reducer,
   district: districtSlice.reducer,
   [tourApi.reducerPath]: tourApi.reducer,

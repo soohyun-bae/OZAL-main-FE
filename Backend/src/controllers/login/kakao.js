@@ -28,7 +28,7 @@ export const kakaoLogin = async (req, res) => {
       // secure: true,
     })
 
-    res.redirect(`${process.env.FRONTEND_BASE_URL}/login/success?token=${accessToken}`)
+    res.redirect(`${process.env.FRONTEND_BASE_URL}/login/callback?token=${accessToken}`)
   }
   catch (error) {
     res.status(401).json({ message: '카카오 로그인 실패' })

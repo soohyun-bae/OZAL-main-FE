@@ -11,54 +11,50 @@ const backendAPI = axios.create({
 export default backendAPI;
 
 // 요청이 전달되기 전에 헤더에 토큰 넣기
-// backendAPI.interceptors.request.use(
-//   async (config) => {
-//     const persistRoot = JSON.parse(localStorage.getItem("persist:root"));
-//     if (persistRoot) {
-//       const authData = JSON.parse(persistRoot.auth);
-//       const accessToken = authData.token;
+backendAPI.interceptors.request.use(
+  async (config) => {
+    const accessToken = localStorage.getItem("accessToken");
 
-//       if (accessToken) {
-//         config.headers.Authorization = `Bearer ${accessToken}`;
-//       }
-//     }
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   }
-// );
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
 
-// backendAPI.interceptors.response.use(
-//   (response) => response,
-//   async (error) => {
-//     const originalRequest = error.config;
+    console.log(config)
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
-//     if (error.response && error.response.status === 401) {
-//       try {
-//         const persistRoot = JSON.parse(localStorage.getItem("persist:root"));
-//         const authData = JSON.parse(persistRoot.auth);
-//         const refresh = authData.refresh_token;
+backendAPI.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
 
-//         const response = await backendAPI.post("/ozal/refresh/", {
-//           refresh: refresh,
-//         });
+    if (error.response && error.response.status === 401) {
+      try {
+        const accessToken = localStorage.getItem("accessToken");
 
-//         if (response.data.accessToken) {
-//           const newAccessToken = response.data.accessToken;
-//           localStorage.setItem(
-//             "tokens",
-//             JSON.stringify({ access: newAccessToken, refresh })
-//           );
+        const response = await backendAPI.post("/ozal/refresh/", {
+          token: accessToken,
+        }); // refresh api 변경하기
 
-//           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-//           return backendAPI(originalRequest);
-//         }
-//       } catch (error) {
-//         localStorage.clear();
-//         window.location.href = "/";
-//         return Promise.reject(error);
-//       }
-//     }
-//   }
-// );
+        if (response.data.accessToken) {
+          const newAccessToken = response.data.accessToken;
+          localStorage.setItem(
+            "accessToken",
+            accessToken
+          );
+
+          originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+          return backendAPI(originalRequest);
+        }
+      } catch (error) {
+        localStorage.clear();
+        window.location.href = "/";
+        return Promise.reject(error);
+      }
+    }
+  }
+);

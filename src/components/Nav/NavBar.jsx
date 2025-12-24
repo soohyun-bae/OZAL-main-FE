@@ -22,7 +22,7 @@ const NavBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  // const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
   // console.log("user", user?.profile_image);
 
   const handleLogout = () => {

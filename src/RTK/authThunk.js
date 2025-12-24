@@ -1,32 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import backendAPI from "../utils/backendAPI";
 
-// export const kakaoLogin = createAsyncThunk(
-//   "auth/kakaoLogin",
-//   async (code, { rejectWithValue }) => {
-//     try {
-//       const response = await backendAPI.post("/ozal/auth/login/kakao/", {
-//         code,
-//       });
-
-//       const { tokens } = response.data;
-      
-//       const userProfileResponse = await backendAPI.get("/ozal/mypage/",
-//          {
-//         headers: {
-//           Authorization: `Bearer ${tokens.access}`, // 토큰을 Authorization 헤더에 추가
-//         },
-//       }
-//     );
-
-//       console.log('userProfileResponse:', userProfileResponse.data)
-//       return { user: userProfileResponse.data, tokens };
-//     } catch (error) {
-//       return rejectWithValue('카카오 로그인 실패');
-//     }
-//   }
-// );
-
 export const kakaoLogout = createAsyncThunk(
   "auth/kakaoLogout",
   async (_, { rejectWithValue, getState }) => {
@@ -60,7 +34,7 @@ export const updateProfilePic = createAsyncThunk(
         const formData = new FormData();
         formData.append("profile_image", file);
 
-         await backendAPI.put(
+        await backendAPI.put(
           "/ozal/mypage/update/image/",
           formData,
           {
@@ -71,7 +45,7 @@ export const updateProfilePic = createAsyncThunk(
         );
 
         const getResponse = await backendAPI.get("/ozal/mypage/");
-        console.log('getResponse.data',getResponse.data)
+        console.log('getResponse.data', getResponse.data)
         return getResponse.data.profile_image_url;
       }
 
@@ -102,11 +76,11 @@ export const updateNickname = createAsyncThunk(
       const response = await backendAPI.patch("/ozal/mypage/update/", {
         nickname: newNickname,
       });
-      console.log('nickname response:',response)
+      console.log('nickname response:', response)
 
       const getResponse = await backendAPI.get("/ozal/mypage/");
-        console.log('getResponse.data',getResponse.data)
-        return getResponse.data.nickname;
+      console.log('getResponse.data', getResponse.data)
+      return getResponse.data.nickname;
     } catch (error) {
       if (error.response && error.response.data) {
         const { message, error: errorType } = error.response.data;

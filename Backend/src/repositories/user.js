@@ -5,8 +5,10 @@ export const kakaoLoginQuery = async (kakaoUser) => {
   const providerId = kakaoUser.id
 
   const checkRegister = await db.query(
-    `SELECT user_id FROM user_auth
-     WHERE provider='KAKAO' AND provider_id=$1`,
+    `
+    SELECT user_id FROM user_auth
+    WHERE provider='KAKAO' AND provider_id=$1
+    `,
     [providerId]
   );
 
@@ -14,8 +16,10 @@ export const kakaoLoginQuery = async (kakaoUser) => {
 
   if (checkRegister.rows.length === 0) {
     const insertUser = await db.query(
-      `INSERT INTO users (nickname, email, profile_image, name)
-       VALUES ($1, $2, $3, $4) RETURNING id`,
+      `
+      INSERT INTO users (nickname, email, profile_image, name)
+      VALUES ($1, $2, $3, $4) RETURNING id
+      `,
       [
         kakaoUser.kakao_account.profile.nickname,
         kakaoUser.kakao_account.email,
@@ -27,8 +31,10 @@ export const kakaoLoginQuery = async (kakaoUser) => {
     userId = insertUser.rows[0].id;
 
     await db.query(
-      `INSERT INTO user_auth (user_id, provider, provider_id)
-       VALUES ($1, 'KAKAO', $2)`,
+      `
+      INSERT INTO user_auth (user_id, provider, provider_id)
+      VALUES ($1, 'KAKAO', $2)
+      `,
       [userId, providerId]
     )
   } else {
@@ -42,12 +48,26 @@ export const kakaoLoginQuery = async (kakaoUser) => {
 }
 
 export const getMeQuery = async (userId) => {
-  const meData = await db.query(
-    `SELECT user_id, email, nickname, provider, name, profie_image
-     FROM users
-     WHERE user_id = $1`,
+  const provider = await db.query(
+    `
+    SELECT provider
+    FROM user_auth
+    WHERE user_id = $1
+    `,
     [userId]
   )
 
-  return meData
+  const meData = await db.query(
+    `
+    SELECT id, nickname, email, profile_image, name
+    FROM users
+    WHERE id = $1
+    `,
+    [userId]
+  )
+
+  return {
+    user: meData.rows[0],
+    providers: provider?.rows?.map((row) => row.provider)
+  }
 }
