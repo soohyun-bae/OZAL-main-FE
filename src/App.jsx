@@ -8,7 +8,7 @@ import "./App.css";
 import DiaryDetailpage from "./pages/DiaryDetailpage.jsx";
 import Layout from "./layout/Layout.jsx";
 import EditDetailPage from "./pages/EditDetailPage.jsx";
-import { LoginSuccess } from "./pages/LoginSuccess.jsx";
+import { SocailCallback } from "./pages/SocailCallback.jsx";
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Main />} />
-          <Route path="/login/success" element={<LoginSuccess />} />
+          <Route path="/login/callback" element={<SocailCallback />} />
           <Route path="/travel-diary" element={<TravelDiaryPage />} />
           {/* <Route path="/mypage" element={<Mypage />} /> */}
           <Route path="/write-post" element={<Travelhistory />} />
